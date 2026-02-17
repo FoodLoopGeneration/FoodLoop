@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode
 public class Categoria {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,6 +29,5 @@ public class Categoria {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_utente", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_categoria_utente"))
     private Utente utente;
-
 
 }

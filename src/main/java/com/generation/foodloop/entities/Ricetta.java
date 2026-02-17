@@ -50,16 +50,16 @@ public class Ricetta {
     @Column(name = "ingredienti")
     private Set<Ingrediente> ingredienti;
 
-    public void aggiungiIngrediente(Ingrediente ingrediente){
+    public void aggiungiIngrediente(Ingrediente ingrediente) {
         if (ingrediente != null) {
             ingredienti.add(ingrediente);
         }
     }
 
-    public void rimuoviIngrediente(Ingrediente ingrediente){
+    public void rimuoviIngrediente(Ingrediente ingrediente) {
         if (ingrediente != null) {
             ingredienti.remove(ingrediente);
         }
     }
-    
+
 }
