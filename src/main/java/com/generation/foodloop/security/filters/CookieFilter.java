@@ -48,7 +48,7 @@ public class CookieFilter extends OncePerRequestFilter {
                         .map(ruolo -> new SimpleGrantedAuthority("ROLE_" + ruolo.getNome())).toList();
                 auth = new UsernamePasswordAuthenticationToken(user, null, authorities);
                 SecurityContextHolder.getContext().setAuthentication(auth);
-                log.info("utente {} autenticato tramite cookie",user.getUsername());
+                log.info("utente {} autenticato tramite cookie", user.getUsername());
             }
             filterChain.doFilter(request, response);
         }
