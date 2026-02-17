@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head(mode == 'create' ? 'Nuovo Ingrediente' : 'Modifica Ingrediente')}"></head>
+
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div class="container">
+        <h1 th:text="${mode == 'create' ? 'Nuovo Ingrediente' : 'Modifica Ingrediente'}"></h1>
+
+        <!-- form per la insert -> create -->
+        <form th:if="${mode == 'create'}" th:object="${ingredienteDTO}" th:action="@{/ingredienti}" method="post">
+
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
+                Controlla i campi evidenziati
+            </div>
+
+            <label>Nome:
+                <input type="text" th:field="*{nome}">
+                <small th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
+            </label><br>
+
+            <label>Scadenza:
+                <input type="date" th:field="*{scadenza}">
+                <small th:if="${#fields.hasErrors('scadenza')}" th:errors="*{scadenza}"></small>
+            </label><br>
+
+            <label>Quantita':
+                <input type="number" th:field="*{quantita}">
+                <small th:if="${#fields.hasErrors('quantita')}" th:errors="*{quantita}"></small>
+            </label><br>
+
+            <label>Unita' di misura:
+                <select  th:field="*{unitaMisura}">
+                    <option value="" disabled selected>--Seleziona unita' di misura--</option>
+                    <option th:value="${unitaMisura}" th:text="${unitaMisura}"></option>
+                </select>
+                <small th:if="${#fields.hasErrors('unitaMisura')}" th:errors="*{unitaMisura}"></small>
+            </label><br>
+
+            <label>Posizione:
+                <input type="text" th:field="*{posizione}">
+                <small th:if="${#fields.hasErrors('posizione')}" th:errors="*{posizione}"></small>
+            </label><br>
+
+
+            <label>Categoria:
+                <select  th:field="*{categoriaId}">
+                    <option value="" disabled selected>--Seleziona categoria--</option>
+                    <option th:each="c : ${categoria}" th:value="${c.id}" th:text="${c.nome}"></option>
+                </select>
+                <small th:if="${#fields.hasErrors('categoriaId')}" th:errors="*{categoriaId}"></small>
+            </label><br> 
+
+            <button class="btn" type="submit">Crea</button>
+        </form>
+
+        <!-- FORM EDIT -->
+         <form th:if="${mode == 'edit' and ingredienteDTO.id != null}" th:object="${ingredienteDTO}" 
+                th:action="@{/ingredienti/{id}(id=${ingredienteDTO.id})}" method="post">
+
+                <input type="hidden" th:field="*{id}">
+
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
+                Controlla i campi evidenziati
+            </div>
+
+           <label>Nome:
+                <input type="text" th:field="*{nome}">
+                <small th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
+            </label><br>
+
+            <label>Scadenza:
+                <input type="date" th:field="*{scadenza}">
+                <small th:if="${#fields.hasErrors('scadenza')}" th:errors="*{scadenza}"></small>
+            </label><br>
+
+            <label>Quantita':
+                <input type="number" th:field="*{quantita}">
+                <small th:if="${#fields.hasErrors('quantita')}" th:errors="*{quantita}"></small>
+            </label><br>
+
+            <label>Unita' di misura:
+                <select  th:field="*{unitaMisura}">
+                    <option value="" disabled selected>--Seleziona unita' di misura--</option>
+                    <option th:value="${unitaMisura}"></option>
+                </select>
+                <small th:if="${#fields.hasErrors('unitaMisura')}" th:errors="*{unitaMisura}"></small>
+            </label><br>
+
+            <label>Posizione:
+                <input type="text" th:field="*{posizione}">
+                <small th:if="${#fields.hasErrors('posizione')}" th:errors="*{posizione}"></small>
+            </label><br>
+
+
+            <label>Categoria:
+                <select  th:field="*{categoriaId}">
+                    <option value="" disabled selected>--Seleziona categoria--</option>
+                    <option th:each="c : ${categoria}" th:value="${c.id}" th:text="${c.nome}"></option>
+                </select>
+                <small th:if="${#fields.hasErrors('categoriaId')}" th:errors="*{categoriaId}"></small>
+            </label><br> 
+
+            <button class="btn" type="submit">Salva</button>
+        </form>
+        <!-- FORM CREATE CATEGORIA -->
+         <form th:if="${mode == 'create'}" th:object="${categoriaDTO}" th:action="@{/categoria}" method="post">
+            <input type="hidden"
+            th:name="${_csrf.parameterName}"
+            th:value="${_csrf.token}">
+            
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
+                Controlla i campi evidenziati
+            </div>
+            <label>Nome:
+                <input type="text" th:field="*{nome}">
+                <small th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
+            </label><br>
+            <button class="btn" type="submit">Crea</button>
+
+    </div>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+
+</html>

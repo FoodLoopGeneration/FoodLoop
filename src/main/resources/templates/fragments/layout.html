@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="it" xmlns="http://www.thymeleaf.org" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">FoodLoop</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+    <script defer th:src="@{/js/app.js}"></script>
+</head>
+
+<body>
+    <header th:fragment="navbar">
+        <nav>
+            <a th:href="@{/}">Home</a>
+            <!-- NON autenticati -->
+            <span sec:authorize="isAnonymous()">
+                <a th:href="@{/login}">Login</a>
+                <a th:href="@{/register}">Registrati</a>
+            </span>
+            <!-- autenticati -->
+            <span sec:authorize="isAuthenticated()">
+                <span class="utente">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+            </span>
+        </nav>
+        <div th:replace="~{fragments/messaggi :: flashMessages}"></div>
+        <hr />
+    </header>
+    <!-- AREA AUTENTICATA -->
+<div th:fragment="sidebar" sec:authorize="isAuthenticated()" class="layout-auth">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="utente">
+            Ciao, <b sec:authentication="name"></b>
+        </div>
+
+        <a th:href="@{/ingredienti}">I miei ingredienti</a>
+        <a th:href="@{/ricette/mie}">Le mie ricette</a>
+        <a th:href="@{/ricette}">Tutte le ricette</a>
+        </aside>
+    <footer th:fragment="footer">
+        <hr />
+        <small>FoodLoop</small>
+    </footer>
+</body>
+
+</html>
