@@ -28,6 +28,10 @@ public class Ricetta {
     @Column(name = "nome", nullable = false, length = 63, columnDefinition = "VARCHAR(63)", unique = true)
     private String nome;
 
+    // TODO Inserimento immagine
+    @Column(name = "immagine")
+    private String immagine;
+
     @Column(name = "difficolta")
     private Integer difficolta;
 
