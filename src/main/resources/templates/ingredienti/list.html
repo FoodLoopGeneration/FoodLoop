@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Inventario ingredienti')}"></head>
+
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+    <main>
+        <div class="container">
+            <h1>Ingredienti</h1>
+
+            <!-- link alla form per aggiungere un nuovo ingrediente -->
+            <p><a th:href="@{/ingredienti/new}" class="btn">Aggiungi un nuovo ingrediente</a></p>
+            <!-- link alla form per aggiungere una nuova categoria -->
+            <p><a th:href="@{/categoria/new}" class="btn">Aggiungi una nuova categoria</a></p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Scadenza</th>
+                        <th>Quantita'</th>
+                        <th>Unita' di misura</th>
+                        <th>Posizione</th>
+                        <th>Categoria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${#lists.isEmpty(ingredienti)}">
+                        <td colspan="7">Nessun ingrediente presente.</td>
+                    </tr>
+                    <tr th:each="i : ${ingredienti}">
+                        <td th:text="${i.id}"></td>
+                        <td th:text="${i.nome}"></td>
+                        <td th:text="${i.scadenza}"></td>
+                        <td th:text="${i.quantita}"></td>
+                        <td th:text="${i.unitaMisura}"></td>
+                        <td th:text="${i.posizione}"></td>
+                        <td th:text="${i.categoria.nome}"></td>
+                        <td>
+                            <a th:href="@{/ingredienti/{id}/edit (id=${i.id})}">Modifica ingrediente</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
