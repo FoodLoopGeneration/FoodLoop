@@ -1,5 +1,34 @@
 package com.generation.foodloop.entities;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Entity
+@Table(name = "categorie")
+@Data
+@EqualsAndHashCode
 public class Categoria {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "nome", nullable = false, length = 63, columnDefinition = "VARCHAR(63)", unique = true)
+    private String nome;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_utente", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_categoria_utente"))
+    private Utente utente;
+
+
 }
