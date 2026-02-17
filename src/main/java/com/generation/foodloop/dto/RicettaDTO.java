@@ -5,6 +5,7 @@ import java.util.Set;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.generation.foodloop.entities.Ingrediente;
+import com.generation.foodloop.entities.Utente;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -15,29 +16,25 @@ public record RicettaDTO(
     String nome,
     
     // TODO Inserimento immagine
-    MultipartFile immagine,
+    MultipartFile foto,
 
-    String difficolta,
+    Integer difficolta,
 
-    String porzioni,
+    Integer porzioni,
 
-    String tempo,
+    Integer tempo,
 
-    String valutazione,
+    Integer valutazione,
 
     String descrizione,
 
-    Long idUtente,
+    Utente utente,
 
     Set<Ingrediente> ingredienti
 ) {
 
     public RicettaDTO{
         nome = (nome == null) ? null : nome.trim();
-        difficolta = (difficolta == null) ? null : difficolta.trim();
-        porzioni = (porzioni == null) ? null : porzioni.trim();
-        tempo = (tempo == null) ? null : tempo.trim();
-        valutazione = (valutazione == null) ? null : valutazione.trim();
         descrizione = (descrizione == null) ? null : descrizione.trim();
     }
 
@@ -46,7 +43,7 @@ public record RicettaDTO(
     }
 
     public RicettaDTO withId(Long newId){
-        return new RicettaDTO(newId, nome, immagine, difficolta, porzioni, tempo, valutazione, descrizione, idUtente, ingredienti);
+        return new RicettaDTO(newId, nome, foto, difficolta, porzioni, tempo, valutazione, descrizione, utente, ingredienti);
     }
     
 }

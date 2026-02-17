@@ -27,7 +27,7 @@ public class RicettaMapper {
     }
 
     public RicettaDTO toDTO(Ricetta r){
-        RicettaDTO dto = new RicettaDTO(r.getId(),r.getUtente(),r.getIngredienti(),r.getNome(),r.getFoto(),r.getDifficolta(),r.getPorzioni(),r.getTempo(),r.getValutazione(),r.getDescrizione());
+        RicettaDTO dto = new RicettaDTO(r.getId(),r.getNome(),r.getFoto(),r.getDifficolta(),r.getPorzioni(),r.getTempo(),r.getValutazione(),r.getDescrizione(), r.getUtente(),r.getIngredienti());
         return dto;
     }
 }

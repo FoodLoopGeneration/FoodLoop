@@ -2,6 +2,8 @@ package com.generation.foodloop.entities;
 
 import java.util.Set;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -29,8 +31,8 @@ public class Ricetta {
     private String nome;
 
     // TODO Inserimento immagine
-    @Column(name = "immagine")
-    private String immagine;
+    @Column(name = "foto")
+    private MultipartFile foto;
 
     @Column(name = "difficolta")
     private Integer difficolta;
