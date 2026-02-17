@@ -25,7 +25,7 @@ public class IngredienteMapper {
     }
 
     public IngredienteDTO toDTO(Ingrediente i) {
-        IngredienteDTO dto = new IngredienteDTO(i.getId(), i.getCategoria(), i.getUtente(), i.getNome(), i.getScadenza(), i.getQuantita(), i.getUnitaMisura(), i.getPosizione());
+        IngredienteDTO dto = new IngredienteDTO(i.getId(), i.getNome(), i.getScadenza(), i.getQuantita(), i.getUnitaMisura(), i.getPosizione(), i.getUtente(), i.getCategoria());
         return dto;
     }
 }

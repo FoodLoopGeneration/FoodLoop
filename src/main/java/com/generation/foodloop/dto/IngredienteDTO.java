@@ -4,7 +4,9 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.generation.foodloop.entities.Categoria;
 import com.generation.foodloop.entities.UnitaMisura;
+import com.generation.foodloop.entities.Utente;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,9 +29,9 @@ public record IngredienteDTO(
 
     String posizione,
 
-    Long idUtente,
+    Utente utente,
 
-    Long idCategoria
+    Categoria categoria
 ) {
     
     public IngredienteDTO{
@@ -42,7 +44,7 @@ public record IngredienteDTO(
     }
 
     public IngredienteDTO withId(Long newId){
-        return new IngredienteDTO(newId, nome, scadenza, quantita, unitaMisura, posizione, idUtente, idCategoria);
+        return new IngredienteDTO(newId, nome, scadenza, quantita, unitaMisura, posizione, utente, categoria);
     }
 
 }

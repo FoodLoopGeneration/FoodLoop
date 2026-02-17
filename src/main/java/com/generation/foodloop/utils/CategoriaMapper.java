@@ -13,13 +13,14 @@ public class CategoriaMapper {
         return c;
     }
 
-    public void updateEntity (CategoriaDTO dto, Categoria C){
+    public void updateEntity (CategoriaDTO dto, Categoria c){
         c.setId(dto.id());
         c.setNome(dto.nome());
+        c.setUtente(dto.utente());
     }
 
     public CategoriaDTO toDTO(Categoria c){
-        CategoriaDTO dto = new CategoriaDTO (c.getId(),c.getNome());
+        CategoriaDTO dto = new CategoriaDTO (c.getId(),c.getNome(),c.getUtente());
         return dto;
     }
 }

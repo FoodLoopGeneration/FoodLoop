@@ -1,6 +1,7 @@
 package com.generation.foodloop.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import com.generation.foodloop.entities.Utente;
 
 public record CategoriaDTO(
     Long id,
@@ -8,7 +9,7 @@ public record CategoriaDTO(
     @NotBlank(message = "Nome obbligatorio")
     String nome,
 
-    Long idUtente
+    Utente utente
 ) {
 
     public CategoriaDTO{
@@ -20,7 +21,7 @@ public record CategoriaDTO(
     }
 
     public CategoriaDTO withId(Long newId){
-        return new CategoriaDTO(newId, nome, idUtente);
+        return new CategoriaDTO(newId, nome, utente);
     }
     
 }
