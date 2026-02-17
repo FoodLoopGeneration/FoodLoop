@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(mode == 'create' ? 'Nuova Ricetta' : 'Modifica Ricetta')}"></head>
+<body>
+<header th:replace="~{fragments/layout :: navbar}"></header>
+<div class="container">
+    <h1 th:text="${mode == 'create' ? 'Nuova Ricetta' : 'Modifica Ricetta'}"></h1>
+
+    <!-- Create Form-->
+    <form th:if="${mode == 'create'}"
+          th:object="${ricettaDTO}"
+          th:action="@{/ricette}"
+          method="post"
+          enctype="multipart/form-data">
+        <input type="hidden"
+       th:name="${_csrf.parameterName}"
+       th:value="${_csrf.token}">
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
+            Controlla i campi evidenziati
+        </div>
+        <label>Nome:
+            <input type="text" th:field="*{nome}">
+            <small th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
+        </label><br>
+        <label>Foto:
+            <input type="file" th:field="*{foto}">
+            <small th:if="${#fields.hasErrors('foto')}" th:errors="*{foto}"></small>
+        </label><br>
+           <!-- Ingredienti -->
+        <label>Ingredienti:
+            <select multiple th:field="*{ingredientiId}">
+                <option th:each="i : ${ingredienti}"
+                        th:value="${i.id}"
+                        th:text="${i.nome}">
+                </option>
+            </select>
+            <small th:if="${#fields.hasErrors('ingredientiId')}" th:errors="*{ingredientiId}"></small>
+        </label><br>
+        <label>Difficoltà:
+            <input type="number" min="1" max="5" th:field="*{difficolta}">
+            <small th:if="${#fields.hasErrors('difficolta')}" th:errors="*{difficolta}"></small>
+        </label><br>
+        <label>Porzioni:
+            <input type="number" th:field="*{porzioni}">
+            <small th:if="${#fields.hasErrors('porzioni')}" th:errors="*{porzioni}"></small>
+        </label><br>
+        <label>Tempo (minuti):
+            <input type="number" th:field="*{tempo}">
+            <small th:if="${#fields.hasErrors('tempo')}" th:errors="*{tempo}"></small>
+        </label><br>
+        <!-- Descrizione -->
+        <label>Descrizione:
+            <textarea th:field="*{descrizione}"></textarea>
+            <small th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}"></small>
+        </label><br>
+        <!-- Valutazione -->
+        <label>Valutazione:
+            <input type="number" min="1" max="5" th:field="*{valutazione}">
+            <small th:if="${#fields.hasErrors('valutazione')}" th:errors="*{valutazione}"></small>
+        </label><br>
+        <button class="btn" type="submit">Crea</button>
+    </form>
+
+
+    <!-- Edit Form -->
+    <form th:if="${mode == 'edit' and ricettaDTO.id != null}"
+          th:object="${ricettaDTO}"
+          th:action="@{/ricette/{id}(id=${ricettaDTO.id})}"
+          method="post"
+          enctype="multipart/form-data">
+
+        <input type="hidden"
+       th:name="${_csrf.parameterName}"
+       th:value="${_csrf.token}">
+
+        <div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
+            Controlla i campi evidenziati
+        </div>
+
+        <!-- Nome -->
+        <label>Nome:
+            <input type="text" th:field="*{nome}">
+            <small th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
+        </label><br>
+
+        <!-- Foto -->
+        <label>Foto:
+            <input type="file" th:field="*{foto}">
+            <small th:if="${#fields.hasErrors('foto')}" th:errors="*{foto}"></small>
+        </label><br>
+
+        <!-- Difficoltà -->
+        <label>Difficoltà:
+            <input type="number" min="1" max="5" th:field="*{difficolta}">
+            <small th:if="${#fields.hasErrors('difficolta')}" th:errors="*{difficolta}"></small>
+        </label><br>
+
+        <!-- Porzioni -->
+        <label>Porzioni:
+            <input type="number" th:field="*{porzioni}">
+            <small th:if="${#fields.hasErrors('porzioni')}" th:errors="*{porzioni}"></small>
+        </label><br>
+
+        <!-- Tempo -->
+        <label>Tempo (minuti):
+            <input type="number" th:field="*{tempo}">
+            <small th:if="${#fields.hasErrors('tempo')}" th:errors="*{tempo}"></small>
+        </label><br>
+        <!-- Valutazione -->
+        <label>Valutazione:
+            <input type="number" min="1" max="5" th:field="*{valutazione}">
+            <small th:if="${#fields.hasErrors('valutazione')}" th:errors="*{valutazione}"></small>
+        </label><br>
+        <!-- Descrizione -->
+        <label>Descrizione:
+            <textarea th:field="*{descrizione}"></textarea>
+            <small th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}"></small>
+        </label><br>
+        <!-- Ingredienti -->
+        <label>Ingredienti:
+            <select multiple th:field="*{ingredientiId}">
+                <option th:each="i : ${ingredienti}"
+                        th:value="${i.id}"
+                        th:text="${i.nome}">
+                </option>
+            </select>
+            <small th:if="${#fields.hasErrors('ingredientiId')}" th:errors="*{ingredientiId}"></small>
+        </label><br>
+        <button class="btn" type="submit">Salva</button>
+    </form>
+</div>
+
+</body>
+</html>

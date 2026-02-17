@@ -413,11 +413,19 @@
                     <mxGeometry y="138" width="190" height="26" as="geometry"/>
                 </mxCell>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <mxCell id="171" value="Text" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
                     <mxGeometry x="95" y="1568" width="50" height="30" as="geometry"/>
                 </mxCell>
 =======
 >>>>>>> Sviluppo
+=======
+=======
+                <mxCell id="171" value="Text" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="95" y="1568" width="50" height="30" as="geometry"/>
+                </mxCell>
+>>>>>>> origin/Riccardo
+>>>>>>> origin/Sviluppo
                 <mxCell id="188" value="IngredienteService" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="265" y="1680" width="190" height="164" as="geometry"/>
                 </mxCell>

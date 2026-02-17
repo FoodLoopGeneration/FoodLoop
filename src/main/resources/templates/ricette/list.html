@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Lista ricette')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div th:replace="~{fragments/layout :: sidebar}"></div>
+    <main>
+        <div class="container">
+            <h1>Ricette</h1>
+            <!-- Link per aggiungere una nuova ricetta -->
+            <p>
+                <a th:href="@{/ricette/new}" class="btn">Aggiungi una nuova ricetta</a>
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Foto</th>
+                        <th>Difficoltà</th>
+                        <th>Tempo (min)</th>
+                        <th>Dettaglio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Nessuna ricetta -->
+                    <tr th:if="${#lists.isEmpty(ricette)}">
+                        <td colspan="5">Nessuna ricetta presente.</td>
+                    </tr>
+                    <!-- Lista ricette -->
+                    <tr th:each="r : ${ricette}">
+                        <td th:text="${r.nome}"></td>
+                        <td> <!--TODO-->
+                            <img th:src="@{${r.fotoUrl}}" alt="Foto ricetta" width="80" height="80">
+                        </td>
+                        <td th:text="${r.difficolta}"></td>
+                        <td th:text="${r.tempo}"></td>
+                        <td>
+                            <a th:href="@{/ricette/{id}(id=${r.id})}">Visualizza dettaglio</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
