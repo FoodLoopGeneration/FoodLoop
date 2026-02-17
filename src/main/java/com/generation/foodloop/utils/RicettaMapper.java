@@ -1,5 +1,33 @@
 package com.generation.foodloop.utils;
 
+import org.springframework.stereotype.Component;
+
+import com.generation.foodloop.dto.RicettaDTO;
+import com.generation.foodloop.entities.Ricetta;
+
+@Component
 public class RicettaMapper {
-    
+    public Ricetta toEntity(RicettaDTO dto){
+        Ricetta r = new Ricetta();
+        updateEntity(dto,r);
+        return r;
+    }
+
+    public void updateEntity(RicettaDTO dto, Ricetta r){
+        r.setId(dto.id());
+        r.setUtente(dto.utente());
+        r.setIngredienti(dto.ingredienti());
+        r.setNome(dto.nome());
+        r.setFoto(dto.foto());
+        r.setDifficolta(dto.difficolta());
+        r.setPorzioni(dto.porzioni());
+        r.setTempo(dto.tempo());
+        r.setValutazione(dto.valutazione());
+        r.setDescrizione(dto.descrizione());
+    }
+
+    public RicettaDTO toDTO(Ricetta r){
+        RicettaDTO dto = new RicettaDTO(r.getId(),r.getUtente(),r.getIngredienti(),r.getNome(),r.getFoto(),r.getDifficolta(),r.getPorzioni(),r.getTempo(),r.getValutazione(),r.getDescrizione());
+        return dto;
+    }
 }

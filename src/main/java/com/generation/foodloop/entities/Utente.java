@@ -19,85 +19,84 @@ import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
- @Entity
-    @Table(name = "utenti", uniqueConstraints = {
+@Entity
+@Table(name = "utenti", uniqueConstraints = {
         @UniqueConstraint(columnNames = "id"),
         @UniqueConstraint(columnNames = "email")
-    })
-    @Data
-    @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+})
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
-public class Utente implements UserDetails{
+public class Utente implements UserDetails {
 
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String nome;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String cognome;
 
     @EqualsAndHashCode.Include
-    @Column(nullable=false, unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String password;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private Set<Ingrediente> ingredienti;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private Set<Ricetta> ricette;
 
-    private Set<Ruolo> ruoli = new HashSet<>(); 
+    private Set<Ruolo> ruoli = new HashSet<>();
 
-    public void aggiungiRuolo(Ruolo ruolo){
-        if(ruolo != null){
+    public void aggiungiRuolo(Ruolo ruolo) {
+        if (ruolo != null) {
             ruoli.add(ruolo);
         }
     }
 
-    public void rimuoviRuolo(Ruolo ruolo){
-        if(ruolo != null){
+    public void rimuoviRuolo(Ruolo ruolo) {
+        if (ruolo != null) {
             ruoli.remove(ruolo);
         }
     }
 
-    public void aggiungiIngrediente(Ingrediente ingrediente){
-        if(ingrediente != null){
+    public void aggiungiIngrediente(Ingrediente ingrediente) {
+        if (ingrediente != null) {
             ingredienti.add(ingrediente);
         }
     }
 
-    public void rimuoviIngrediente(Ingrediente ingrediente){
-        if(ingrediente != null){
+    public void rimuoviIngrediente(Ingrediente ingrediente) {
+        if (ingrediente != null) {
             ingredienti.remove(ingrediente);
         }
     }
 
-    public void aggiungiRicetta(Ricetta ricetta){
-        if(ricetta != null){
+    public void aggiungiRicetta(Ricetta ricetta) {
+        if (ricetta != null) {
             ricette.add(ricetta);
         }
     }
 
-    public void rimuoviRicetta(Ricetta ricetta){
-        if(ricetta != null){
+    public void rimuoviRicetta(Ricetta ricetta) {
+        if (ricetta != null) {
             ricette.remove(ricetta);
         }
     }
-    
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = this.ruoli.stream()
-            .map(
-                ruolo -> new SimpleGrantedAuthority("ROLE_" + ruolo.getNome())
-            )
-            .toList();
+                .map(
+                        ruolo -> new SimpleGrantedAuthority("ROLE_" + ruolo.getNome()))
+                .toList();
 
         return authorities;
     }
@@ -106,5 +105,5 @@ public class Utente implements UserDetails{
     public String getUsername() {
         return this.email;
     }
-    
+
 }
