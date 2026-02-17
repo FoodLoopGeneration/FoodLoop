@@ -38,13 +38,13 @@ SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         .authorizeHttpRequests(auth -> auth
 
             //Public
-            .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
+            .requestMatchers(ApiRoutes.PUBLIC_ENDPOINTS).permitAll()
 
             //User
-            .requestMatchers(USER_ENDPOINTS).hasRole(TipoRuolo.USR.name())
+            .requestMatchers(ApiRoutes.USER_ENDPOINTS).hasRole(TipoRuolo.USR.name())
 
             //Admin
-            .requestMatchers(ADMIN_ENDPOINTS).hasRole(TipoRuolo.ADM.name())
+            .requestMatchers(ApiRoutes.ADMIN_ENDPOINTS).hasRole(TipoRuolo.ADM.name())
 
             //Tutto il resto
             .anyRequest().authenticated()

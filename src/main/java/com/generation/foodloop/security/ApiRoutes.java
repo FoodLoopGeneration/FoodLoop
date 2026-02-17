@@ -5,7 +5,7 @@ public final class ApiRoutes {
     private ApiRoutes() {}
 
     //PUBLIC
-    public static final String[] PUBLIC = {
+    public static final String[] PUBLIC_ENDPOINTS = {
         "/",
         "/login",
         "/css/**",
@@ -13,13 +13,13 @@ public final class ApiRoutes {
     };
 
     //USER
-    public static final String[] USER = {
+    public static final String[] USER_ENDPOINTS = {
         "/user/**",
         "/profilo/**"
     };
 
     //ADMIN
-    public static final String[] ADMIN = {
+    public static final String[] ADMIN_ENDPOINTS = {
         "/admin/**",
         "/gestione/**"
     };
