@@ -1,12 +1,12 @@
 # 20 — Database
 
 ## Schema
-- Nome DB:
-- Tabelle principali:
-- Relazioni (1:N, N:M):
+- Nome DB: Food
+- Tabelle principali: utenti,ricette,ingredienti,categorie
+- Relazioni (1:N, N:M): utenti-categorie(1:N), utenti-ricette(1:N), utenti-ingradienti(1:N), ingredienti-ricette(N:M)
 
 ## ER Diagram
-Inserisci l'immagine in: `templates/diagrams/ER.png` oppure sostituiscila con il tuo diagramma.
+![Diagramma ER](diagrams/ER.png)
 
 ## Note JPA
 - Strategie di chiave primaria

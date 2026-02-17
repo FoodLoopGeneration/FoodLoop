@@ -6,5 +6,5 @@ public enum UnitaMisura {
         L,
         g,
         ml,
-        qb
+        tb
 }

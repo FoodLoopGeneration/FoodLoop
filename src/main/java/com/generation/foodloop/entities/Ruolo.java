@@ -15,22 +15,20 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Entity
-@Table(name="ruoli",
-    uniqueConstraints = @UniqueConstraint(name="uk_nome_ruolo",columnNames = "nome")
-)
+@Table(name = "ruoli", uniqueConstraints = @UniqueConstraint(name = "uk_nome_ruolo", columnNames = "nome"))
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Ruolo{
+public class Ruolo {
 
     @EqualsAndHashCode.Include
-    @Id//idica che la collonna contiene la PK
-    @GeneratedValue(strategy = GenerationType.IDENTITY)//per l'auto_increment
+    @Id // idica che la collonna contiene la PK
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // per l'auto_increment
     private Long id;
 
-    @Column(name="nome",nullable=false,length=50)
+    @Column(name = "nome", nullable = false, length = 50)
     private String nome;
 
-    //relazione con gli UserAccount
+    // relazione con gli UserAccount
 
     @ManyToMany(mappedBy = "ruoli")
     @ToString.Exclude

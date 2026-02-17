@@ -50,5 +50,5 @@ public class Ingrediente {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_categoria", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_ingrediente_categoria"))
     private Categoria categoria;
-    
+
 }
