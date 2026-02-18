@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Entity
-@Table(name = "ricette") // Corretto da "ingredienti"
+@Table(name = "ricette")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Ricetta {

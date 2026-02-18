@@ -1,17 +1,11 @@
 package com.generation.foodloop.services;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.generation.foodloop.dto.RicettaDTO;
 import com.generation.foodloop.entities.Ricetta;
@@ -25,8 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class RicettaService extends GenericService<Long, Ricetta, RicettaRepository> {
 
     private final RicettaMapper mapper;
-    
-    private final String UPLOAD_DIR = "src/main/resources/static/uploads/ricette/";
+    private final FileStorageService fileStorageService;
 
     private String normNome(String nome) {
         return nome == null ? null : nome.trim().toUpperCase();
@@ -53,7 +46,12 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
     public boolean createFromDto(RicettaDTO dto) {
         Ricetta r = mapper.toEntity(dto);
         
-        saveFoto(dto.foto(), r);
+        try {
+            String fileName = fileStorageService.save(dto.foto());
+            r.setFoto(fileName);
+        } catch (IOException e) {
+            throw new RuntimeException("Errore nel salvataggio dell'immagine: " + e.getMessage());
+        }
         
         getRepository().save(r);
         return true;
@@ -68,32 +66,16 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
         mapper.updateEntity(dto, r);
         
         if (dto.foto() != null && !dto.foto().isEmpty()) {
-            saveFoto(dto.foto(), r);
+            try {
+                String fileName = fileStorageService.save(dto.foto());
+                r.setFoto(fileName);
+            } catch (IOException e) {
+                throw new RuntimeException("Errore nell'aggiornamento dell'immagine: " + e.getMessage());
+            }
         }
         
         getRepository().save(r);
         return true;
-    }
-
-    private void saveFoto(MultipartFile file, Ricetta r) {
-        if (file != null && !file.isEmpty()) {
-            try {
-                Path uploadPath = Paths.get(UPLOAD_DIR);
-                if (!Files.exists(uploadPath)) {
-                    Files.createDirectories(uploadPath);
-                }
-
-                String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-                Path filePath = uploadPath.resolve(fileName);
-
-                Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-                r.setFoto(fileName);
-                
-            } catch (IOException e) {
-                throw new RuntimeException("Errore durante il salvataggio della foto: " + e.getMessage());
-            }
-        }
     }
 
     public boolean delete(Long id) {

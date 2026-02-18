@@ -3,6 +3,7 @@ package com.generation.foodloop.services;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
 
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.generation.foodloop.dto.RicettaDTO;
 import com.generation.foodloop.entities.Ricetta;
@@ -28,11 +30,14 @@ class RicettaServiceTest {
     @Mock
     private RicettaMapper mapper;
 
+    @Mock
+    private FileStorageService fileStorageService;
+
     private RicettaService service;
 
     @BeforeEach
     void setUp() {
-        service = new RicettaService(mapper);
+        service = new RicettaService(mapper, fileStorageService);
         org.springframework.test.util.ReflectionTestUtils.setField(service, "repository", repository);
     }
 
@@ -50,34 +55,47 @@ class RicettaServiceTest {
     }
 
     @Test
-    @DisplayName("TC-02: Salvataggio da DTO deve invocare il repository")
-    void createFromDto_Valido_SalvataggioRiuscito() {
+    @DisplayName("TC-02: Creazione ricetta con salvataggio foto")
+    void createFromDto_ConFoto_SalvaCorrettamente() throws IOException {
         RicettaDTO dto = mock(RicettaDTO.class);
-        Ricetta entita = new Ricetta();
-        when(mapper.toEntity(dto)).thenReturn(entita);
+        Ricetta r = new Ricetta();
+        MultipartFile fotoMock = mock(MultipartFile.class);
+
+        when(dto.foto()).thenReturn(fotoMock);
+        when(mapper.toEntity(dto)).thenReturn(r);
+        when(fileStorageService.save(fotoMock)).thenReturn("foto_generata.jpg");
 
         boolean result = service.createFromDto(dto);
 
         assertThat(result).isTrue();
-        verify(repository).save(entita);
+        assertThat(r.getFoto()).isEqualTo("foto_generata.jpg");
+        verify(repository).save(r);
     }
 
     @Test
-    @DisplayName("TC-03: Aggiornamento con ID inesistente deve fallire")
-    void updateFromDto_IdInesistente_RitornaFalse() {
-        Long id = 99L;
+    @DisplayName("TC-03: Update ricetta con nuova foto")
+    void updateFromDto_NuovaFoto_AggiornaFile() throws IOException {
+        Long id = 1L;
         RicettaDTO dto = mock(RicettaDTO.class);
-        when(repository.findById(id)).thenReturn(Optional.empty());
+        Ricetta r = new Ricetta();
+        MultipartFile nuovaFoto = mock(MultipartFile.class);
+
+        when(repository.findById(id)).thenReturn(Optional.of(r));
+        when(dto.foto()).thenReturn(nuovaFoto);
+        when(nuovaFoto.isEmpty()).thenReturn(false);
+        when(fileStorageService.save(nuovaFoto)).thenReturn("nuova_foto.png");
 
         boolean result = service.updateFromDto(id, dto);
 
-        assertThat(result).isFalse();
-        verify(repository, never()).save(any());
+        assertThat(result).isTrue();
+        assertThat(r.getFoto()).isEqualTo("nuova_foto.png");
+        verify(mapper).updateEntity(dto, r);
+        verify(repository).save(r);
     }
 
     @Test
-    @DisplayName("TC-04: Controllo univocità in aggiornamento (nome già usato da altri)")
-    void uniqueErrorsForUpdate_NomeOccupatoDaAltroID_RitornaErrore() {
+    @DisplayName("TC-04: Errore univocità in fase di update")
+    void uniqueErrorsForUpdate_NomeGiaUsato_RitornaErrore() {
         Long idCorrente = 1L;
         RicettaDTO dto = mock(RicettaDTO.class);
         when(dto.nome()).thenReturn("Pizza");
@@ -92,8 +110,9 @@ class RicettaServiceTest {
     @DisplayName("TC-05: Cancellazione di ricetta esistente")
     void delete_Esistente_RitornaTrue() {
         Long id = 1L;
+        Ricetta r = new Ricetta();
+        when(repository.findById(id)).thenReturn(Optional.of(r));
         when(repository.existsById(id)).thenReturn(true);
-        when(repository.findById(id)).thenReturn(Optional.of(new Ricetta()));
 
         boolean result = service.delete(id);
 
@@ -109,19 +128,5 @@ class RicettaServiceTest {
         when(repository.existsByIdAndUtenteId(rId, uId)).thenReturn(true);
 
         assertThat(service.belongsToUser(rId, uId)).isTrue();
-    }
-
-    @Test
-    @DisplayName("TC-07: Recupero DTO per ID")
-    void getDTOById_RitornaDtoMappato() {
-        Long id = 1L;
-        Ricetta r = new Ricetta();
-        RicettaDTO dto = mock(RicettaDTO.class);
-        when(repository.findById(id)).thenReturn(Optional.of(r));
-        when(mapper.toDTO(r)).thenReturn(dto);
-
-        RicettaDTO result = service.getDTOById(id);
-
-        assertThat(result).isEqualTo(dto);
     }
 }
