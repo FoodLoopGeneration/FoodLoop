@@ -80,7 +80,7 @@ public class IngredienteController {
                            Model model,
                            RedirectAttributes ra) {
 
-        IngredienteDTO dto = ingredienteService.getDtoById(id);
+        IngredienteDTO dto = ingredienteService.getDTOById(id);
 
         if (dto == null) {
             ra.addFlashAttribute("error", "Ingrediente non trovato");
@@ -102,7 +102,7 @@ public class IngredienteController {
                          Model model,
                          RedirectAttributes ra) {
 
-        dto.setId(id);
+        dto.withId(id);
 
         Map<String, String> erroriUnicita =
                 ingredienteService.uniqueErrorsForUpdate(id, dto);
