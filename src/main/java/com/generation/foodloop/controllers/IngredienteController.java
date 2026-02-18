@@ -67,7 +67,6 @@ public class IngredienteController {
             return "ingredienti/form-dto";
         }
 
-        Utente user = (Utente) authentication.getPrincipal();
         ingredienteService.createFromDto(dto);
 
         ra.addFlashAttribute("success", "Ingrediente creato");

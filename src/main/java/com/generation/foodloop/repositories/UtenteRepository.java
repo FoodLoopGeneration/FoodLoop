@@ -17,4 +17,7 @@ public interface UtenteRepository extends JpaRepository<Utente, Long> {
 
     @EntityGraph(attributePaths = { "ingredienti" })
     Optional<Utente> findWithIngredientiById(Long id);
+
+    @EntityGraph(attributePaths = {"ruoli"})
+    Optional<Utente> findByUsernameAndPassword(String username, String password);
 }
