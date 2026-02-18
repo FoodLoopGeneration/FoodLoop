@@ -19,6 +19,7 @@ public class FileStorageService {
     private final String BASE_PATH = "src/main/resources/static/uploads/ricette/";
 
     public String save(MultipartFile file) throws IOException {
+        log.info("Inizo procedura salvataggio foto");
         if (file == null || file.isEmpty()) return null;
 
         Path uploadPath = Paths.get(BASE_PATH);

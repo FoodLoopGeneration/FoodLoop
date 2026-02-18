@@ -12,9 +12,11 @@ import com.generation.foodloop.repositories.IngredienteRepository;
 import com.generation.foodloop.utils.IngredienteMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class IngredienteService extends GenericService<Long, Ingrediente, IngredienteRepository> {
     
     private final IngredienteMapper mapper;
@@ -45,12 +47,14 @@ public class IngredienteService extends GenericService<Long, Ingrediente, Ingred
     }
 
     public boolean createFromDto(IngredienteDTO dto) {
+        log.info("Creazione Ingrediente da DTO");
         Ingrediente i = mapper.toEntity(dto);
         getRepository().save(i);
         return true;
     }
 
     public boolean updateFromDto(Long id, IngredienteDTO dto) {
+        log.info("Aggiornamento Ingrediente da DTO");
         Ingrediente i = getByIdOrNull(id);
         if (i == null) {
             return false;
@@ -61,6 +65,7 @@ public class IngredienteService extends GenericService<Long, Ingrediente, Ingred
     }
 
     public boolean delete(Long id) {
+        log.info("Rimozione Ingrediente");
         Ingrediente i = getByIdOrNull(id);
         if (i == null) {
             return false;
