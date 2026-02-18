@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @RequiredArgsConstructor
 public class CookieFilter extends OncePerRequestFilter {
+
     @Value("${app.cookie.nome}")
     private String cookieName;
 
@@ -34,35 +35,60 @@ public class CookieFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.isAuthenticated()) {
+        if (auth != null && auth.isAuthenticated() && !auth.getPrincipal().equals("anonymousUser")) {
             filterChain.doFilter(request, response);
             return;
         }
         Cookie cookie = getCookie(request.getCookies(), cookieName);
+        
         if (cookie != null) {
-            Long id = Long.parseLong(cookie.getValue().split(":")[0]);
-            Utente user = userAccountService.findById(id).orElse(null);
-            if (user != null) {
-                List<SimpleGrantedAuthority> authorities = user.getRuoli().stream()
-                        .map(ruolo -> new SimpleGrantedAuthority("ROLE_" + ruolo.getNome())).toList();
-                auth = new UsernamePasswordAuthenticationToken(user, null, authorities);
-                SecurityContextHolder.getContext().setAuthentication(auth);
-                log.info("utente {} autenticato tramite cookie", user.getUsername());
+            try {
+                String value = cookie.getValue();
+                if (value != null && value.contains(":")) {
+                    Long id = Long.parseLong(value.split(":")[0]);
+                    
+                    Utente user = userAccountService.findById(id).orElse(null);
+                    
+                    if (user != null) {
+                        List<SimpleGrantedAuthority> authorities = user.getRuoli().stream()
+                                .map(ruolo -> new SimpleGrantedAuthority("ROLE_" + ruolo.getNome()))
+                                .toList();
+                        
+                        auth = new UsernamePasswordAuthenticationToken(user, null, authorities);
+                        SecurityContextHolder.getContext().setAuthentication(auth);
+                        log.info("Utente {} autenticato tramite cookie", user.getEmail());
+                    }
+                }
+            } catch (Exception e) {
+                log.error("Errore durante l'autenticazione tramite cookie: {}", e.getMessage());
+                Cookie invalidCookie = new Cookie(cookieName, null);
+                invalidCookie.setMaxAge(0);
+                invalidCookie.setPath("/");
+                response.addCookie(invalidCookie);
             }
-            filterChain.doFilter(request, response);
         }
+
+        filterChain.doFilter(request, response);
     }
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-        return path.equals("/login") || path.startsWith("/css") || path.startsWith("/js");
+        return path.equals("/login") || 
+               path.startsWith("/css/") || 
+               path.startsWith("/js/") || 
+               path.startsWith("/images/") ||
+               path.startsWith("/uploads/");
     }
 
-    private Cookie getCookie(Cookie[] cookies, String cookieName) {
+    private Cookie getCookie(Cookie[] cookies, String name) {
+        if (cookies == null || name == null) {
+            return null;
+        }
         for (Cookie c : cookies) {
-            if (cookieName.equals(c.getName())) {
+            if (name.equals(c.getName())) {
                 return c;
             }
         }
