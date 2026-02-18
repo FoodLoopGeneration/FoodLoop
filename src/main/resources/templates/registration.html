@@ -9,7 +9,7 @@
                 <legend>Registrazione</legend>
                 <!-- Messaggio errore globale -->
                 <div>
-                    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color:red"></p>
+                    <p th:each="err : ${#fields.hasGlobalErrors()}" th:text="${err}" style="color:red"></p>
                 </div>
                 <!-- Nome -->
                 <label>
@@ -42,11 +42,11 @@
              <!-- Conferma Email -->
                 <label>
                     Conferma Email:
-                    <input type="email" th:field="*{confermaEmail}" required>
+                    <input type="email" required>
                 </label>
-                <div th:if="${#fields.hasErrors('confermaEmail')}">
+                <!-- <div th:if="${#fields.hasErrors('confermaEmail')}">
                     <p th:errors="*{confermaEmail}"></p>
-                </div>
+                </div> -->
                 <br>
                 <!-- Password -->
                 <label>
@@ -60,11 +60,11 @@
                 <!-- Conferma Password -->
                 <label>
                     Conferma Password:
-                    <input type="password" th:field="*{confermaPassword}" required>
+                    <input type="password" required>
                 </label>
-                <div th:if="${#fields.hasErrors('confermaPassword')}">
+                <!-- <div th:if="${#fields.hasErrors('confermaPassword')}">
                     <p th:errors="*{confermaPassword}"></p>
-                </div>
+                </div> -->
                 <br>
 
 

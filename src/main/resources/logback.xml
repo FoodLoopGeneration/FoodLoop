@@ -13,6 +13,7 @@
         <file>logs/food_app.log</file>
         
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archived/food_app-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             
             <maxFileSize>10MB</maxFileSize>
             <maxHistory>30</maxHistory>
