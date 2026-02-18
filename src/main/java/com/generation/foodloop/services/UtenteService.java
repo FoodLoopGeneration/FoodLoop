@@ -1,7 +1,6 @@
 package com.generation.foodloop.services;
 
 import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 import com.generation.foodloop.entities.Utente;
 import com.generation.foodloop.repositories.UtenteRepository;
@@ -22,7 +21,11 @@ public class UtenteService {
         return utenteRepository.findById(id);
     }
 
-    public Optional<Utente> findUtenteByNameAndPassword(String name, String password) {
-        return utenteRepository.findByUsernameAndPassword(name, password);
+    public Optional<Utente> findUtenteByEmailAndPassword(String email, String password) {
+        return utenteRepository.findByEmailAndPassword(email, password);
+    }
+
+    public Optional<Utente> findByEmail(String email) {
+        return utenteRepository.findByEmail(email);
     }
 }

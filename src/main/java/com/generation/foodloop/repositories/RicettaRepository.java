@@ -7,19 +7,14 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.generation.foodloop.entities.Ricetta;
-import com.generation.foodloop.entities.Utente;
 
-public interface RicettaRepository extends JpaRepository<Ricetta, Long>{
+public interface RicettaRepository extends JpaRepository<Ricetta, Long> {
     
-    Optional<Ricetta> findById(Long id);
-
     Optional<Ricetta> findByNome(String nome);
 
-    Optional<List<Ricetta>> findByNomeIngredienteAndUtente_id(String nome, Utente idUtente);
+    List<Ricetta> findByIngredienti_NomeContainingIgnoreCase(String nomeIngrediente);
 
-    Optional<List<Ricetta>> findByNomeIngrediente(String nome);
-
-    Optional<List<Ricetta>> findByUtenteId(Long utenteId);
+    List<Ricetta> findByUtenteId(Long utenteId);
 
     @EntityGraph(attributePaths = {"ingredienti"})
     Optional<Ricetta> findWithIngredientiById(Long id);
@@ -29,5 +24,4 @@ public interface RicettaRepository extends JpaRepository<Ricetta, Long>{
     boolean existsByNomeAndIdNot(String nome, Long id);
 
     boolean existsByIdAndUtenteId(Long id, Long utenteId);
-
 }

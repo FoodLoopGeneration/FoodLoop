@@ -21,9 +21,9 @@ public class UserPasswordAuthProvider implements AuthenticationProvider{
     @Override
     public @Nullable Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        String username = authentication.getName();
+        String email = authentication.getName();
         String password = authentication.getCredentials().toString();
-        Utente utente = utenteService.findUtenteByNameAndPassword(username, password).orElse(null);
+        Utente utente = utenteService.findUtenteByEmailAndPassword(email, password).orElse(null);
         
         if(utente != null){
             return new UsernamePasswordAuthenticationToken(utente, null, utente.getAuthorities());

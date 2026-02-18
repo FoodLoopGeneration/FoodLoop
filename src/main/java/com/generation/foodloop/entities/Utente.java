@@ -2,31 +2,19 @@ package com.generation.foodloop.entities;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
-@Table(name = "utenti", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "id"),
-        @UniqueConstraint(columnNames = "email")
-})
+@Table(name = "utenti")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-
 public class Utente implements UserDetails {
 
     @EqualsAndHashCode.Include
@@ -47,63 +35,41 @@ public class Utente implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private Set<Ingrediente> ingredienti;
+    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private Set<Ingrediente> ingredienti = new HashSet<>();
 
-    @Column(nullable = false)
-    private Set<Ricetta> ricette;
+    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private Set<Ricetta> ricette = new HashSet<>();
 
+    @OneToMany(mappedBy = "utente", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private Set<Categoria> categorie = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "utenti_ruoli",
+        joinColumns = @JoinColumn(name = "id_utente"),
+        inverseJoinColumns = @JoinColumn(name = "id_ruolo")
+    )
     private Set<Ruolo> ruoli = new HashSet<>();
 
-    public void aggiungiRuolo(Ruolo ruolo) {
-        if (ruolo != null) {
-            ruoli.add(ruolo);
-        }
-    }
-
-    public void rimuoviRuolo(Ruolo ruolo) {
-        if (ruolo != null) {
-            ruoli.remove(ruolo);
-        }
-    }
-
-    public void aggiungiIngrediente(Ingrediente ingrediente) {
-        if (ingrediente != null) {
-            ingredienti.add(ingrediente);
-        }
-    }
-
-    public void rimuoviIngrediente(Ingrediente ingrediente) {
-        if (ingrediente != null) {
-            ingredienti.remove(ingrediente);
-        }
-    }
-
-    public void aggiungiRicetta(Ricetta ricetta) {
-        if (ricetta != null) {
-            ricette.add(ricetta);
-        }
-    }
-
-    public void rimuoviRicetta(Ricetta ricetta) {
-        if (ricetta != null) {
-            ricette.remove(ricetta);
-        }
-    }
+    // Metodi Helper
+    public void aggiungiRuolo(Ruolo ruolo) { if (ruolo != null) ruoli.add(ruolo); }
+    public void aggiungiIngrediente(Ingrediente i) { i.setUtente(this); ingredienti.add(i); }
+    public void aggiungiRicetta(Ricetta r) { r.setUtente(this); ricette.add(r); }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> authorities = this.ruoli.stream()
-                .map(
-                        ruolo -> new SimpleGrantedAuthority("ROLE_" + ruolo.getNome()))
+        return ruoli.stream()
+                .map(r -> new SimpleGrantedAuthority("ROLE_" + r.getNome()))
                 .toList();
-
-        return authorities;
     }
 
-    @Override
-    public String getUsername() {
-        return this.email;
-    }
-
+    @Override public String getUsername() { return email; }
+    @Override public boolean isAccountNonExpired() { return true; }
+    @Override public boolean isAccountNonLocked() { return true; }
+    @Override public boolean isCredentialsNonExpired() { return true; }
+    @Override public boolean isEnabled() { return true; }
 }
