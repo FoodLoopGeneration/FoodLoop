@@ -129,8 +129,8 @@ public class RicettaController {
 
     //update
     @PostMapping("/{id}")
-    public String update(@PathVariable Long id,
-                         @Valid
+    public String update(@Valid
+                         @PathVariable Long id,
                          @ModelAttribute("ricettaDTO")
                          RicettaDTO dto,
                          BindingResult br,
@@ -162,7 +162,8 @@ public class RicettaController {
 
     //delete
     @PostMapping("/{id}/delete")
-    public String delete(@PathVariable Long id,
+    public String delete(@Valid
+                         @PathVariable Long id,
                          RedirectAttributes ra,
                          Authentication authentication) {
 
