@@ -13,7 +13,11 @@ public class RegisterController {
     
 
     @GetMapping
-    public String registerPage(){
+    public String registerPage(Model model){
+        UtenteDTO user = UtenteDTO.empty(); 
+        
+        model.addAttribute("user", user);
+
         return "registration";
     }
 
