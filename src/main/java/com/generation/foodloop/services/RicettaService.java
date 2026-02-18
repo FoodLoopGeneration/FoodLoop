@@ -13,9 +13,11 @@ import com.generation.foodloop.repositories.RicettaRepository;
 import com.generation.foodloop.utils.RicettaMapper;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class RicettaService extends GenericService<Long, Ricetta, RicettaRepository> {
 
     private final RicettaMapper mapper;
@@ -44,12 +46,14 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
     }
 
     public boolean createFromDto(RicettaDTO dto) {
+        log.info("Creazione Ricetta da DTO");
         Ricetta r = mapper.toEntity(dto);
         
         try {
             String fileName = fileStorageService.save(dto.foto());
             r.setFoto(fileName);
         } catch (IOException e) {
+            log.warn("Errore nel salvataggio dell'immagine");
             throw new RuntimeException("Errore nel salvataggio dell'immagine: " + e.getMessage());
         }
         
@@ -58,6 +62,7 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
     }
 
     public boolean updateFromDto(Long id, RicettaDTO dto) {
+        log.info("Aggiornamento Ricetta da DTO");
         Ricetta r = getByIdOrNull(id);
         if (r == null) {
             return false;
@@ -70,6 +75,7 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
                 String fileName = fileStorageService.save(dto.foto());
                 r.setFoto(fileName);
             } catch (IOException e) {
+                log.warn("Errore nell'aggiornamento dell'immagine");
                 throw new RuntimeException("Errore nell'aggiornamento dell'immagine: " + e.getMessage());
             }
         }
