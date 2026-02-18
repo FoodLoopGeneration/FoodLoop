@@ -1,6 +1,7 @@
 package com.generation.foodloop.services;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -22,20 +23,20 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
         return nome == null ? null : nome.trim().toUpperCase();
     }
 
-    public Map<String, String> uniqueErrorsForCreate(RicettaDTO dto){
+public Map<String, String> uniqueErrorsForCreate(RicettaDTO dto) {
         Map<String, String> errors = new HashMap<>();
         String nome = normNome(dto.nome());
-        if(nome != null && getRepository().existsByNome(nome)){
+        if (nome != null && getRepository().existsByNome(nome)) {
             errors.put("nome", "Nome già presente");
         }
         return errors;
     }
 
-    public Map<String, String> uniqueErrorsForUpdate(Long id, RicettaDTO dto){
+    public Map<String, String> uniqueErrorsForUpdate(Long id, RicettaDTO dto) {
         Map<String, String> errors = new HashMap<>();
         String nome = normNome(dto.nome());
-        if(nome != null && getRepository().existsByNomeAndId(nome, id)){
-            errors.put("nome", "Nome già presente");
+        if (nome != null && getRepository().existsByNomeAndIdNot(nome, id)) {
+            errors.put("nome", "Nome già presente in un'altra ricetta");
         }
         return errors;
     }
@@ -70,4 +71,20 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
         return r == null ? null : mapper.toDTO(r);
     }
 
+    public boolean belongsToUser(Long ricettaId, Long utenteId) {
+        if (ricettaId == null || utenteId == null) return false;
+        return getRepository().existsByIdAndUtenteId(ricettaId, utenteId);
+    }
+
+    public List<Ricetta> getAll() {
+        return getRepository().findAll();
+    }
+
+    public List<Ricetta> getByUtente(Long utenteId) {
+        return getRepository().findByUtenteId(utenteId).orElse(null);
+    }
+
+    public Ricetta getByIdWithIngredienti(Long id) {
+        return getRepository().findWithIngredientiById(id).orElse(null);
+    }
 }

@@ -68,7 +68,7 @@ public class IngredienteController {
         }
 
         Utente user = (Utente) authentication.getPrincipal();
-        ingredienteService.createFromDto(dto, user.getId());
+        ingredienteService.createFromDto(dto);
 
         ra.addFlashAttribute("success", "Ingrediente creato");
         return "redirect:/ingredienti";
