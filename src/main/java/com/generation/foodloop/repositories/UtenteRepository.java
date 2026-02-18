@@ -1,5 +1,15 @@
 package com.generation.foodloop.repositories;
 
-public class UtenteRepository {
-    
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.generation.foodloop.entities.Utente;
+
+public interface UtenteRepository extends JpaRepository<Utente, Long> {
+    @EntityGraph(attributePaths = "ruoli")
+    Optional<Utente> findWithRuoloAndUsername(String username);
+
+    Optional<Utente> findWithRuoloAndId(Long id);
+
 }
