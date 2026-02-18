@@ -1,5 +1,9 @@
 package com.generation.foodloop.services;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.generation.foodloop.dto.IngredienteDTO;
@@ -11,19 +15,44 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class IngredienteService extends GenericService<Long, Ingrediente, IngredienteRepository>{
+public class IngredienteService extends GenericService<Long, Ingrediente, IngredienteRepository> {
     
     private final IngredienteMapper mapper;
+    private String normNome(String nome) {
+        return nome == null ? null : nome.trim().toUpperCase();
+    }
 
-    public boolean createFromDto(IngredienteDTO dto){
+    public Map<String, String> uniqueErrorsForCreate(IngredienteDTO dto) {
+        Map<String, String> errors = new HashMap<>();
+        String nome = normNome(dto.nome());
+        if (nome != null && getRepository().existsByNome(nome)) {
+            errors.put("nome", "Ingrediente già presente in archivio");
+        }
+        return errors;
+    }
+
+    public Map<String, String> uniqueErrorsForUpdate(Long id, IngredienteDTO dto) {
+        Map<String, String> errors = new HashMap<>();
+        String nome = normNome(dto.nome());
+        if (nome != null && getRepository().existsByNomeAndIdNot(nome, id)) {
+            errors.put("nome", "Il nome scelto è già utilizzato da un altro ingrediente");
+        }
+        return errors;
+    }
+
+    public List<Ingrediente> getAll() {
+        return getRepository().findAll();
+    }
+
+    public boolean createFromDto(IngredienteDTO dto) {
         Ingrediente i = mapper.toEntity(dto);
         getRepository().save(i);
         return true;
     }
 
-    public boolean updateFromDto(Long id, IngredienteDTO dto){
+    public boolean updateFromDto(Long id, IngredienteDTO dto) {
         Ingrediente i = getByIdOrNull(id);
-        if(i == null){
+        if (i == null) {
             return false;
         }
         mapper.updateEntity(dto, i);
@@ -31,18 +60,17 @@ public class IngredienteService extends GenericService<Long, Ingrediente, Ingred
         return true;
     }
 
-    public boolean delete(Long id){
+    public boolean delete(Long id) {
         Ingrediente i = getByIdOrNull(id);
-        if(i == null){
+        if (i == null) {
             return false;
         }
         deleteById(id);
         return true;
     }
 
-    public IngredienteDTO getDTOById(Long id){
+    public IngredienteDTO getDTOById(Long id) {
         Ingrediente i = getByIdOrNull(id);
         return i == null ? null : mapper.toDTO(i);
     }
-
 }

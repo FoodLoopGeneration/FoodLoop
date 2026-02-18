@@ -23,8 +23,7 @@ public class UserPasswordAuthProvider implements AuthenticationProvider{
 
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-        // TODO Metodo ancora da implementare da UtenteService
-        Utente utente = utenteService.findUtenteByNameAndPassword(username, password);
+        Utente utente = utenteService.findUtenteByNameAndPassword(username, password).orElse(null);
         
         if(utente != null){
             return new UsernamePasswordAuthenticationToken(utente, null, utente.getAuthorities());

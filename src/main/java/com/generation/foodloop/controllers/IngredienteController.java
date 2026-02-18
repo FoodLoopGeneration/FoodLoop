@@ -67,8 +67,7 @@ public class IngredienteController {
             return "ingredienti/form-dto";
         }
 
-        Utente user = (Utente) authentication.getPrincipal();
-        ingredienteService.createFromDto(dto, user.getId());
+        ingredienteService.createFromDto(dto);
 
         ra.addFlashAttribute("success", "Ingrediente creato");
         return "redirect:/ingredienti";
@@ -80,7 +79,7 @@ public class IngredienteController {
                            Model model,
                            RedirectAttributes ra) {
 
-        IngredienteDTO dto = ingredienteService.getDtoById(id);
+        IngredienteDTO dto = ingredienteService.getDTOById(id);
 
         if (dto == null) {
             ra.addFlashAttribute("error", "Ingrediente non trovato");
@@ -102,7 +101,7 @@ public class IngredienteController {
                          Model model,
                          RedirectAttributes ra) {
 
-        dto.setId(id);
+        dto.withId(id);
 
         Map<String, String> erroriUnicita =
                 ingredienteService.uniqueErrorsForUpdate(id, dto);
