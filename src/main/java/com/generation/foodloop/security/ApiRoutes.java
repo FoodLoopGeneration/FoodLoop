@@ -10,7 +10,7 @@ public final class ApiRoutes {
         "/login",
         "/css/**",
         "/js/**",
-        "/register/**"
+        "/register"
     };
 
     //USER
