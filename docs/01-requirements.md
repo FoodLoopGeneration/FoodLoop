@@ -3,9 +3,9 @@
 > Compila questa sezione PRIMA di implementare.
 
 ## 1. Tema del progetto
-- Titolo:
-- Descrizione in 5 righe:
-- Utenti target:
+- Titolo: FoodLoop
+- Descrizione: FoodLoop è una piattaforma web per la gestione intelligente della dispensa domestica e la riduzione dello spreco alimentare. Gli utenti possono catalogare gli ingredienti in possesso monitorandone scadenze e quantità. Il sistema suggerisce ricette compatibili con le scorte attuali o permette la creazione di un ricettario personale. L'obiettivo è trasformare le eccedenze in pasti creativi attraverso un matching immediato tra inventario e database culinario.
+- Utenti target: Single, famiglie e studenti fuori sede che desiderano ottimizzare la spesa ed evitare di buttare cibo scaduto.
 
 ## 2. Funzionalità (MVP - Minimum Viable Product)
 ### USER

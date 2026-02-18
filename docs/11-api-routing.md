@@ -29,4 +29,3 @@
 * |FormNuovaCategoria|GET/categoria/new|CategoriaController#createForm|User/Admin|mode==create|
 * |CreaCategoria|Post/ricette|CategoriaController#create|User/Admin | |
 
-> Compilare la tabella con i routing rilevanti del progetto.
