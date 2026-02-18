@@ -8,7 +8,7 @@
             <fieldset>
                 <legend>Registrazione</legend>
                 <!-- Messaggio errore globale -->
-                <div th:if="${#fields.hasGlobalErrors()}">
+                <div>
                     <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="color:red"></p>
                 </div>
                 <!-- Nome -->
@@ -16,7 +16,7 @@
                     Nome:
                     <input type="text" th:field="*{nome}" required>
                 </label>
-                <div th:if="${#fields.hasErrors('nome')}" >
+                <div >
                     <p th:errors="*{nome}"></p>
                 </div>
                 <br>
@@ -25,7 +25,7 @@
                     Cognome:
                     <input type="text" th:field="*{cognome}" required>
                 </label>
-                <div th:if="${#fields.hasErrors('cognome')}">
+                <div>
                     <p th:errors="*{cognome}"></p>
                 </div>
                 <br>

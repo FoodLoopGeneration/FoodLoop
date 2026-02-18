@@ -11,7 +11,7 @@ public class RegisterController {
 
     @GetMapping
     public String registerPage(){
-        return "register-page";
+        return "registration";
     }
 
 }

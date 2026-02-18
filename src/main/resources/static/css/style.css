@@ -1,0 +1,241 @@
+/* =====================================================
+   FOOD LOOP – EcoBio Modern Pastel Theme v2
+   Layout sezioni migliorato + Navbar allineata
+   ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&family=Quicksand:wght@400;500;600&display=swap');
+
+:root {
+  --green-pastel: #CFE8C6;
+  --green-main: #7BC96F;
+  --green-accent: #4CAF50;
+
+  --orange-accent: #FF8A3D;
+  --teal-accent: #2FA7A0;
+
+  --bg-main: #F7FBF7;
+  --white: #FFFFFF;
+  --text-dark: #2F3A2F;
+  --text-soft: #6B7A6B;
+
+  --radius-xl: 22px;
+  --radius-lg: 16px;
+  --shadow-soft: 0 8px 24px rgba(0,0,0,0.06);
+
+  --font-heading: 'Quicksand', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+
+  --max-width: 1100px;
+}
+
+/* ------------------
+   RESET
+------------------ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-main);
+  color: var(--text-dark);
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  width: 92%;
+  max-width: var(--max-width);
+  margin: auto;
+}
+
+/* =====================================================
+   NAVBAR
+   Home a sinistra – Login/Register a destra
+   ===================================================== */
+header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: var(--white);
+  box-shadow: var(--shadow-soft);
+}
+
+.navbar {
+  width: 92%;
+  max-width: var(--max-width);
+  display: flex;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+/* Sinistra */
+.nav-left {
+  flex: 1;
+}
+
+/* Destra */
+.nav-right {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.navbar a {
+  text-decoration: none;
+  font-weight: 600;
+  color: var(--text-dark);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  transition: 0.25s;
+}
+
+.navbar a:hover {
+  background: var(--green-pastel);
+}
+
+.nav-register {
+  background: var(--green-accent);
+  color: white !important;
+}
+
+.nav-register:hover {
+  background: #3D9140;
+}
+
+/* =====================================================
+   HERO
+   ===================================================== */
+.hero {
+  width: 92%;
+  max-width: var(--max-width);
+  margin: 2rem auto;
+
+  background:
+    linear-gradient(rgba(255,255,255,0.88), rgba(255,255,255,0.92)),
+    url('/images/hero-food.jpg') center/cover no-repeat;
+
+  border-radius: var(--radius-xl);
+  padding: 4rem 2rem;
+  text-align: center;
+  box-shadow: var(--shadow-soft);
+}
+
+.hero h1 {
+  font-family: var(--font-heading);
+  color: var(--green-accent);
+  font-size: 2.6rem;
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  max-width: 650px;
+  margin: auto;
+  color: var(--text-soft);
+}
+
+/* =====================================================
+   SEZIONI CONTENUTO
+   Layout a blocchi morbidi alternati
+   ===================================================== */
+.section {
+  width: 92%;
+  max-width: var(--max-width);
+  margin: 2.5rem auto;
+  padding: 2rem 2.2rem;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.section-alt {
+  background: var(--green-pastel);
+}
+
+.section h2 {
+  font-family: var(--font-heading);
+  color: var(--green-accent);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.section p {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.section ul {
+  max-width: 600px;
+  margin: auto;
+  padding-left: 1.2rem;
+}
+
+.section li {
+  margin-bottom: 0.5rem;
+}
+
+/* =====================================================
+   GRID INFO (per rendere sezioni più moderne)
+   ===================================================== */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.info-box {
+  background: var(--white);
+  padding: 1.4rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.info-box h3 {
+  color: var(--teal-accent);
+  margin-bottom: 0.6rem;
+  font-family: var(--font-heading);
+}
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+footer {
+  width: 100%;
+  margin-top: 4rem;
+  background: var(--green-pastel);
+  padding: 2rem;
+  text-align: center;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 900px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .nav-right {
+    justify-content: center;
+  }
+}
+
+
+
+
+
