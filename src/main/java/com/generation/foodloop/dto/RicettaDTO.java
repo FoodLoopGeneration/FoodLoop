@@ -38,7 +38,7 @@ public record RicettaDTO(
         descrizione = (descrizione == null) ? null : descrizione.trim();
     }
 
-    public RicettaDTO empty(){
+    public static  RicettaDTO empty(){
         return new RicettaDTO(null, null, null, null, null, null, null, null, null, null);
     }
 

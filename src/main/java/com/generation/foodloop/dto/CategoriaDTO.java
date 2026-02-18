@@ -16,7 +16,7 @@ public record CategoriaDTO(
         nome = (nome == null) ? null : nome.trim();
     }
 
-    public CategoriaDTO empty(){
+    public static CategoriaDTO empty(){
         return new CategoriaDTO(null, null, null);
     }
 

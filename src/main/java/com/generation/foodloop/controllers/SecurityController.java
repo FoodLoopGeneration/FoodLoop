@@ -1,10 +1,11 @@
 package com.generation.foodloop.controllers;
 
+
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+
 
 @Controller
-@RequestMapping("/ricette")
-public class RicettaController {
+public class SecurityController {
+
 
 }

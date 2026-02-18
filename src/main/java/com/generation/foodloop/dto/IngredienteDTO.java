@@ -39,7 +39,7 @@ public record IngredienteDTO(
         posizione = (posizione == null) ? null : posizione.trim();
     }
 
-    public IngredienteDTO empty(){
+    public static  IngredienteDTO empty(){
         return new IngredienteDTO(null, null, null, null, null, null, null, null);
     }
 
