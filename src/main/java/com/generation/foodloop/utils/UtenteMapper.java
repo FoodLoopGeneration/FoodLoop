@@ -9,7 +9,7 @@ import com.generation.foodloop.entities.Utente;
 public class UtenteMapper {
     public Utente toEntity(UtenteDTO dto){
         Utente u = new Utente();
-
+        updateEntity(dto, u);
         return u;
     }
 
