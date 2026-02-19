@@ -61,6 +61,10 @@
                     <small class="text-danger" th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}"></small>
                 </div>
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> origin/Alice
                 <div class="form-group">
                     <label for="ingredienti">Seleziona Ingredienti:</label>
                     <select multiple id="ingredienti" th:field="*{ingredienti}" class="form-select" size="8">
@@ -71,6 +75,39 @@
                     <small class="text-muted">Tieni premuto Ctrl (o Cmd) per selezioni multiple.</small>
                     <small class="text-danger" th:if="${#fields.hasErrors('ingredienti')}" th:errors="*{ingredienti}"></small>
                 </div>
+<<<<<<< HEAD
+=======
+=======
+        <!-- Tempo -->
+        <label>Tempo (minuti):
+            <input type="number" th:field="*{tempo}">
+            <small th:if="${#fields.hasErrors('tempo')}" th:errors="*{tempo}"></small>
+        </label><br>
+        <!-- Valutazione -->
+        <label>Valutazione:
+            <input type="number" min="1" max="5" th:field="*{valutazione}">
+            <small th:if="${#fields.hasErrors('valutazione')}" th:errors="*{valutazione}"></small>
+        </label><br>
+        <!-- Descrizione -->
+        <label>Descrizione:
+            <textarea th:field="*{descrizione}"></textarea>
+            <small th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}"></small>
+        </label><br>
+        <!-- Ingredienti -->
+        <label>Ingredienti:
+            <select multiple th:field="*{ingredienti}">
+                <option th:each="i : ${ingredienti}"
+                        th:value="${i.id}"
+                        th:text="${i.nome}">
+                </option>
+            </select>
+            <small th:if="${#fields.hasErrors('ingredienti')}" th:errors="*{ingredienti}"></small>
+        </label><br>
+        <button class="btn" type="submit">Salva</button>
+    </form>
+</div>
+>>>>>>> da8639d (Aggiornati form-dto)
+>>>>>>> origin/Alice
 
                 <div class="form-group">
                     <label for="valutazione">Valutazione Iniziale (1-5):</label>

@@ -15,7 +15,6 @@ import com.generation.foodloop.services.UtenteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-
 @Controller
 @RequestMapping("/register")
 @RequiredArgsConstructor

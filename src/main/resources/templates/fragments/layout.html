@@ -7,8 +7,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${title}">FoodLoop</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
     <script defer th:src="@{/js/app.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
     <link rel="icon" type="image/x-icon" th:href="@{/res/favicon.ico}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
@@ -35,6 +36,23 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             <span class="utente">
                 Ciao, <b sec:authentication="name"></b>
             </span>
+
+            <form th:action="@{/logout}" method="post">
+                <button class="nav-btn" type="submit">
+                    Logout
+                </button>
+            </form>
+
+        </div>
+
+    </nav>
+
+    <div th:replace="~{fragments/messaggi :: flashMessages}"></div>
+    <hr />
+
+</header>
+
+ 
             <!-- autenticati -->
             <span sec:authorize="isAuthenticated()">
                 <span class="utente">

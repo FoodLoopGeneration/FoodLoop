@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Login')}"></head>
+<head th:replace="~{fragments/layout :: head('Login')}">
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
+</head>
 <body>
     <header th:replace="~{fragments/layout :: navbar}"></header>
     <div class="container">
@@ -24,6 +26,7 @@
             </fieldset>
             <br>
             <button type="submit">Login</button>
+             <p class="login-footer">Nuovo utente? <a th:href="@{/register}">Registrati qui</a></p>
         </form>
         <p>Nuovo utente? <a th:href="@{/register}">Registrati qui</a></p>
     </div>
