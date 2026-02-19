@@ -35,7 +35,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             <span class="utente">
                 Ciao, <b sec:authentication="name"></b>
             </span>
-<<<<<<< HEAD
             <!-- autenticati -->
             <span sec:authorize="isAuthenticated()">
                 <span class="utente">
@@ -46,25 +45,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         <hr />
     </header>
     <!-- AREA AUTENTICATA -->
-=======
-
-            <form th:action="@{/logout}" method="post">
-                <button class="nav-btn" type="submit">
-                    Logout
-                </button>
-            </form>
-
-        </div>
-
-    </nav>
-
-    <div th:replace="~{fragments/messaggi :: flashMessages}"></div>
-    <hr />
-
-</header>
-
- 
->>>>>>> origin/Alice
 <div th:fragment="sidebar" sec:authorize="isAuthenticated()" class="layout-auth">
 
     <aside class="sidebar">
