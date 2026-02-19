@@ -2,6 +2,7 @@ package com.generation.foodloop.controllers;
 
 import java.util.Map;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.generation.foodloop.dto.CategoriaDTO;
+import com.generation.foodloop.entities.Utente;
 import com.generation.foodloop.services.CategoriaService;
 
 import jakarta.validation.Valid;
@@ -39,6 +41,7 @@ public class CategoriaController {
                          @ModelAttribute("categoriaDTO") CategoriaDTO dto,
                          BindingResult br,
                          Model model,
+                         Authentication auth,
                          RedirectAttributes ra) {
 
         // errori validazione standard
@@ -59,7 +62,8 @@ public class CategoriaController {
             return "ingredienti/form-dto";
         }
 
-        categoriaService.createFromDto(dto);
+        Utente user = (Utente) auth.getPrincipal();
+        categoriaService.createFromDto(dto,user);
 
         ra.addFlashAttribute("success",
                 "Categoria creata con successo");

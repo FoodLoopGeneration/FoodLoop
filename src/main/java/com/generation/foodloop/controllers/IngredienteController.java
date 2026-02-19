@@ -60,6 +60,7 @@ public class IngredienteController {
     public String create(@Valid @ModelAttribute("ingredienteDTO") IngredienteDTO dto,
                          BindingResult br,
                          Model model,
+                         Authentication auth,
                          RedirectAttributes ra) {
 
         if (br.hasErrors()) {
@@ -67,7 +68,8 @@ public class IngredienteController {
             return "ingredienti/form-dto";
         }
 
-        ingredienteService.createFromDto(dto);
+        Utente user = (Utente) auth.getPrincipal();
+        ingredienteService.createFromDto(dto,user);
         ra.addFlashAttribute("success", "Ingrediente creato con successo");
         return "redirect:/ingredienti";
     }

@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.generation.foodloop.dto.IngredienteDTO;
 import com.generation.foodloop.entities.Ingrediente;
+import com.generation.foodloop.entities.Utente;
 import com.generation.foodloop.repositories.IngredienteRepository;
 import com.generation.foodloop.utils.IngredienteMapper;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,13 +48,16 @@ public class IngredienteService extends GenericService<Long, Ingrediente, Ingred
         return getRepository().findAll();
     }
 
-    public boolean createFromDto(IngredienteDTO dto) {
+    @Transactional
+    public boolean createFromDto(IngredienteDTO dto, Utente autore) {
         log.info("Creazione Ingrediente da DTO");
         Ingrediente i = mapper.toEntity(dto);
+        i.setUtente(autore);
         getRepository().save(i);
         return true;
     }
 
+    @Transactional
     public boolean updateFromDto(Long id, IngredienteDTO dto) {
         log.info("Aggiornamento Ingrediente da DTO");
         Ingrediente i = getByIdOrNull(id);

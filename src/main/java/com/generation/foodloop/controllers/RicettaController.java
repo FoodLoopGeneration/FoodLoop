@@ -66,6 +66,7 @@ public class RicettaController {
     public String create(@Valid @ModelAttribute("ricettaDTO") RicettaDTO dto,
                          BindingResult br,
                          Model model,
+                         Authentication auth,
                          RedirectAttributes ra) {
         if (br.hasErrors()) {
             model.addAttribute("ingredienti", ingredienteService.getAll());
@@ -73,7 +74,8 @@ public class RicettaController {
             return "ricette/form-dto";
         }
         
-        ricettaService.createFromDto(dto);
+        Utente user = (Utente) auth.getPrincipal();
+        ricettaService.createFromDto(dto,user);
         ra.addFlashAttribute("success", "Ricetta creata con successo!");
         return "redirect:/ricette/mie";
     }

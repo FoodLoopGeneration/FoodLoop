@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.generation.foodloop.dto.RicettaDTO;
 import com.generation.foodloop.entities.Ricetta;
+import com.generation.foodloop.entities.Utente;
 import com.generation.foodloop.repositories.RicettaRepository;
 import com.generation.foodloop.utils.RicettaMapper;
 
@@ -47,10 +48,10 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
     }
 
     @Transactional
-    public boolean createFromDto(RicettaDTO dto) {
+    public boolean createFromDto(RicettaDTO dto, Utente autore) {
         log.info("Creazione Ricetta da DTO");
         Ricetta r = mapper.toEntity(dto);
-        
+        r.setUtente(autore);
         try {
             String fileName = fileStorageService.save(dto.foto());
             r.setFoto(fileName);
