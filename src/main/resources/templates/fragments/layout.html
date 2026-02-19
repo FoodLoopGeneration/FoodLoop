@@ -24,9 +24,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             <!-- autenticati -->
             <span sec:authorize="isAuthenticated()">
                 <span class="utente">
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit">Logout</button>
-                </form>
+                    <a th:href="@{/logout}">Esci</a>
             </span>
         </nav>
         <div th:replace="~{fragments/messaggi :: flashMessages}"></div>
