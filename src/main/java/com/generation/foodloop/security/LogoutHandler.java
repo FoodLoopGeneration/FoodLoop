@@ -26,7 +26,7 @@ public class LogoutHandler implements LogoutSuccessHandler {
         cookie.setPath("/");
         cookie.setMaxAge(0);
         response.addCookie(cookie);
-        response.sendRedirect("/");
+        response.sendRedirect("/login?logout=true");
 
     }
 }

@@ -17,15 +17,22 @@ public final class ApiRoutes {
     //USER
     public static final String[] USER_ENDPOINTS = {
         "/user/**",
+        "/ingredienti",
         "/ingredienti/**",
         "/ricette/**",
+        "/ricette",
         "/categoria/**"
     };
 
     //ADMIN
     public static final String[] ADMIN_ENDPOINTS = {
         "/admin/**",
-        "/gestione/**"
+        "/gestione/**",
+        "/ingredienti",
+        "/ingredienti/**",
+        "/ricette/**",
+        "/ricette",
+        "/categoria/**"
     };
 }
 
