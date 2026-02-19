@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.generation.foodloop.dto.CategoriaDTO;
 import com.generation.foodloop.entities.Categoria;
+import com.generation.foodloop.entities.Utente;
 import com.generation.foodloop.repositories.CategoriaRepository;
 import com.generation.foodloop.utils.CategoriaMapper;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -41,12 +43,15 @@ public class CategoriaService extends GenericService<Long, Categoria, CategoriaR
         return errors;
     }
 
-    public boolean createFromDto(CategoriaDTO dto){
+    @Transactional
+    public boolean createFromDto(CategoriaDTO dto, Utente autore){
         Categoria c = mapper.toEntity(dto);
+        c.setUtente(autore);
         getRepository().save(c);
         return true;
     }
 
+    @Transactional
     public boolean updateFromDto(Long id, CategoriaDTO dto){
         Categoria c = getByIdOrNull(id);
         if(c == null){
