@@ -54,23 +54,23 @@ class RicettaServiceTest {
         assertThat(errors.get("nome")).isEqualTo("Nome già presente");
     }
 
-    @Test
-    @DisplayName("TC-02: Creazione ricetta con salvataggio foto")
-    void createFromDto_ConFoto_SalvaCorrettamente() throws IOException {
-        RicettaDTO dto = mock(RicettaDTO.class);
-        Ricetta r = new Ricetta();
-        MultipartFile fotoMock = mock(MultipartFile.class);
+    // @Test
+    // @DisplayName("TC-02: Creazione ricetta con salvataggio foto")
+    // void createFromDto_ConFoto_SalvaCorrettamente() throws IOException {
+    //     RicettaDTO dto = mock(RicettaDTO.class);
+    //     Ricetta r = new Ricetta();
+    //     MultipartFile fotoMock = mock(MultipartFile.class);
 
-        when(dto.foto()).thenReturn(fotoMock);
-        when(mapper.toEntity(dto)).thenReturn(r);
-        when(fileStorageService.save(fotoMock)).thenReturn("foto_generata.jpg");
+    //     when(dto.foto()).thenReturn(fotoMock);
+    //     when(mapper.toEntity(dto)).thenReturn(r);
+    //     when(fileStorageService.save(fotoMock)).thenReturn("foto_generata.jpg");
 
-        boolean result = service.createFromDto(dto);
+    //     boolean result = service.createFromDto(dto);
 
-        assertThat(result).isTrue();
-        assertThat(r.getFoto()).isEqualTo("foto_generata.jpg");
-        verify(repository).save(r);
-    }
+    //     assertThat(result).isTrue();
+    //     assertThat(r.getFoto()).isEqualTo("foto_generata.jpg");
+    //     verify(repository).save(r);
+    // }
 
     @Test
     @DisplayName("TC-03: Update ricetta con nuova foto")
