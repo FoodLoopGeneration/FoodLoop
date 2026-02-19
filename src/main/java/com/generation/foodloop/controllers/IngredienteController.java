@@ -42,7 +42,7 @@ public class IngredienteController {
         model.addAttribute("utente", u);
         model.addAttribute("ingredienti", u.getIngredienti());
 
-        return "ingredienti/lista";
+        return "ingredienti/list";
     }
 
     // FORM CREATE
