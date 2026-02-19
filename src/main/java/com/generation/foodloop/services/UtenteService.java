@@ -21,17 +21,12 @@ public class UtenteService extends GenericService<Long, Utente, UtenteRepository
     private final UtenteMapper mapper;
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public Utente getByIdWithIngredienti(Long id) {
-        return getRepository().findWithIngredientiById(id)
-                .orElseThrow(() -> new RuntimeException("Utente non trovato con ID: " + id));
+    public Optional<Utente> findByEmail(String email) {
+        return getRepository().findByEmail(email);
     }
 
     public Optional<Utente> findById(Long id) {
         return getRepository().findById(id);
-    }
-
-    public Optional<Utente> findByEmail(String email) {
-        return getRepository().findByEmail(email);
     }
 
     @Transactional
@@ -43,12 +38,21 @@ public class UtenteService extends GenericService<Long, Utente, UtenteRepository
             return false;
         }
 
-        Utente u = mapper.toEntity(dto);
-        
-        u.setPassword(passwordEncoder.encode(dto.password()));
-        
-        getRepository().save(u);
-        log.info("Utente registrato con successo: {}", u.getEmail());
-        return true;
+        try {
+            Utente u = mapper.toEntity(dto);
+            u.setPassword(passwordEncoder.encode(dto.password()));
+            
+            Utente saved = getRepository().save(u);
+            log.info("Utente registrato con successo nel DB con ID: {}", saved.getId());
+            return true;
+        } catch (Exception e) {
+            log.error("Errore durante il salvataggio nel DB: ", e);
+            return false;
+        }
+    }
+
+    public Utente getByIdWithIngredienti(Long id) {
+        return getRepository().findWithIngredientiById(id)
+                .orElseThrow(() -> new RuntimeException("Utente non trovato con ID: " + id));
     }
 }

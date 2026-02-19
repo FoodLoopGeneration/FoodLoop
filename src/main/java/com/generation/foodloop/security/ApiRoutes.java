@@ -27,12 +27,7 @@ public final class ApiRoutes {
     //ADMIN
     public static final String[] ADMIN_ENDPOINTS = {
         "/admin/**",
-        "/gestione/**",
-        "/ingredienti",
-        "/ingredienti/**",
-        "/ricette/**",
-        "/ricette",
-        "/categoria/**"
+        "/gestione/**"
     };
 }
 
