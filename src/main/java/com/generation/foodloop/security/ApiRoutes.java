@@ -10,13 +10,16 @@ public final class ApiRoutes {
         "/login",
         "/css/**",
         "/js/**",
-        "/register"
+        "/register",
+        "/res/**"
     };
 
     //USER
     public static final String[] USER_ENDPOINTS = {
         "/user/**",
-        "/profilo/**"
+        "/ingredienti/**",
+        "/ricette/**",
+        "/categoria/**"
     };
 
     //ADMIN
