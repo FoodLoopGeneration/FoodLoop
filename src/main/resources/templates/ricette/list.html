@@ -1,47 +1,72 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Lista ricette')}"></head>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${titolo})}"></head>
 <body>
     <header th:replace="~{fragments/layout :: navbar}"></header>
     <div th:replace="~{fragments/layout :: sidebar}"></div>
-    <main>
-        <div class="container">
-            <h1>Ricette</h1>
-            <!-- Link per aggiungere una nuova ricetta -->
-            <p>
-                <a th:href="@{/ricette/new}" class="btn">Aggiungi una nuova ricetta</a>
-            </p>
-            <table>
-                <thead>
+    
+    <main class="container mt-4">
+        <h1 th:text="${titolo}">Titolo Pagina</h1>
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <a th:href="@{/ricette/new}" class="btn btn-primary">Aggiungi Nuova Ricetta</a>
+            
+            <div class="btn-group shadow-sm">
+                <a th:href="@{/ricette}" class="btn btn-light" th:classappend="${!isMieRicette} ? 'active fw-bold'">Tutte</a>
+                <a th:href="@{/ricette/mie}" class="btn btn-light" th:classappend="${isMieRicette} ? 'active fw-bold'">Le mie</a>
+            </div>
+        </div>
+
+        <div class="table-responsive shadow-sm rounded">
+            <table class="table table-hover align-middle bg-white">
+                <thead class="table-dark">
                     <tr>
+                        <th style="width: 100px;">Foto</th>
                         <th>Nome</th>
-                        <th>Foto</th>
                         <th>Difficoltà</th>
-                        <th>Tempo (min)</th>
-                        <th>Dettaglio</th>
+                        <th>Tempo</th>
+                        <th class="text-end">Azioni</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Nessuna ricetta -->
                     <tr th:if="${#lists.isEmpty(ricette)}">
-                        <td colspan="5">Nessuna ricetta presente.</td>
+                        <td colspan="5" class="text-center py-4">Nessuna ricetta trovata in questa sezione.</td>
                     </tr>
-                    <!-- Lista ricette -->
+                    
                     <tr th:each="r : ${ricette}">
-                        <td th:text="${r.nome}"></td>
-                        <td> <!--TODO-->
-                            <img th:src="@{${r.fotoUrl}}" alt="Foto ricetta" width="80" height="80">
-                        </td>
-                        <td th:text="${r.difficolta}"></td>
-                        <td th:text="${r.tempo}"></td>
                         <td>
-                            <a th:href="@{/ricette/{id}(id=${r.id})}">Visualizza dettaglio</a>
+                            <img th:src="@{${r.fotoUrl}}" alt="Foto" 
+                                 class="img-thumbnail" width="80" height="80" style="object-fit: cover;">
+                        </td>
+                        <td>
+                            <span th:text="${r.nome}" class="h6">Nome</span>
+                        </td>
+                        <td>
+                            <span class="badge rounded-pill bg-info text-dark" th:text="${r.difficolta}"></span>
+                        </td>
+                        <td>
+                            <span th:text="${r.tempo}"></span> min
+                        </td>
+                        <td class="text-end">
+                            <div class="btn-group btn-group-sm">
+                                <a th:href="@{/ricette/{id}(id=${r.id})}" class="btn btn-outline-primary">Dettagli</a>
+                                
+                                <th:block th:if="${isMieRicette}">
+                                    <a th:href="@{/ricette/{id}/edit(id=${r.id})}" class="btn btn-outline-warning">Modifica</a>
+                                    
+                                    <form th:action="@{/ricette/{id}/delete(id=${r.id})}" method="post" 
+                                          onsubmit="return confirm('Sei sicuro di voler eliminare questa ricetta?');" style="display:inline;">
+                                        <button type="submit" class="btn btn-outline-danger">Elimina</button>
+                                    </form>
+                                </th:block>
+                            </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </main>
+
     <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>
