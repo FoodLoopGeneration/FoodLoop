@@ -15,14 +15,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class LogoutHandler implements LogoutSuccessHandler {
-
+    
     @Value("${app.cookie.nome}")
     public String cookieName;
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
             @Nullable Authentication authentication) throws IOException, ServletException {
-
+        
         Cookie cookie = new Cookie(cookieName, null);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
@@ -32,6 +32,7 @@ public class LogoutHandler implements LogoutSuccessHandler {
         if (request.getSession() != null) {
             request.getSession().invalidate();
         }
+
         SecurityContextHolder.clearContext();
 
         response.sendRedirect("/login?logout=true");

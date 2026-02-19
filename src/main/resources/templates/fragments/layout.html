@@ -52,6 +52,16 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 </header>
 
  
+            <!-- autenticati -->
+            <span sec:authorize="isAuthenticated()">
+                <span class="utente">
+                    <a th:href="@{/logout}">Esci</a>
+            </span>
+        </nav>
+        <div th:replace="~{fragments/messaggi :: flashMessages}"></div>
+        <hr />
+    </header>
+    <!-- AREA AUTENTICATA -->
 <div th:fragment="sidebar" sec:authorize="isAuthenticated()" class="layout-auth">
 
     <aside class="sidebar">
