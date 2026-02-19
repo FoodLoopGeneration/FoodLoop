@@ -9,18 +9,33 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <title th:text="${title}">FoodLoop</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <script defer th:src="@{/js/app.js}"></script>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" th:href="@{/res/favicon.ico}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <header th:fragment="navbar">
-        <nav>
-            <a th:href="@{/}">Home</a>
-            <!-- NON autenticati -->
-            <span sec:authorize="isAnonymous()">
-                <a th:href="@{/login}">Login</a>
-                <a th:href="@{/register}">Registrati</a>
+
+    <nav class="navbar">
+
+        <!-- SINISTRA -->
+        <div class="nav-left">
+            <a th:href="@{/}" class="nav-logo">Home</a>
+        </div>
+
+        <!-- DESTRA NON AUTENTICATI -->
+        <div class="nav-right" sec:authorize="isAnonymous()">
+            <a th:href="@{/login}" class="nav-link">Login</a>
+            <a th:href="@{/register}" class="nav-btn">Registrati</a>
+        </div>
+
+        <!-- DESTRA AUTENTICATI -->
+        <div class="nav-right" sec:authorize="isAuthenticated()">
+
+            <span class="utente">
+                Ciao, <b sec:authentication="name"></b>
             </span>
+<<<<<<< HEAD
             <!-- autenticati -->
             <span sec:authorize="isAuthenticated()">
                 <span class="utente">
@@ -31,9 +46,27 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         <hr />
     </header>
     <!-- AREA AUTENTICATA -->
+=======
+
+            <form th:action="@{/logout}" method="post">
+                <button class="nav-btn" type="submit">
+                    Logout
+                </button>
+            </form>
+
+        </div>
+
+    </nav>
+
+    <div th:replace="~{fragments/messaggi :: flashMessages}"></div>
+    <hr />
+
+</header>
+
+ 
+>>>>>>> origin/Alice
 <div th:fragment="sidebar" sec:authorize="isAuthenticated()" class="layout-auth">
 
-    <!-- SIDEBAR -->
     <aside class="sidebar">
 
         <div class="utente">

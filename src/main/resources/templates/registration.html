@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head('Registrazione - FoodLoop')}"></head>
 <body class="bg-light">
@@ -60,6 +61,75 @@
             </div>
         </div>
     </main>
+=======
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Registrazione nuovo utente')}"></head>
+<body>
+    <h2><a href="/">Home</a></h2>
+    <div>
+        <form th:action="@{/register}" th:object="${user}" method="post">
+            <fieldset>
+                <legend>Registrazione</legend>
+                <!-- Messaggio errore globale -->
+                <div>
+                    <p th:each="err : ${#fields.hasGlobalErrors()}" th:text="${err}" style="color:red"></p>
+                </div>
+                <!-- Nome -->
+                <label>
+                    Nome:
+                    <input type="text" th:field="*{nome}" required>
+                </label>
+                <div >
+                    <p th:errors="*{nome}"></p>
+                </div>
+                <br>
+                <!-- Cognome -->
+                <label>
+                    Cognome:
+                    <input type="text" th:field="*{cognome}" required>
+                </label>
+                <div>
+                    <p th:errors="*{cognome}"></p>
+                </div>
+                <br>
+                <!-- Email -->
+                <label>
+                    Email:
+                    <input type="email" th:field="*{email}" required>
+                </label>
+                <div th:if="${#fields.hasErrors('email')}" >
+                    <p th:errors="*{email}"></p>
+                </div>
+                <br>
+
+             <!-- Conferma Email -->
+                <label>
+                    Conferma Email:
+                    <input type="email" required>
+                </label>
+                <!-- <div th:if="${#fields.hasErrors('confermaEmail')}">
+                    <p th:errors="*{confermaEmail}"></p>
+                </div> -->
+                <br>
+                <!-- Password -->
+                <label>
+                    Password:
+                    <input type="password" th:field="*{password}" required>
+                </label>
+                <div th:if="${#fields.hasErrors('password')}" >
+                    <p th:errors="*{password}"></p>
+                </div>
+                <br>
+                <!-- Conferma Password -->
+                <label>
+                    Conferma Password:
+                    <input type="password" required>
+                </label>
+                <!-- <div th:if="${#fields.hasErrors('confermaPassword')}">
+                    <p th:errors="*{confermaPassword}"></p>
+                </div> -->
+                <br>
+>>>>>>> origin/Alice
 
     <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>

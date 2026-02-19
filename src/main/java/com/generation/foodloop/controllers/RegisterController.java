@@ -2,7 +2,10 @@ package com.generation.foodloop.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+<<<<<<< HEAD
 import org.springframework.validation.BindingResult;
+=======
+>>>>>>> origin/Alice
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +18,8 @@ import com.generation.foodloop.services.UtenteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import com.generation.foodloop.dto.UtenteDTO;
+
 @Controller
 @RequestMapping("/register")
 @RequiredArgsConstructor
@@ -23,8 +28,16 @@ public class RegisterController {
     private final UtenteService utenteService;
 
     @GetMapping
+<<<<<<< HEAD
     public String registerPage(Model model) {
         model.addAttribute("utenteDTO", UtenteDTO.empty());
+=======
+    public String registerPage(Model model){
+        UtenteDTO user = UtenteDTO.empty(); 
+        
+        model.addAttribute("user", user);
+
+>>>>>>> origin/Alice
         return "registration";
     }
 
