@@ -1,35 +1,66 @@
 <!DOCTYPE html>
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Registrazione')}"></head>
-<body>
+<head th:replace="~{fragments/layout :: head('Registrazione - FoodLoop')}"></head>
+<body class="bg-light">
     <header th:replace="~{fragments/layout :: navbar}"></header>
-    <div class="container">
-        <h2>Registrati</h2>
-        <form th:action="@{/register}" th:object="${utenteDTO}" method="post">
-            <fieldset>
-                <label>Nome:</label><br>
-                <input type="text" th:field="*{nome}" required>
-                <p th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" style="color:red"></p>
-                <br>
 
-                <label>Cognome:</label><br>
-                <input type="text" th:field="*{cognome}" required>
-                <p th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}" style="color:red"></p>
-                <br>
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+                        <h2 class="text-center mb-4">Crea il tuo Account</h2>
+                        
+                        <form th:action="@{/register}" th:object="${utenteDTO}" method="post">
+                            
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome</label>
+                                <input type="text" th:field="*{nome}" id="nome" 
+                                       class="form-control" th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'" 
+                                       placeholder="Inserisci il tuo nome" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+                            </div>
 
-                <label>Email:</label><br>
-                <input type="email" th:field="*{email}" required>
-                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red"></p>
-                <br>
+                            <div class="mb-3">
+                                <label for="cognome" class="form-label">Cognome</label>
+                                <input type="text" th:field="*{cognome}" id="cognome" 
+                                       class="form-control" th:classappend="${#fields.hasErrors('cognome')} ? 'is-invalid'" 
+                                       placeholder="Inserisci il tuo cognome" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"></div>
+                            </div>
 
-                <label>Password:</label><br>
-                <input type="password" th:field="*{password}" required>
-                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red"></p>
-                <br>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" th:field="*{email}" id="email" 
+                                       class="form-control" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" 
+                                       placeholder="nome@esempio.it" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                            </div>
 
-                <button type="submit">Crea Account</button>
-            </fieldset>
-        </form>
-    </div>
+                            <div class="mb-4">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" th:field="*{password}" id="password" 
+                                       class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" 
+                                       placeholder="Minimo 8 caratteri" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">Registrati</button>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <p class="text-center mb-0">
+                                Hai già un account? <a th:href="@{/login}" class="text-decoration-none">Accedi qui</a>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>
