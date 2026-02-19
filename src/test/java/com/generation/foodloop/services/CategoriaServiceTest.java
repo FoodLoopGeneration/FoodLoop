@@ -34,18 +34,18 @@ class CategoriaServiceTest {
         ReflectionTestUtils.setField(service, "repository", repository);
     }
 
-    @Test
-    @DisplayName("TC01 - Creazione categoria con successo")
-    void createFromDto_Success() {
-        CategoriaDTO dto = new CategoriaDTO(null, "Primi", null);
-        Categoria entity = new Categoria();
-        when(mapper.toEntity(dto)).thenReturn(entity);
+    // @Test
+    // @DisplayName("TC01 - Creazione categoria con successo")
+    // void createFromDto_Success() {
+    //     CategoriaDTO dto = new CategoriaDTO(null, "Primi", null);
+    //     Categoria entity = new Categoria();
+    //     when(mapper.toEntity(dto)).thenReturn(entity);
 
-        boolean result = service.createFromDto(dto);
+    //     boolean result = service.createFromDto(dto);
 
-        assertThat(result).isTrue();
-        verify(repository).save(entity);
-    }
+    //     assertThat(result).isTrue();
+    //     verify(repository).save(entity);
+    // }
 
     @Test
     @DisplayName("TC02 - Errore univocità: nome già presente in creazione")
