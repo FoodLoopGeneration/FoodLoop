@@ -11,9 +11,7 @@
         <h1 th:text="${mode == 'create' ? 'Nuovo Ingrediente' : 'Modifica Ingrediente'}"></h1>
 
         <form th:object="${ingredienteDTO}"
-            th:action="${mode == 'create' ? '/ingredienti' : '/ingredienti/' + ingredienteDTO.id}" method="post">
-
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            th:action="@{/ingredienti}" method="post" th:if="${mode == 'create'}">
 
             <div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
                 <strong>Attenzione:</strong> Controlla i campi evidenziati.
@@ -36,7 +34,7 @@
 
             <label>Unità di Misura:
                 <select th:field="*{unitaMisura}">
-                    <option th:each="u : ${unitaMisure}" th:value="${u}" th:text="${u}"></option>
+                    <option th:each="u : ${T(com.generation.foodloop.entities.UnitaMisura).values()}" th:value="${u}" th:text="${u}"></option>
                 </select>
             </label><br>
 
@@ -46,12 +44,12 @@
             </label><br>
 
             <label>Categoria:
-                <select th:field="*{categoriaId}">
+                <select th:field="*{categoria}">
                     <option value="" disabled selected>-- Seleziona categoria --</option>
                     <option th:each="c : ${categorie}" th:value="${c.id}" th:text="${c.nome}">
                     </option>
                 </select>
-                <small th:if="${#fields.hasErrors('categoriaId')}" th:errors="*{categoriaId}" style="color:red"></small>
+                <small th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}" style="color:red"></small>
             </label><br>
 
             <button class="btn" type="submit"
@@ -68,7 +66,53 @@
                 </label>
                 <button class="btn" type="submit">Crea Categoria</button>
             </form>
-        </div>
+            <form th:object="${ingredienteDTO}"
+            th:action="@{/ingredienti/{id}(id = ${ingredienteDTO.id})}" method="post" th:if="${mode == 'edit'}">
+
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
+                <strong>Attenzione:</strong> Controlla i campi evidenziati.
+            </div>
+
+            <label>Nome:
+                <input type="text" th:field="*{nome}" placeholder="Esempio: Farina">
+                <small th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" style="color:red"></small>
+            </label><br>
+
+            <label>Scadenza:
+                <input type="date" th:field="*{scadenza}">
+                <small th:if="${#fields.hasErrors('scadenza')}" th:errors="*{scadenza}" style="color:red"></small>
+            </label><br>
+
+            <label>Quantità:
+                <input type="number" step="0.1" th:field="*{quantita}">
+                <small th:if="${#fields.hasErrors('quantita')}" th:errors="*{quantita}" style="color:red"></small>
+            </label><br>
+
+            <label>Unità di Misura:
+                <select th:field="*{unitaMisura}">
+                    <option value="" disabled selected>-- Seleziona unita di misura --</option>
+                    <option th:each="u : ${unitaMisura}" th:value="${u}" th:text="${u}"></option>
+                </select>
+            </label><br>
+
+            <label>Posizione:
+                <input type="text" th:field="*{posizione}" placeholder="Esempio: Dispensa">
+                <small th:if="${#fields.hasErrors('posizione')}" th:errors="*{posizione}" style="color:red"></small>
+            </label><br>
+
+            <label>Categoria:
+                <select th:field="*{categoria}">
+                    <option value="" disabled selected>-- Seleziona categoria --</option>
+                    <option th:each="c : ${categorie}" th:value="${c.id}" th:text="${c.nome}">
+                    </option>
+                </select>
+                <small th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}" style="color:red"></small>
+            </label><br>
+
+            <button class="btn" type="submit"
+                th:text="${mode == 'create' ? 'Crea Ingrediente' : 'Salva Modifiche'}"></button>
+        </form>
+
     </div>
 </body>
 

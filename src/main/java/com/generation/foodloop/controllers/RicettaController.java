@@ -35,7 +35,7 @@ public class RicettaController {
         model.addAttribute("ricette",
                 ricettaService.getAll());
 
-        return "ricette/lista";
+        return "ricette/list";
     }
 
     //ricette legate all'id utente
@@ -48,7 +48,7 @@ public class RicettaController {
         model.addAttribute("ricette",
                 ricettaService.getByUtente(user.getId()));
 
-        return "ricette/lista-mie";
+        return "ricette/list";
     }
 
     //dettagli su id ricetta
@@ -65,7 +65,7 @@ public class RicettaController {
             return "redirect:/ricette";
         }
         model.addAttribute("ricetta", ricetta);
-        return "ricette/dettaglio";
+        return "ricette/details";
     }
 
    //create
