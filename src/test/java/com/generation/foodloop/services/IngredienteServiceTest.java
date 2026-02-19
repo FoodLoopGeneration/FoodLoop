@@ -22,26 +22,29 @@ class IngredienteServiceTest {
 
     @Mock private IngredienteRepository repository;
     @Mock private IngredienteMapper mapper;
+    @Mock private com.generation.foodloop.services.CategoriaService categoriaService;
     private IngredienteService service;
 
     @BeforeEach
     void setUp() {
-        service = new IngredienteService(mapper);
+        service = new IngredienteService(mapper, categoriaService);
         ReflectionTestUtils.setField(service, "repository", repository);
     }
 
-    // @Test
-    // @DisplayName("TC01 - Creazione ingrediente con successo")
-    // void createFromDto_Success() {
-    //     IngredienteDTO dto = IngredienteDTO.empty();
-    //     Ingrediente entity = new Ingrediente();
-    //     when(mapper.toEntity(dto)).thenReturn(entity);
+    @Test
+    @DisplayName("TC01 - Creazione ingrediente con successo")
+    void createFromDto_Success() {
+        IngredienteDTO dto = IngredienteDTO.empty();
+        com.generation.foodloop.entities.Ingrediente entity = new com.generation.foodloop.entities.Ingrediente();
+        when(mapper.toEntity(dto)).thenReturn(entity);
 
-    //     boolean result = service.createFromDto(dto,);
+        com.generation.foodloop.entities.Utente autore = new com.generation.foodloop.entities.Utente();
 
-    //     assertThat(result).isTrue();
-    //     verify(repository).save(entity);
-    // }
+        boolean result = service.createFromDto(dto, autore);
+
+        assertThat(result).isTrue();
+        verify(repository).save(entity);
+    }
 
     @Test
     @DisplayName("TC02 - Errore univocità: ingrediente già presente in archivio")

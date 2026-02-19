@@ -25,7 +25,7 @@ class FileStorageServiceTest {
 
         assertThat(filename).isNotNull();
         assertThat(filename).contains("test.png");
-        Files.deleteIfExists(Paths.get("uploads/" + filename));
+        Files.deleteIfExists(Paths.get("src/main/resources/static/uploads/ricette/" + filename));
     }
 
     @Test
@@ -33,7 +33,7 @@ class FileStorageServiceTest {
     void saveFile_Empty() throws IOException {
         assertThat(service.save(null)).isNull();
         
-        MockMultipartFile emptyFile = new MockMultipartFile("foto", new byte[0]);
+        MockMultipartFile emptyFile = new MockMultipartFile("foto", "empty.png", "image/png", new byte[0]);
         assertThat(service.save(emptyFile)).isNull();
     }
 }

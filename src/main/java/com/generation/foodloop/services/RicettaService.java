@@ -2,13 +2,16 @@ package com.generation.foodloop.services;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
 import com.generation.foodloop.dto.RicettaDTO;
 import com.generation.foodloop.entities.Ricetta;
+import com.generation.foodloop.entities.Ingrediente;
 import com.generation.foodloop.entities.Utente;
 import com.generation.foodloop.repositories.RicettaRepository;
 import com.generation.foodloop.utils.RicettaMapper;
@@ -24,6 +27,7 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
 
     private final RicettaMapper mapper;
     private final FileStorageService fileStorageService;
+    private final IngredienteService ingredienteService;
 
     private String normNome(String nome) {
         return nome == null ? null : nome.trim().toUpperCase();
@@ -52,6 +56,14 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
         log.info("Creazione Ricetta da DTO");
         Ricetta r = mapper.toEntity(dto);
         r.setUtente(autore);
+        if (dto.ingredienti() != null && !dto.ingredienti().isEmpty()) {
+            Set<Ingrediente> fetched = new HashSet<>();
+            dto.ingredienti().forEach(i -> {
+                Ingrediente ing = ingredienteService.getByIdOrNull(i.getId());
+                if (ing != null) fetched.add(ing);
+            });
+            r.setIngredienti(fetched);
+        }
         try {
             String fileName = fileStorageService.save(dto.foto());
             r.setFoto(fileName);
@@ -71,8 +83,14 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
         if (r == null) {
             return false;
         }
-        
         mapper.updateEntity(dto, r);
+        if (dto.ingredienti() != null) {
+            r.getIngredienti().clear();
+            dto.ingredienti().forEach(i -> {
+                Ingrediente ing = ingredienteService.getByIdOrNull(i.getId());
+                if (ing != null) r.aggiungiIngrediente(ing);
+            });
+        }
         
         if (dto.foto() != null && !dto.foto().isEmpty()) {
             try {

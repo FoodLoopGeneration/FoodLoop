@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.generation.foodloop.dto.IngredienteDTO;
 import com.generation.foodloop.entities.Ingrediente;
 import com.generation.foodloop.entities.Utente;
+import com.generation.foodloop.entities.Categoria;
 import com.generation.foodloop.repositories.IngredienteRepository;
 import com.generation.foodloop.utils.IngredienteMapper;
 
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class IngredienteService extends GenericService<Long, Ingrediente, IngredienteRepository> {
     
     private final IngredienteMapper mapper;
+    private final CategoriaService categoriaService;
     private String normNome(String nome) {
         return nome == null ? null : nome.trim().toUpperCase();
     }
@@ -53,6 +55,10 @@ public class IngredienteService extends GenericService<Long, Ingrediente, Ingred
         log.info("Creazione Ingrediente da DTO");
         Ingrediente i = mapper.toEntity(dto);
         i.setUtente(autore);
+        if (dto.categoria() != null && dto.categoria().getId() != null) {
+            Categoria cat = categoriaService.getByIdOrNull(dto.categoria().getId());
+            if (cat != null) i.setCategoria(cat);
+        }
         getRepository().save(i);
         return true;
     }
@@ -65,6 +71,10 @@ public class IngredienteService extends GenericService<Long, Ingrediente, Ingred
             return false;
         }
         mapper.updateEntity(dto, i);
+        if (dto.categoria() != null && dto.categoria().getId() != null) {
+            Categoria cat = categoriaService.getByIdOrNull(dto.categoria().getId());
+            if (cat != null) i.setCategoria(cat);
+        }
         getRepository().save(i);
         return true;
     }
