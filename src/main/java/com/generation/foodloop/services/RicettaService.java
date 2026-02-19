@@ -12,6 +12,7 @@ import com.generation.foodloop.entities.Ricetta;
 import com.generation.foodloop.repositories.RicettaRepository;
 import com.generation.foodloop.utils.RicettaMapper;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,6 +46,7 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
         return errors;
     }
 
+    @Transactional
     public boolean createFromDto(RicettaDTO dto) {
         log.info("Creazione Ricetta da DTO");
         Ricetta r = mapper.toEntity(dto);
@@ -61,6 +63,7 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
         return true;
     }
 
+    @Transactional
     public boolean updateFromDto(Long id, RicettaDTO dto) {
         log.info("Aggiornamento Ricetta da DTO");
         Ricetta r = getByIdOrNull(id);
