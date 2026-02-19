@@ -1,6 +1,7 @@
 package com.generation.foodloop.services;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -68,6 +69,10 @@ public class CategoriaService extends GenericService<Long, Categoria, CategoriaR
     public CategoriaDTO getDTOById(Long id){
         Categoria c = getByIdOrNull(id);
         return c == null ? null : mapper.toDTO(c);
+    }
+
+    public List<Categoria> getByUtente(Long utenteId) {
+        return getRepository().findByUtenteId(utenteId);
     }
 
 }
