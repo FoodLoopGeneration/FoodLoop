@@ -62,14 +62,14 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="ingredientiId">Seleziona Ingredienti:</label>
-                    <select multiple id="ingredientiId" th:field="*{ingredientiId}" class="form-select" size="8">
+                    <label for="ingredienti">Seleziona Ingredienti:</label>
+                    <select multiple id="ingredienti" th:field="*{ingredienti}" class="form-select" size="8">
                         <option th:each="i : ${ingredienti}" 
                                 th:value="${i.id}" 
                                 th:text="${i.nome}">Ingrediente</option>
                     </select>
                     <small class="text-muted">Tieni premuto Ctrl (o Cmd) per selezioni multiple.</small>
-                    <small class="text-danger" th:if="${#fields.hasErrors('ingredientiId')}" th:errors="*{ingredientiId}"></small>
+                    <small class="text-danger" th:if="${#fields.hasErrors('ingredienti')}" th:errors="*{ingredienti}"></small>
                 </div>
 
                 <div class="form-group">

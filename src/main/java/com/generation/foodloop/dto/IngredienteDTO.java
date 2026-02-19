@@ -24,7 +24,7 @@ public record IngredienteDTO(
     @NotNull(message = "Quantità obbligatoria")
     Double quantita,
 
-    @NotBlank(message = "Unità di misura obbligatoria")
+    @NotNull(message = "Unità di misura obbligatoria")
     UnitaMisura unitaMisura,
 
     String posizione,
