@@ -1,0 +1,98 @@
+/* ==============================
+   LAYOUT CENTRATO - FOODLOOP
+============================== */
+
+/* 1. Forza il body a occupare l'altezza totale */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    background-color: #f8f9fa !important;
+}
+
+/* 2. Il main diventa un contenitore flessibile che centra il contenuto */
+main.container {
+    flex: 1; /* Prende tutto lo spazio tra header e footer */
+    display: flex;
+    align-items: center;    /* Centra verticalmente */
+    justify-content: center; /* Centra orizzontalmente */
+    width: 100%;
+}
+
+/* 3. Assicura che la Row di Bootstrap si allinei al centro */
+.row {
+    width: 100%;
+    justify-content: center !important;
+}
+
+/* 4. Stile della Card (Arrotondata e con ombra) */
+.card {
+    background: white;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    border: none !important;
+    width: 100%;
+}
+
+.card-body {
+    padding: 2.5rem !important;
+}
+
+/* 5. Titoli e Testi */
+h2 {
+    font-weight: 600;
+    color: #2e7d32; /* Verde FoodLoop */
+}
+
+.form-label {
+    font-weight: 600;
+    color: #444;
+}
+
+/* 6. Input personalizzati */
+.form-control {
+    padding: 10px 13px;
+    border: 1.5px solid #eee;
+    border-radius: 8px;
+}
+
+.form-control:focus {
+    border-color: #2e7d32;
+    background-color: #f9fff9;
+    box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.1);
+}
+
+/* 7. Bottone Arancione */
+.btn-primary {
+    background-color: #FF8C42 !important;
+    border-color: #FF8C42 !important;
+    border-radius: 50px;
+    padding: 12px;
+    font-weight: bold;
+    transition: transform 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #e67635 !important;
+    transform: scale(1.02);
+}
+
+/* 8. Link "Accedi qui" */
+a.text-decoration-none {
+    color: #2e7d32;
+    font-weight: 600;
+}
+
+a.text-decoration-none:hover {
+    text-decoration: underline !important;
+}
+
+
+/* Responsive */
+@media (max-width: 480px) {
+    .card-body {
+        padding: 1.5rem !important;
+    }
+}
+
