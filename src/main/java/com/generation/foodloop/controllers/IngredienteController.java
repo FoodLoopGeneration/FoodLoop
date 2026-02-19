@@ -1,5 +1,6 @@
 package com.generation.foodloop.controllers;
 
+import com.generation.foodloop.dto.CategoriaDTO;
 import com.generation.foodloop.dto.IngredienteDTO;
 import com.generation.foodloop.entities.Utente;
 import com.generation.foodloop.entities.UnitaMisura;
@@ -50,6 +51,7 @@ public class IngredienteController {
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("ingredienteDTO", IngredienteDTO.empty());
+        model.addAttribute("categoriaDTO", CategoriaDTO.empty());
         model.addAttribute("mode", "create");
         return "ingredienti/form-dto";
     }
