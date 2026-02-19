@@ -9,11 +9,18 @@
         <hr>
 
         <form th:object="${ingredienteDTO}"
+<<<<<<< HEAD
               th:action="${mode == 'create' ? @{/ingredienti} : @{/ingredienti/{id}(id=*{id})}}" 
               method="post" class="shadow-sm p-4 bg-light rounded">
 
             <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
                 <strong>Attenzione:</strong> Sono presenti errori di validazione.
+=======
+            th:action="@{/ingredienti}" method="post" th:if="${mode == 'create'}">
+
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
+                <strong>Attenzione:</strong> Controlla i campi evidenziati.
+>>>>>>> da8639d (Aggiornati form-dto)
             </div>
 
             <div class="mb-3">
@@ -48,6 +55,7 @@
                 <small class="text-danger" th:if="${#fields.hasErrors('posizione')}" th:errors="*{posizione}"></small>
             </div>
 
+<<<<<<< HEAD
             <div class="mb-3">
                 <label class="form-label fw-bold">Categoria:</label>
                 <div class="input-group">
@@ -63,6 +71,30 @@
                 <button class="btn btn-primary" type="submit" th:text="${mode == 'create' ? 'Crea Ingrediente' : 'Salva Modifiche'}"></button>
                 <a th:href="@{/ingredienti}" class="btn btn-secondary">Annulla</a>
             </div>
+=======
+            <label>Unità di Misura:
+                <select th:field="*{unitaMisura}">
+                    <option th:each="u : ${T(com.generation.foodloop.entities.UnitaMisura).values()}" th:value="${u}" th:text="${u}"></option>
+                </select>
+            </label><br>
+
+            <label>Posizione:
+                <input type="text" th:field="*{posizione}" placeholder="Esempio: Dispensa">
+                <small th:if="${#fields.hasErrors('posizione')}" th:errors="*{posizione}" style="color:red"></small>
+            </label><br>
+
+            <label>Categoria:
+                <select th:field="*{categoria}">
+                    <option value="" disabled selected>-- Seleziona categoria --</option>
+                    <option th:each="c : ${categorie}" th:value="${c.id}" th:text="${c.nome}">
+                    </option>
+                </select>
+                <small th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}" style="color:red"></small>
+            </label><br>
+
+            <button class="btn" type="submit"
+                th:text="${mode == 'create' ? 'Crea Ingrediente' : 'Salva Modifiche'}"></button>
+>>>>>>> da8639d (Aggiornati form-dto)
         </form>
 
         <div th:if="${mode == 'create'}" class="mt-5 p-4 border rounded bg-white">

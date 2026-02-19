@@ -28,9 +28,16 @@ public class RicettaController {
 
     @GetMapping
     public String lista(Model model) {
+<<<<<<< HEAD
         model.addAttribute("ricette", ricettaService.getAll());
         model.addAttribute("titolo", "Tutte le Ricette");
         model.addAttribute("isMieRicette", false);
+=======
+
+        model.addAttribute("ricette",
+                ricettaService.getAll());
+
+>>>>>>> da8639d (Aggiornati form-dto)
         return "ricette/list";
     }
 
