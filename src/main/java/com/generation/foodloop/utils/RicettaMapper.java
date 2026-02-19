@@ -15,8 +15,6 @@ public class RicettaMapper {
 
     public void updateEntity(RicettaDTO dto, Ricetta r){
         r.setId(dto.id());
-        r.setUtente(dto.utente());
-        r.setIngredienti(dto.ingredienti());
         r.setNome(dto.nome());
         r.setDifficolta(dto.difficolta());
         r.setPorzioni(dto.porzioni());

@@ -16,7 +16,6 @@ public class CategoriaMapper {
     public void updateEntity (CategoriaDTO dto, Categoria c){
         c.setId(dto.id());
         c.setNome(dto.nome());
-        c.setUtente(dto.utente());
     }
 
     public CategoriaDTO toDTO(Categoria c){
