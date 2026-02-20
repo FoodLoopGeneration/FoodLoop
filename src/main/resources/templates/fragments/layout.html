@@ -39,11 +39,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
                     + ' ' + #authentication.principal.cognome}"></b>
             </span>
 
-            <form th:action="@{/logout}" method="post">
-                <button class="nav-btn" type="submit">
-                    Logout
-                </button>
-            </form>
+            <a th:href="@{/logout}">Logout</a>
 
         </div>
 
