@@ -40,3 +40,9 @@ L'utente popola il sistema con i dati necessari per il calcolo delle ricette.
 2. **Creazione**: Compilazione form (Nome, Scadenza, Categoria).
 3. **Validazione**: Il sistema controlla se l'ingrediente è già presente per quell'utente (`uniqueErrorsForCreate`).
 4. **Salvataggio**: L'ingrediente viene associato all'ID dell'utente loggato.
+
+## Flusso 3: Creazione Ricetta con Upload
+1. **Compilazione**: Inserimento dati DTO e selezione file immagine.
+2. **Upload**: Il `FileStorageService` salva l'immagine su disco e restituisce il path.
+3. **Mappatura**: `RicettaMapper` converte il DTO in Entità.
+4. **Persistenza**: Salvataggio nel DB con riferimento al nome del file immagine.
