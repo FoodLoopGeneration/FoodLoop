@@ -25,7 +25,7 @@ class FileStorageServiceTest {
 
         assertThat(filename).isNotNull();
         assertThat(filename).contains("test.png");
-        Files.deleteIfExists(Paths.get("src/main/resources/static/uploads/ricette/" + filename));
+        Files.deleteIfExists(Paths.get("src/main/resources/static/up/ricette/" + filename));
     }
 
     @Test
