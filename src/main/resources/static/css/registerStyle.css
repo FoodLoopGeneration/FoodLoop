@@ -38,7 +38,7 @@
     color: #2e7d32;
     margin-bottom: 40px;
     font-weight: 700;
-    font-size: 2.2rem;
+    font-size: 2rem;
     width: 100%;
 }
 
@@ -97,7 +97,7 @@
     width: 100%;         
     background: #FF8C42;
     color: white;
-    padding: 18px;       
+    padding: 16px;       
     border: none;
     border-radius: 50px;
     font-weight: bold;
@@ -115,7 +115,7 @@
 /* Footer Link */
 .log {
     width: 100%;
-    margin-top: 30px;
+    margin-top: 10px;
     font-size: 15px;
 }
 
