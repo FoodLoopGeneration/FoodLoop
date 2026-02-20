@@ -21,9 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class IngredienteService extends GenericService<Long, Ingrediente, IngredienteRepository> {
-    
+
     private final IngredienteMapper mapper;
     private final CategoriaService categoriaService;
+
     private String normNome(String nome) {
         return nome == null ? null : nome.trim().toUpperCase();
     }
@@ -57,7 +58,8 @@ public class IngredienteService extends GenericService<Long, Ingrediente, Ingred
         i.setUtente(autore);
         if (dto.categoria() != null && dto.categoria().getId() != null) {
             Categoria cat = categoriaService.getByIdOrNull(dto.categoria().getId());
-            if (cat != null) i.setCategoria(cat);
+            if (cat != null)
+                i.setCategoria(cat);
         }
         getRepository().save(i);
         return true;
@@ -73,7 +75,8 @@ public class IngredienteService extends GenericService<Long, Ingrediente, Ingred
         mapper.updateEntity(dto, i);
         if (dto.categoria() != null && dto.categoria().getId() != null) {
             Categoria cat = categoriaService.getByIdOrNull(dto.categoria().getId());
-            if (cat != null) i.setCategoria(cat);
+            if (cat != null)
+                i.setCategoria(cat);
         }
         getRepository().save(i);
         return true;
@@ -92,5 +95,9 @@ public class IngredienteService extends GenericService<Long, Ingrediente, Ingred
     public IngredienteDTO getDTOById(Long id) {
         Ingrediente i = getByIdOrNull(id);
         return i == null ? null : mapper.toDTO(i);
+    }
+
+    public List<Ingrediente> getByUtente(Long utenteId) {
+        return getRepository().findByUtenteId(utenteId);
     }
 }

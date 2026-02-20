@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -60,7 +61,8 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
             Set<Ingrediente> fetched = new HashSet<>();
             dto.ingredienti().forEach(i -> {
                 Ingrediente ing = ingredienteService.getByIdOrNull(i.getId());
-                if (ing != null) fetched.add(ing);
+                if (ing != null)
+                    fetched.add(ing);
             });
             r.setIngredienti(fetched);
         }
@@ -71,7 +73,7 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
             log.warn("Errore nel salvataggio dell'immagine");
             throw new RuntimeException("Errore nel salvataggio dell'immagine: " + e.getMessage());
         }
-        
+
         getRepository().save(r);
         return true;
     }
@@ -88,10 +90,11 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
             r.getIngredienti().clear();
             dto.ingredienti().forEach(i -> {
                 Ingrediente ing = ingredienteService.getByIdOrNull(i.getId());
-                if (ing != null) r.aggiungiIngrediente(ing);
+                if (ing != null)
+                    r.aggiungiIngrediente(ing);
             });
         }
-        
+
         if (dto.foto() != null && !dto.foto().isEmpty()) {
             try {
                 String fileName = fileStorageService.save(dto.foto());
@@ -101,7 +104,7 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
                 throw new RuntimeException("Errore nell'aggiornamento dell'immagine: " + e.getMessage());
             }
         }
-        
+
         getRepository().save(r);
         return true;
     }
@@ -121,7 +124,8 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
     }
 
     public boolean belongsToUser(Long ricettaId, Long utenteId) {
-        if (ricettaId == null || utenteId == null) return false;
+        if (ricettaId == null || utenteId == null)
+            return false;
         return getRepository().existsByIdAndUtenteId(ricettaId, utenteId);
     }
 
@@ -135,5 +139,18 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
 
     public Ricetta getByIdWithIngredienti(Long id) {
         return getRepository().findWithIngredientiById(id).orElse(null);
+    }
+
+    public List<Ricetta> getSuggerimenti(Long utenteId) {
+        List<Ingrediente> dispensa = ingredienteService.getByUtente(utenteId);
+
+        Set<String> nomiInDispensa = dispensa.stream()
+                .map(i -> i.getNome().toUpperCase().trim())
+                .collect(Collectors.toSet());
+
+        return getRepository().findAll().stream()
+                .filter(ricetta -> ricetta.getIngredienti().stream()
+                        .allMatch(ing -> nomiInDispensa.contains(ing.getNome().toUpperCase().trim())))
+                .toList();
     }
 }
