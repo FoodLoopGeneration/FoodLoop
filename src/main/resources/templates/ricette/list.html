@@ -10,11 +10,7 @@
         
         <div class="d-flex justify-content-between align-items-center mb-4">
             <a th:href="@{/ricette/new}" class="btn btn-primary">Aggiungi Nuova Ricetta</a>
-            
-            <div class="btn-group shadow-sm">
-                <a th:href="@{/ricette}" class="btn btn-light" th:classappend="${!isMieRicette} ? 'active fw-bold'">Tutte</a>
-                <a th:href="@{/ricette/mie}" class="btn btn-light" th:classappend="${isMieRicette} ? 'active fw-bold'">Le mie</a>
-            </div>
+         
         </div>
 
         <div class="table-responsive shadow-sm rounded">

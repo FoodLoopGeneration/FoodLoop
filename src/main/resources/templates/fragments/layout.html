@@ -41,8 +41,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <aside th:fragment="sidebar" sec:authorize="isAuthenticated()" class="sidebar">
     <nav class="sidebar-nav">
-        <a th:href="@{/ricette}">Le mie ricette</a>
-        <a th:href="@{/esplora}">Tutte le ricette</a>
+        <a th:href="@{/ricette/mie}">Le mie ricette</a>
+        <a th:href="@{/ricette}">Tutte le ricette</a>
+        <a th:href="@{/ricette/suggerimenti}">Cosa cuciniamo oggi?</a>
     </nav>
 </aside>
 
