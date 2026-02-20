@@ -7,6 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.generation.foodloop.entities.Ingrediente;
 import com.generation.foodloop.entities.Utente;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 public record RicettaDTO(
@@ -17,14 +19,21 @@ public record RicettaDTO(
     
     MultipartFile foto,
 
+    @Min(value = 1, message = "Il valore minimo deve essere 1")
+    @Max(value = 5, message = "Il valore massimo deve essere 5")
     Integer difficolta,
 
+    @Min(value = 1, message = "Il valore minimo deve essere 1")
     Integer porzioni,
 
+    @Min(value = 1, message = "Il valore minimo deve essere 1")
     Integer tempo,
 
+    @Min(value = 1, message = "Il valore minimo deve essere 1")
+    @Max(value = 5, message = "Il valore massimo deve essere 5")
     Integer valutazione,
 
+    @NotBlank(message = "Descrizione obbligatoria")
     String descrizione,
 
     Utente utente,
