@@ -230,7 +230,14 @@ body {
     overflow: hidden;
     position: relative;
 }
-
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    padding: 5px 0; 
+    height: auto;
+    min-height: 20px;
+}
 .carousel-track {
     display: flex;
     gap: 15px;
@@ -244,7 +251,7 @@ body {
 .carousel-track img {
     flex: 0 0 auto;
     width: 80%;
-    height: 350px; 
+    height: 450px; 
     object-fit: cover;
     scroll-snap-align: center;
     border-radius: 18px;
