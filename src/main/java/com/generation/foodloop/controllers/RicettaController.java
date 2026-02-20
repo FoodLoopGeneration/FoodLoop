@@ -1,20 +1,30 @@
 package com.generation.foodloop.controllers;
 
+import java.util.List;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.generation.foodloop.dto.RicettaDTO;
+import com.generation.foodloop.entities.Ricetta;
 import com.generation.foodloop.entities.Utente;
 import com.generation.foodloop.services.IngredienteService;
 import com.generation.foodloop.services.RicettaService;
+import com.generation.foodloop.services.UtenteService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
 @Controller
@@ -24,6 +34,7 @@ public class RicettaController {
 
     private final RicettaService ricettaService;
     private final IngredienteService ingredienteService;
+    private final UtenteService utenteService;
 
 
     @GetMapping
@@ -140,4 +151,21 @@ public class RicettaController {
         ra.addFlashAttribute("success", ok ? "Ricetta eliminata" : "Errore eliminazione");
         return "redirect:/ricette/mie";
     }
+
+@GetMapping("/suggerimenti")
+public String suggerimenti(Model model,
+                           @AuthenticationPrincipal UserDetails userDetails) {
+
+    Utente utente = utenteService.findByEmail(userDetails.getUsername()).orElse(null);
+
+    List<Ricetta> suggerite = ricettaService.getSuggerimenti(utente.getId());
+
+    model.addAttribute("ricette", suggerite);
+    model.addAttribute("titolo", "Ricette che puoi cucinare ora");
+    model.addAttribute("isMieRicette", false);
+
+    return "ricette/list";
+}
+
+
 }
