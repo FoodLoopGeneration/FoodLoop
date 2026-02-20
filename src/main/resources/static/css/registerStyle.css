@@ -1,14 +1,12 @@
-/* ==============================
-   REGISTRATION PAGE - REFINEMENT
-============================== */
+/* REGISTRATION  */
 
-/* Contenitore principale (Main-register) */
+/* Contenitore principale  */
 .main-register {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: calc(100vh - 150px);
-    padding: 40px;
+    padding: 20px;
     background: #F4F8F5; 
 }
 
@@ -29,7 +27,7 @@
     font-weight: 700;
 }
 
-/* Gruppi di input (.labels nel tuo HTML) */
+/* Gruppi di input  */
 .labels {
     display: flex;
     flex-direction: column;
@@ -53,8 +51,8 @@
     border-radius: 8px;
     font-family: inherit;
     transition: all 0.3s ease;
-    background: #fdf2eb; /* Tonalità calda coerente con il tuo stile */
-    box-sizing: border-box; /* Importante per il padding */
+    background: #fdf2eb;
+    box-sizing: border-box; 
 }
 
 .labels input:focus {
@@ -95,7 +93,7 @@
     transform: translateY(-1px);
 }
 
-/* Footer Link (.log nel tuo HTML) */
+/* Footer Link */
 .log {
     display: block;           
     margin-top: 20px;
