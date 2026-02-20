@@ -3,65 +3,70 @@
 <head th:replace="~{fragments/layout :: head(${titolo})}"></head>
 <body>
     <header th:replace="~{fragments/layout :: navbar}"></header>
-    <div th:replace="~{fragments/layout :: sidebar}"></div>
     
-    <main class="container mt-4">
-        <h1 th:text="${titolo}">Titolo Pagina</h1>
+    <div class="page-container">
         
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <a th:href="@{/ricette/new}" class="btn btn-primary">Aggiungi Nuova Ricetta</a>
-         
-        </div>
+        <div th:replace="~{fragments/layout :: sidebar}"></div>
+        
+        <main class="main-content">
+            <div class="table-card">
+                
+                <div class="page-header">
+                    <h1 th:text="${titolo}">Titolo Pagina</h1>
+                    <a th:href="@{/ricette/new}" class="btn-primary" style="text-decoration: none; background: #2e7d32; color: white; padding: 12px 20px; border-radius: 12px; font-weight: 600;">
+                        Aggiungi Nuova Ricetta
+                    </a>
+                </div>
 
-        <div class="table-responsive shadow-sm rounded">
-            <table class="table table-hover align-middle bg-white">
-                <thead class="table-dark">
-                    <tr>
-                        <th style="width: 100px;">Foto</th>
-                        <th>Nome</th>
-                        <th>Difficoltà</th>
-                        <th>Tempo</th>
-                        <th class="text-end">Azioni</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:if="${#lists.isEmpty(ricette)}">
-                        <td colspan="5" class="text-center py-4">Nessuna ricetta trovata in questa sezione.</td>
-                    </tr>
-                    
-                    <tr th:each="r : ${ricette}">
-                        <td>
-                            <img th:src="@{${r?.foto}}" alt="Foto" 
-                                 class="img-thumbnail" width="80" height="80" style="object-fit: cover;">
-                        </td>
-                        <td>
-                            <span th:text="${r.nome}" class="h6">Nome</span>
-                        </td>
-                        <td>
-                            <span class="badge rounded-pill bg-info text-dark" th:text="${r.difficolta}"></span>
-                        </td>
-                        <td>
-                            <span th:text="${r.tempo}"></span> min
-                        </td>
-                        <td class="text-end">
-                            <div class="btn-group btn-group-sm">
-                                <a th:href="@{/ricette/{id}(id=${r.id})}" class="btn btn-outline-primary">Dettagli</a>
-                                
-                                <th:block th:if="${isMieRicette}">
-                                    <a th:href="@{/ricette/{id}/edit(id=${r.id})}" class="btn btn-outline-warning">Modifica</a>
+                <div class="table-responsive">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 100px;">Foto</th>
+                                <th>Nome</th>
+                                <th>Difficoltà</th>
+                                <th>Tempo</th>
+                                <th class="text-right">Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(ricette)}">
+                                <td colspan="5" class="text-center" style="padding: 50px; color: #888;">Nessuna ricetta trovata in questa sezione.</td>
+                            </tr>
+                            
+                            <tr th:each="r : ${ricette}">
+                                <td>
+                                    <img th:src="@{${r?.foto}}" alt="Foto" 
+                                         width="80" height="80" style="object-fit: cover; border-radius: 15px;">
+                                </td>
+                                <td class="name-cell">
+                                    <span th:text="${r.nome}">Nome</span>
+                                </td>
+                                <td>
+                                    <span class="category-badge" th:text="${r.difficolta}"></span>
+                                </td>
+                                <td>
+                                    <span th:text="${r.tempo}"></span> min
+                                </td>
+                                <td class="text-right">
+                                    <a th:href="@{/ricette/{id}(id=${r.id})}" class="edit-link" style="color: #2e7d32; margin-right: 15px;">Dettagli</a>
                                     
-                                    <form th:action="@{/ricette/{id}/delete(id=${r.id})}" method="post" 
-                                          onsubmit="return confirm('Sei sicuro di voler eliminare questa ricetta?');" style="display:inline;">
-                                        <button type="submit" class="btn btn-outline-danger">Elimina</button>
-                                    </form>
-                                </th:block>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </main>
+                                    <th:block th:if="${isMieRicette}">
+                                        <a th:href="@{/ricette/{id}/edit(id=${r.id})}" class="edit-link">Modifica</a>
+                                        
+                                        <form th:action="@{/ricette/{id}/delete(id=${r.id})}" method="post" 
+                                              onsubmit="return confirm('Sei sicuro di voler eliminare questa ricetta?');" style="display:inline; margin-left: 15px;">
+                                            <button type="submit" class="edit-link" style="background: none; border: none; cursor: pointer; color: #d32f2f;">Elimina</button>
+                                        </form>
+                                    </th:block>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
 
     <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
