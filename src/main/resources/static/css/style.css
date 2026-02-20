@@ -230,7 +230,14 @@ body {
     overflow: hidden;
     position: relative;
 }
-
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    padding: 5px 0; 
+    height: auto;
+    min-height: 20px;
+}
 .carousel-track {
     display: flex;
     gap: 15px;
@@ -244,7 +251,7 @@ body {
 .carousel-track img {
     flex: 0 0 auto;
     width: 80%;
-    height: 350px; 
+    height: 450px; 
     object-fit: cover;
     scroll-snap-align: center;
     border-radius: 18px;
@@ -410,4 +417,30 @@ body {
     }
 }
 
+.logout-btn:hover {
+    background-color: #fa5252;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 107, 107, 0.3);
+}
 
+/* --- STILE BOTTONE LOGOUT (Link trasformato in Bottone) --- */
+.logout-btn {
+    background-color: #ff6b6b; /* Rosso corallo morbido */
+    color: white !important;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+}
+
+.logout-btn:hover {
+    background-color: #fa5252;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(255, 107, 107, 0.3);
+}

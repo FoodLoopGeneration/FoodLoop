@@ -11,72 +11,44 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
     <link rel="stylesheet" th:href="@{/css/registerStyle.css}">
+    <link rel="stylesheet" th:href="@{/css/ingredienti.css}">
     <link rel="icon" type="image/x-icon" th:href="@{/res/favicon.ico}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <header th:fragment="navbar">
-
+<header th:fragment="navbar">
     <nav class="navbar">
-
-        <!-- SINISTRA -->
         <div class="nav-left">
             <a th:href="@{/}" class="nav-logo">Home</a>
         </div>
 
-        <!-- DESTRA NON AUTENTICATI -->
         <div class="nav-right" sec:authorize="isAnonymous()">
             <a th:href="@{/login}" class="nav-link">Login</a>
             <a th:href="@{/register}" class="nav-btn">Registrati</a>
         </div>
 
-        <!-- DESTRA AUTENTICATI -->
         <div class="nav-right" sec:authorize="isAuthenticated()">
-
             <span class="utente">
-                Ciao, <b th:text="${#authentication.principal.nome 
-                    + ' ' + #authentication.principal.cognome}"></b>
+                Ciao, <b th:text="${#authentication.principal.nome + ' ' + #authentication.principal.cognome}"></b>
             </span>
-
-            <a th:href="@{/logout}">Logout</a>
-
+            <a th:href="@{/ingredienti}" class="active">I miei ingredienti</a>
+            <a th:href="@{/logout}" class="nav-link">Logout</a>
         </div>
-
     </nav>
-
     <div th:replace="~{fragments/messaggi :: flashMessages}"></div>
-    <hr />
-
 </header>
 
- 
-            <!-- autenticati -->
-            <span sec:authorize="isAuthenticated()">
-                <span class="utente">
-                    <a th:href="@{/logout}">Esci</a>
-            </span>
-        </nav>
-        <div th:replace="~{fragments/messaggi :: flashMessages}"></div>
-        <hr />
-    </header>
-    <!-- AREA AUTENTICATA -->
-<div th:fragment="sidebar" sec:authorize="isAuthenticated()" class="layout-auth">
+<aside th:fragment="sidebar" sec:authorize="isAuthenticated()" class="sidebar">
+    <nav class="sidebar-nav">
+        <a th:href="@{/ricette}">Le mie ricette</a>
+        <a th:href="@{/esplora}">Tutte le ricette</a>
+    </nav>
+</aside>
 
-    <aside class="sidebar">
-
-        <div class="utente">
-            Ciao, <b sec:authentication="name"></b>
-        </div>
-
-        <a th:href="@{/ingredienti}">I miei ingredienti</a>
-        <a th:href="@{/ricette/mie}">Le mie ricette</a>
-        <a th:href="@{/ricette}">Tutte le ricette</a>
-        </aside>
-    <footer th:fragment="footer">
-        <hr />
-        <small>FoodLoop</small>
-    </footer>
+<footer th:fragment="footer">
+    <p>&copy; 2026 FoodLoop - Gestione Intelligente Dispensa</p>
+</footer>
 </body>
 
 </html>

@@ -96,8 +96,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 hiddenInput.id = "ingredientiString";
                 recipeForm.appendChild(hiddenInput);
             }
+            
             hiddenInput.value = idsString;
             console.log("Invio ID al backend:", idsString);
+
         });
     }
 });
