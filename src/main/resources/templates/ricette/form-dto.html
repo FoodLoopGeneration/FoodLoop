@@ -1,90 +1,72 @@
 <!DOCTYPE html>
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head(${mode == 'create' ? 'Nuova Ricetta' : 'Modifica Ricetta'})}"></head>
-<body>
+<body class="fl-body">
     <header th:replace="~{fragments/layout :: navbar}"></header>
     
-    <main class="container">
-        <section class="form-wrapper">
-            <h1 th:text="${mode == 'create' ? 'Nuova Ricetta' : 'Modifica Ricetta'}">Titolo</h1>
-            <hr>
+  <main class="main-content-wrapper">
+    <div class="form-card-custom">
+        <h1 th:text="${mode == 'create' ? 'Nuova Ricetta' : 'Modifica Ricetta'}"></h1>
 
-            <form th:object="${ricettaDTO}" 
-                  th:action="${mode == 'create'} ? @{/ricette} : @{/ricette/{id}(id=*{id})}" 
-                  method="post" 
-                  enctype="multipart/form-data">
+        <form th:object="${ricettaDTO}" 
+              th:action="${mode == 'create'} ? @{/ricette} : @{/ricette/{id}(id=*{id})}" 
+              method="post" 
+              enctype="multipart/form-data">
 
-                <input type="hidden" th:field="*{id}" th:if="${mode == 'edit'}">
-
-                <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-                    <strong>Attenzione:</strong> Sono presenti errori nel modulo. Controlla i campi evidenziati.
+            <div class="form-row-custom">
+                <div class="col-half field-group">
+                    <label>Nome Ricetta:</label>
+                    <input type="text" th:field="*{nome}" placeholder="Es. Pasta al forno">
                 </div>
-
-                <div class="form-group">
-                    <label for="nome">Nome della Ricetta:</label>
-                    <input type="text" id="nome" th:field="*{nome}" class="form-control" placeholder="Es. Carbonara">
-                    <small class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
+                <div class="col-half field-group">
+                    <label>Foto:</label>
+                    <input type="file" th:field="*{foto}">
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="foto">Foto della Ricetta:</label>
-                    <input type="file" id="foto" th:field="*{foto}" class="form-control">
-                    <small class="text-danger" th:if="${#fields.hasErrors('foto')}" th:errors="*{foto}"></small>
-                    <div th:if="${mode == 'edit'}" class="mt-2">
-                        <small>Lascia vuoto per mantenere la foto attuale.</small>
-                    </div>
+            <div class="form-row-custom">
+                <div class="col-third field-group">
+                    <label>Difficoltà (1-5):</label>
+                    <input type="number" th:field="*{difficolta}">
                 </div>
-
-                <div class="row">
-                    <div class="form-group col-md-4">
-                        <label for="difficolta">Difficoltà (1-5):</label>
-                        <input type="number" id="difficolta" min="1" max="5" th:field="*{difficolta}" class="form-control">
-                        <small class="text-danger" th:if="${#fields.hasErrors('difficolta')}" th:errors="*{difficolta}"></small>
-                    </div>
-
-                    <div class="form-group col-md-4">
-                        <label for="porzioni">Porzioni:</label>
-                        <input type="number" id="porzioni" th:field="*{porzioni}" class="form-control">
-                        <small class="text-danger" th:if="${#fields.hasErrors('porzioni')}" th:errors="*{porzioni}"></small>
-                    </div>
-
-                    <div class="form-group col-md-4">
-                        <label for="tempo">Tempo (minuti):</label>
-                        <input type="number" id="tempo" th:field="*{tempo}" class="form-control">
-                        <small class="text-danger" th:if="${#fields.hasErrors('tempo')}" th:errors="*{tempo}"></small>
-                    </div>
+                <div class="col-third field-group">
+                    <label>Porzioni:</label>
+                    <input type="number" th:field="*{porzioni}">
                 </div>
-
-                <div class="form-group">
-                    <label for="descrizione">Procedimento:</label>
-                    <textarea id="descrizione" th:field="*{descrizione}" class="form-control" rows="5" placeholder="Descrivi i passaggi..."></textarea>
-                    <small class="text-danger" th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}"></small>
+                <div class="col-third field-group">
+                    <label>Tempo (min):</label>
+                    <input type="number" th:field="*{tempo}">
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="ingredienti">Seleziona Ingredienti:</label>
-                    <select multiple id="ingredienti" th:field="*{ingredienti}" class="form-select" size="8">
-                        <option th:each="i : ${ingredienti}" 
-                                th:value="${i.id}" 
-                                th:text="${i.nome}">Ingrediente</option>
+            <div class="field-group">
+                <label>Procedimento:</label>
+                <textarea th:field="*{descrizione}" rows="5"></textarea>
+            </div>
+
+            <div class="form-row-custom">
+                <div class="col-half field-group">
+                    <label>Ingredienti:</label>
+                    <select multiple th:field="*{ingredienti}" style="height: 150px;">
+                        <option th:each="i : ${ingredienti}" th:value="${i.id}" th:text="${i.nome}"></option>
                     </select>
-                    <small class="text-muted">Tieni premuto Ctrl (o Cmd) per selezioni multiple.</small>
-                    <small class="text-danger" th:if="${#fields.hasErrors('ingredienti')}" th:errors="*{ingredienti}"></small>
                 </div>
+                <div class="col-half field-group">
+                    <label>Valutazione:</label>
+                    <input type="number" th:field="*{valutazione}">
+                    <div class="suggerimento-box" style="margin-top: 15px; padding: 15px; background: #f9fff9; border: 1px dashed #2e7d32; border-radius: 12px;">
+                        <small style="color: #2e7d32;">Controlla bene la tua dispensa prima di pubblicare!</small>
+                    </div>
+                </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="valutazione">Valutazione Iniziale (1-5):</label>
-                    <input type="number" id="valutazione" min="1" max="5" th:field="*{valutazione}" class="form-control">
-                    <small class="text-danger" th:if="${#fields.hasErrors('valutazione')}" th:errors="*{valutazione}"></small>
-                </div>
-
-                <div class="form-actions mt-4">
-                    <button type="submit" class="btn btn-primary" th:text="${mode == 'create' ? 'Pubblica Ricetta' : 'Salva Modifiche'}"></button>
-                    <a th:href="@{/ricette/mie}" class="btn btn-secondary">Annulla</a>
-                </div>
-            </form>
-        </section>
-    </main>
+            <div class="actions-container">
+                <button type="submit" class="btn-submit-custom">Salva Ricetta</button>
+                <a th:href="@{/ricette/mie}" class="btn-cancel-custom">Annulla e torna indietro</a>
+            </div>
+        </form>
+    </div>
+</main>
 
     <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
