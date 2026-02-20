@@ -28,8 +28,8 @@ public class CategoriaService extends GenericService<Long, Categoria, CategoriaR
     public Map<String, String> uniqueErrorsForCreate(CategoriaDTO dto){
         Map<String, String> errors = new HashMap<>();
         String nome = normNome(dto.nome());
-        if(nome != null && getRepository().existsByNome(nome)){
-            errors.put("nome", "Nome già presente");
+        if(nome == null){
+            errors.put("nome", "il campo nome non può essere vuoto");
         }
         return errors;
     }
