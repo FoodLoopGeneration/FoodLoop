@@ -32,8 +32,8 @@ public class IngredienteService extends GenericService<Long, Ingrediente, Ingred
     public Map<String, String> uniqueErrorsForCreate(IngredienteDTO dto) {
         Map<String, String> errors = new HashMap<>();
         String nome = normNome(dto.nome());
-        if (nome != null && getRepository().existsByNome(nome)) {
-            errors.put("nome", "Ingrediente già presente in archivio");
+        if (nome == null) {
+            errors.put("nome", "Il campo nome non può essere vuoto");
         }
         return errors;
     }
@@ -41,8 +41,8 @@ public class IngredienteService extends GenericService<Long, Ingrediente, Ingred
     public Map<String, String> uniqueErrorsForUpdate(Long id, IngredienteDTO dto) {
         Map<String, String> errors = new HashMap<>();
         String nome = normNome(dto.nome());
-        if (nome != null && getRepository().existsByNomeAndIdNot(nome, id)) {
-            errors.put("nome", "Il nome scelto è già utilizzato da un altro ingrediente");
+        if (nome == null) {
+            errors.put("nome", "Il campo nome non può essere vuoto");
         }
         return errors;
     }
