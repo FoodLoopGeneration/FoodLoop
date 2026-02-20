@@ -10,6 +10,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <script defer th:src="@{/js/app.js}"></script>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
+    <link rel="stylesheet" th:href="@{/css/registerStyle.css}">
     <link rel="icon" type="image/x-icon" th:href="@{/res/favicon.ico}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
@@ -34,7 +35,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
         <div class="nav-right" sec:authorize="isAuthenticated()">
 
             <span class="utente">
-                Ciao, <b sec:authentication="name"></b>
+                Ciao, <b th:text="${#authentication.principal.nome 
+                    + ' ' + #authentication.principal.cognome}"></b>
             </span>
 
             <form th:action="@{/logout}" method="post">

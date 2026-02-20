@@ -1,98 +1,127 @@
-/* ==============================
-   LAYOUT CENTRATO - FOODLOOP
-============================== */
+/* REGISTRATION  */
 
-/* 1. Forza il body a occupare l'altezza totale */
-body {
-    min-height: 100vh;
+/* Contenitore principale  */
+.main-register {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 150px);
+    padding: 20px;
+    background: #F4F8F5; 
+}
+
+/* Card del Form */
+.form-register {
+    background: white;
+    width: 100%;
+    max-width: 450px;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.form-register h2 {
+    color: #2e7d32;
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+/* Gruppi di input  */
+.labels {
     display: flex;
     flex-direction: column;
-    margin: 0;
-    background-color: #f8f9fa !important;
-}
-
-/* 2. Il main diventa un contenitore flessibile che centra il contenuto */
-main.container {
-    flex: 1; /* Prende tutto lo spazio tra header e footer */
-    display: flex;
-    align-items: center;    /* Centra verticalmente */
-    justify-content: center; /* Centra orizzontalmente */
+    align-items: flex-start;
+    text-align: left;
     width: 100%;
+    margin-bottom: 20px;
 }
 
-/* 3. Assicura che la Row di Bootstrap si allinei al centro */
-.row {
-    width: 100%;
-    justify-content: center !important;
-}
-
-/* 4. Stile della Card (Arrotondata e con ombra) */
-.card {
-    background: white;
-    border-radius: 20px !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
-    border: none !important;
-    width: 100%;
-}
-
-.card-body {
-    padding: 2.5rem !important;
-}
-
-/* 5. Titoli e Testi */
-h2 {
-    font-weight: 600;
-    color: #2e7d32; /* Verde FoodLoop */
-}
-
-.form-label {
-    font-weight: 600;
+.labels label {
+    font-size: 16px;
     color: #444;
+    font-weight: 600;
+    margin-bottom: 8px;
 }
 
-/* 6. Input personalizzati */
-.form-control {
-    padding: 10px 13px;
+.labels input {
+    width: 100%;
+    padding: 12px 15px;     
     border: 1.5px solid #eee;
     border-radius: 8px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+    background: #fdf2eb;
+    box-sizing: border-box; 
 }
 
-.form-control:focus {
+.labels input:focus {
+    outline: none;
     border-color: #2e7d32;
     background-color: #f9fff9;
-    box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.1);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
 }
 
-/* 7. Bottone Arancione */
-.btn-primary {
-    background-color: #FF8C42 !important;
-    border-color: #FF8C42 !important;
+/* Messaggi di errore Thymeleaf */
+.invalid-feedback {
+    color: #d32f2f;
+    font-size: 13px;
+    margin-top: 5px;
+    font-weight: 500;
+}
+
+/* Bottone Registrati (.botton nel tuo HTML) */
+.botton {
+    margin-top: 10px;
+}
+
+.botton button {
+    width: 100%;
+    background: #FF8C42;
+    color: white;
+    padding: 14px;
+    border: none;
     border-radius: 50px;
-    padding: 12px;
     font-weight: bold;
-    transition: transform 0.2s;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
 }
 
-.btn-primary:hover {
-    background-color: #e67635 !important;
-    transform: scale(1.02);
+.botton button:hover {
+    background: #e67e3a;
+    transform: translateY(-1px);
 }
 
-/* 8. Link "Accedi qui" */
-a.text-decoration-none {
+/* Footer Link */
+.log {
+    display: block;           
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666;
+}
+
+.log a {
     color: #2e7d32;
+    text-decoration: none;
     font-weight: 600;
+    transition: color 0.3s;
 }
 
-a.text-decoration-none:hover {
-    text-decoration: underline !important;
+.log a:hover {
+    text-decoration: underline;
 }
-
 
 /* Responsive */
 @media (max-width: 480px) {
-    .card-body {
-        padding: 1.5rem !important;
+    .form-register {
+        padding: 2rem 1.5rem;
+    }
+    
+    .main-register {
+        padding: 20px;
     }
 }
+
+
 

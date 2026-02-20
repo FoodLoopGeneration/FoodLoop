@@ -1,6 +1,4 @@
-/* ==============================
-   LOGIN PAGE - REFINEMENT
-============================== */
+/* LOGIN PAGE */
 
 /* Contenitore principale */
 body > div {
@@ -8,7 +6,7 @@ body > div {
     justify-content: center;
     align-items: center;
     min-height: calc(100vh - 150px);
-    padding: 40px;
+    padding: 20px;
 }
 
 /* Card del Form */
@@ -57,6 +55,7 @@ input {
     border-radius: 8px;
     font-family: inherit;
     transition: border-color 0.3s;
+    background: #f6dac9;
 }
 
 input:focus {

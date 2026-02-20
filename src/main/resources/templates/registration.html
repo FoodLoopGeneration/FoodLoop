@@ -1,66 +1,59 @@
 <!DOCTYPE html>
 <html lang="it" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head('Registrazione - FoodLoop')}"></head>
-<body class="bg-light">
+<body>
     <header th:replace="~{fragments/layout :: navbar}"></header>
 
-    <main class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body p-4">
-                        <h2 class="text-center mb-4">Crea il tuo Account</h2>
-                        
-                        <form th:action="@{/register}" th:object="${utenteDTO}" method="post">
-                            
-                            <div class="mb-3">
-                                <label for="nome" class="form-label">Nome</label>
-                                <input type="text" th:field="*{nome}" id="nome" 
-                                       class="form-control" th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'" 
-                                       placeholder="Inserisci il tuo nome" required>
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="cognome" class="form-label">Cognome</label>
-                                <input type="text" th:field="*{cognome}" id="cognome" 
-                                       class="form-control" th:classappend="${#fields.hasErrors('cognome')} ? 'is-invalid'" 
-                                       placeholder="Inserisci il tuo cognome" required>
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"></div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" th:field="*{email}" id="email" 
-                                       class="form-control" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" 
-                                       placeholder="nome@esempio.it" required>
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-                            </div>
-
-                            <div class="mb-4">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" th:field="*{password}" id="password" 
-                                       class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" 
-                                       placeholder="Minimo 8 caratteri" required>
-                                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-                            </div>
-
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary btn-lg">Registrati</button>
-                            </div>
-
-                            <hr class="my-4">
-
-                            <p class="text-center mb-0">
-                                Hai già un account? <a th:href="@{/login}" class="text-decoration-none">Accedi qui</a>
-                            </p>
-                        </form>
-                    </div>
+    <main class="main-register">
+        <div class="form-register">
+            <h2>Crea il tuo Account</h2>
+            
+            <form th:action="@{/register}" th:object="${utenteDTO}" method="post">
+                
+                <div class="labels">
+                    <label for="nome">Nome</label>
+                    <input type="text" th:field="*{nome}" id="nome" 
+                           th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'" 
+                           placeholder="Inserisci il tuo nome" required>
+                    <span class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
                 </div>
-            </div>
+
+                <div class="labels">
+                    <label for="cognome">Cognome</label>
+                    <input type="text" th:field="*{cognome}" id="cognome" 
+                           th:classappend="${#fields.hasErrors('cognome')} ? 'is-invalid'" 
+                           placeholder="Inserisci il tuo cognome" required>
+                    <span class="invalid-feedback" th:if="${#fields.hasErrors('cognome')}" th:errors="*{cognome}"></span>
+                </div>
+
+                <div class="labels">
+                    <label for="email">Email</label>
+                    <input type="email" th:field="*{email}" id="email" 
+                           th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" 
+                           placeholder="nome@esempio.it" required>
+                    <span class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                </div>
+
+                <div class="labels">
+                    <label for="password">Password</label>
+                    <input type="password" th:field="*{password}" id="password" 
+                           th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" 
+                           placeholder="Minimo 8 caratteri" required>
+                    <span class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+                </div>
+
+                <div class="botton">
+                    <button type="submit">Registrati</button>
+                </div>
+
+                <div class="log">
+                    <p>Hai già un account? <a th:href="@{/login}">Accedi qui</a></p>
+                </div>
+            </form>
         </div>
     </main>
 
     <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>
+
