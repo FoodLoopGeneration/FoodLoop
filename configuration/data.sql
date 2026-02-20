@@ -1,4 +1,5 @@
 -- Inserimento Ruoli (se non esistono)
+use Food;
 INSERT IGNORE INTO ruoli (id, nome) VALUES (1, 'ADM');
 INSERT IGNORE INTO ruoli (id, nome) VALUES (2, 'USR');
 
