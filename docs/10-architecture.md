@@ -13,6 +13,8 @@
 
     * RicettaController – esposizione delle API per la gestione delle ricette
 
+    * CategoriaController - esposizione delle API per la gestione delle categorie per gli ingredienti
+
 I controller rappresentano il livello di ingresso dell’applicazione.
 Gestiscono esclusivamente gli aspetti HTTP (routing, request/response) e delegano completamente la logica applicativa ai service.
 Non contengono logica di business né accedono direttamente al livello di persistenza.
@@ -102,7 +104,7 @@ Consentono di:
 
     * UserPasswordAuthProvider – provider per l’autenticazione username/password
 
-    * Questo package gestisce tutti gli aspetti legati alla sicurezza dell’applicazione, inclusi autenticazione, autorizzazione e protezione delle API.
+    Questo package gestisce tutti gli aspetti legati alla sicurezza dell’applicazione, inclusi autenticazione, autorizzazione e protezione delle API.
 
 - `config/` (profili, bean, init)
 
@@ -115,6 +117,7 @@ Consentono di:
 Il package contiene configurazioni infrastrutturali e bean condivisi, separati dalla logica applicativa.
 
 ## Pattern minimi
+
 - Controller “thin”, Service “fat”
 
 I controller si limitano alla gestione delle request HTTP, mentre tutta la logica di business risiede nei service.
@@ -129,6 +132,7 @@ Il mapping tra entity e DTO è esplicito (manuale o tramite mapper dedicato).
 Le entity non vengono mai esposte direttamente verso l’esterno.
 
 ## Diagramma a livelli
+
 L’applicazione segue un flusso a livelli con dipendenze unidirezionali:
 
 Controller → Service → Repository → MySQL
