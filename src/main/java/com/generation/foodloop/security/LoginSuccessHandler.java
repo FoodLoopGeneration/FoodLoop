@@ -32,7 +32,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         cookie.setPath("/");
         cookie.setMaxAge(cookieMaxAge);
         response.addCookie(cookie);
-        response.sendRedirect("/");
+        response.sendRedirect("/ingredienti");
 
     }
 

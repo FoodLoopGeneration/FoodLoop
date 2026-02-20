@@ -15,7 +15,6 @@ public record RicettaDTO(
     @NotBlank(message = "Nome obbligatorio")
     String nome,
     
-    // TODO Inserimento immagine
     MultipartFile foto,
 
     Integer difficolta,

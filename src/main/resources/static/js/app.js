@@ -22,3 +22,87 @@ document.querySelectorAll("input[type=file]").forEach(input => {
         input.after(img);
     });
 });
+
+// Seleziona gli elementi
+const track = document.querySelector(".carousel-track");
+const slides = track ? track.children : []; 
+const dotsContainer = document.querySelector(".carousel-dots");
+const next = document.querySelector(".next");
+const prev = document.querySelector(".prev");
+
+if (track && slides.length > 0) {
+    const gap = 15;
+
+    // Crea i pallini
+    Array.from(slides).forEach((_, i) => {
+        const dot = document.createElement("div");
+        dot.classList.add("dot");
+        if (i === 0) dot.classList.add("active");
+        dot.addEventListener("click", () => {
+            const offset = slides[i].offsetLeft - track.offsetLeft;
+            track.scrollTo({ left: offset, behavior: 'smooth' });
+        });
+        dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll(".dot");
+    const moveSlide = (direction) => {
+        const slideWidth = slides[0].offsetWidth + gap;
+        const maxScroll = track.scrollWidth - track.clientWidth;
+
+        if (direction === 1 && track.scrollLeft >= maxScroll - 5) {
+            track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else if (direction === -1 && track.scrollLeft <= 5) {
+            track.scrollTo({ left: maxScroll, behavior: 'smooth' });
+        } else {
+            track.scrollBy({ left: direction * slideWidth, behavior: 'smooth' });
+        }
+    };
+
+    //Aggiorna i pallini
+    track.addEventListener("scroll", () => {
+        const slideWidth = slides[0].offsetWidth + gap;
+        const activeIndex = Math.round(track.scrollLeft / slideWidth);
+        dots.forEach((dot, i) => dot.classList.toggle("active", i === activeIndex));
+    });
+
+    // pulsanti
+    next.addEventListener("click", () => moveSlide(1));
+    prev.addEventListener("click", () => moveSlide(-1));
+
+    // Auto-play
+    let autoPlay = setInterval(() => moveSlide(1), 5000);
+
+    // Ferma l'auto-play quando l'utente interagisce
+    track.addEventListener("mouseenter", () => clearInterval(autoPlay));
+    track.addEventListener("mouseleave", () => autoPlay = setInterval(() => moveSlide(1), 5000));
+}
+
+//Passare stringa al backend
+document.addEventListener("DOMContentLoaded", function() {
+    const recipeForm = document.querySelector("form");
+    const selectIngredienti = document.getElementById("ingredienti");
+
+    if (recipeForm && selectIngredienti) {
+        recipeForm.addEventListener("submit", function(event) {
+            const selectedOptions = Array.from(selectIngredienti.selectedOptions);
+            const idsArray = selectedOptions.map(option => option.value);
+            const idsString = idsArray.join(',');
+            let hiddenInput = document.getElementById("ingredientiString");
+            if (!hiddenInput) {
+                hiddenInput = document.createElement("input");
+                hiddenInput.type = "hidden";
+                hiddenInput.name = "ingredienti";
+                hiddenInput.id = "ingredientiString";
+                recipeForm.appendChild(hiddenInput);
+            }
+            
+            hiddenInput.value = idsString;
+            console.log("Invio ID al backend:", idsString);
+
+        });
+    }
+});
+
+
+

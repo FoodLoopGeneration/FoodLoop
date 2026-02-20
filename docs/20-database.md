@@ -6,7 +6,7 @@
 - Relazioni (1:N, N:M): utenti-categorie(1:N), utenti-ricette(1:N), utenti-ingradienti(1:N), ingredienti-ricette(N:M)
 
 ## ER Diagram
-![Diagramma ER](diagrams/ER.png)
+![Diagramma ER](diagrams/database.png)
 
 ## Note JPA
 - Strategie di chiave primaria

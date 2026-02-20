@@ -15,8 +15,6 @@ public class IngredienteMapper {
 
     public void updateEntity(IngredienteDTO dto, Ingrediente i) {
         i.setId(dto.id());
-        i.setCategoria(dto.categoria());
-        i.setUtente(dto.utente());
         i.setNome(dto.nome());
         i.setScadenza(dto.scadenza());
         i.setQuantita(dto.quantita());

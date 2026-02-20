@@ -15,10 +15,7 @@ public class RicettaMapper {
 
     public void updateEntity(RicettaDTO dto, Ricetta r){
         r.setId(dto.id());
-        r.setUtente(dto.utente());
-        r.setIngredienti(dto.ingredienti());
         r.setNome(dto.nome());
-        r.setFoto(dto.foto());
         r.setDifficolta(dto.difficolta());
         r.setPorzioni(dto.porzioni());
         r.setTempo(dto.tempo());
@@ -27,7 +24,7 @@ public class RicettaMapper {
     }
 
     public RicettaDTO toDTO(Ricetta r){
-        RicettaDTO dto = new RicettaDTO(r.getId(),r.getNome(),r.getFoto(),r.getDifficolta(),r.getPorzioni(),r.getTempo(),r.getValutazione(),r.getDescrizione(), r.getUtente(),r.getIngredienti());
+        RicettaDTO dto = new RicettaDTO(r.getId(),r.getNome(),null,r.getDifficolta(),r.getPorzioni(),r.getTempo(),r.getValutazione(),r.getDescrizione(), r.getUtente(),r.getIngredienti());
         return dto;
     }
 }

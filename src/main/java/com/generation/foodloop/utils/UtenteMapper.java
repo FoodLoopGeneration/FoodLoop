@@ -9,7 +9,7 @@ import com.generation.foodloop.entities.Utente;
 public class UtenteMapper {
     public Utente toEntity(UtenteDTO dto){
         Utente u = new Utente();
-
+        updateEntity(dto, u);
         return u;
     }
 
@@ -20,10 +20,11 @@ public class UtenteMapper {
         u.setNome(dto.nome());
         u.setCognome(dto.cognome());
         u.setEmail(dto.email());
+        u.setPassword(dto.password());
     }
 
     public UtenteDTO toDTO(Utente u){
-        UtenteDTO dto = new UtenteDTO(u.getId(),u.getIngredienti(),u.getRicette(),u.getNome(),u.getCognome(),u.getEmail());
+        UtenteDTO dto = new UtenteDTO(u.getId(),u.getIngredienti(),u.getRicette(),u.getNome(),u.getCognome(),u.getEmail(),u.getPassword());
         return dto;
     }
 }

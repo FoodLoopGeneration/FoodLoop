@@ -1,21 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
-<head th:replace="~{fragments/layout :: head('Pagina di login')}"></head>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Login')}">
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
+</head>
 <body>
     <header th:replace="~{fragments/layout :: navbar}"></header>
-    <div>
+    <div class="container">
+        
+        <div th:if="${success}" style="color: green; margin-bottom: 10px;" th:text="${success}"></div>
+        
+        <div th:if="${param.error}" style="color: red; margin-bottom: 10px;">
+            Credenziali non valide. Riprova.
+        </div>
+
         <form th:action="@{/login}" method="post">
+            <div th:if="${success}" style="color: green; margin-bottom: 10px;" th:text="${success}"></div>
+        
+            <div th:if="${param.error}" style="color: red; margin-bottom: 10px;">
+                Credenziali non valide. Riprova.
+        </div>
             <fieldset>
-                <legend>Login</legend>
-                <label>
-                    <input type="text" name="username">
+                <legend>Accedi</legend>
+                <label>Email: 
+                    <input type="text" name="username" required>
                 </label>
-                <br>
-                <label>
-                    <input type="password" name="password">
+                <br><br>
+                <label>Password: 
+                    <input type="password" name="password" required>
                 </label>
             </fieldset>
-            <button type="submit">Esegui login</button>
+            <br>
+            <button type="submit">Login</button>
+             <p class="login-footer">Nuovo utente? <a th:href="@{/register}">Registrati qui</a></p>
         </form>
     </div>
 </body>

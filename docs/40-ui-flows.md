@@ -1,38 +1,42 @@
 # 40 — UI Flows
 
-Inserisci i flussi principali prima, poi come extra gli altri
+## Flusso 1: Login e Autenticazione
+Descrive il processo di accesso al sistema, fondamentale per identificare l'utente e caricare la sua dispensa personale.
 
-## Flusso 1: Login
-1. GET /login (form)
-2. POST /login (submit)
-3. success → redirect a home / fail → messaggio errore
+1. **GET /login**: L'utente visualizza il form.
+2. **POST /login**: Invio credenziali (email/password).
+3. **Validazione**: `UserPasswordAuthProvider` verifica l'hash BCrypt.
+4. **Successo**: Il `LoginSuccessHandler` crea la sessione e reindirizza alla Dashboard.
+5. **Persistence**: Il `CookieFilter` garantisce che l'utente resti loggato nelle sessioni successive.
 
-ESEMPIO diagramma di sequenza:
 ```mermaid
 sequenceDiagram
     autonumber
     actor Utente
     participant Browser
-    participant Server
+    participant Security
     participant DB
 
     Utente->>Browser: Apre /login
-    Browser->>Server: GET /login
-    Server-->>Browser: Ritorna form di login
-
-    Utente->>Browser: Inserisce credenziali e clicca Submit
-    Browser->>Server: POST /login (email, password)
-    Server->>DB: Verifica credenziali
-    DB-->>Server: Risultato query
-
-    alt Credenziali valide
-        Server-->>Browser: Redirect a Home
-        Browser-->>Utente: Mostra Home Page
-    else Credenziali non valide
-        Server-->>Browser: Messaggio di errore
-        Browser-->>Utente: Mostra errore di login
+    Browser->>Security: GET /login
+    Security-->>Browser: Ritorna form
+    Utente->>Browser: Inserisce Email e Password
+    Browser->>Security: POST /login
+    Security->>DB: Ricerca utente per Email
+    DB-->>Security: Ritorna Utente (con password hashata)
+    Security->>Security: Verifica BCrypt.matches()
+    alt Credenziali Valide
+        Security-->>Browser: Set-Cookie (FOODLOOP_AUTH) + Redirect /user/home
+    else Credenziali Errate
+        Security-->>Browser: Redirect /login?error=true
     end
+
 ```
 
-## Flusso 2: CRUD principale (ADMIN)
-- Lista → crea → salva → conferma → modifica → salva → elimina/disabilita
+## Flusso 2: Gestione Dispensa (Ingrediente CRUD)
+L'utente popola il sistema con i dati necessari per il calcolo delle ricette.
+
+1. **Visualizzazione**: L'utente accede a `/ingredienti` (chiama `getByUtente`).
+2. **Creazione**: Compilazione form (Nome, Scadenza, Categoria).
+3. **Validazione**: Il sistema controlla se l'ingrediente è già presente per quell'utente (`uniqueErrorsForCreate`).
+4. **Salvataggio**: L'ingrediente viene associato all'ID dell'utente loggato.

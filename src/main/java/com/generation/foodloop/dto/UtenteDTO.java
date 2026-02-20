@@ -23,20 +23,25 @@ public record UtenteDTO(
 
     @Email(message = "Email non valida")
     @NotBlank(message = "Email obbligatoria")
-    String email
+    String email,
+
+    @NotBlank(message = "Password obbligatoria")
+    String password
+
 ) {
     
     public UtenteDTO{
         nome = (nome == null) ? null : nome.trim();
         cognome = (cognome == null) ? null : cognome.trim();
         email = (email == null) ? null : email.trim();
+        password = (password == null) ? null :password.trim();
     }
 
     public static UtenteDTO empty(){
-        return new UtenteDTO(null, null, null, null, null, null);
+        return new UtenteDTO(null, null, null, null, null, null, null);
     }
 
     public UtenteDTO withId(Long newId){
-        return new UtenteDTO(newId, null, null, null, null, null);
+        return new UtenteDTO(newId, null, null, null, null, null, null);
     }
 }

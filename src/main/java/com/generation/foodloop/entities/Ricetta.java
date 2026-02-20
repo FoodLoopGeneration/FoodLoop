@@ -1,71 +1,52 @@
 package com.generation.foodloop.entities;
 
+import java.util.HashSet;
 import java.util.Set;
-
 import org.springframework.web.multipart.MultipartFile;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ForeignKey;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
-@Table(name = "ingredienti")
+@Table(name = "ricette")
 @Data
-@EqualsAndHashCode
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Ricetta {
 
+    @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nome", nullable = false, length = 63, columnDefinition = "VARCHAR(63)", unique = true)
+    @Column(nullable = false, unique = true)
     private String nome;
 
-    // TODO Inserimento immagine
-    @Column(name = "foto")
-    private MultipartFile foto;
+    private String foto; // Salva il path/nome del file nel DB
 
-    @Column(name = "difficolta")
+    @Transient
+    private MultipartFile fileFoto;
+
     private Integer difficolta;
-
-    @Column(name = "porzioni")
     private Integer porzioni;
-
-    @Column(name = "tempo")
     private Integer tempo;
-
-    @Column(name = "valutazione")
     private Integer valutazione;
 
-    @Column(name = "descrizione")
+    @Column(columnDefinition = "TEXT")
     private String descrizione;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_utente", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_ricetta_utente"))
+    @JoinColumn(name = "id_utente", foreignKey = @ForeignKey(name = "fk_ricetta_utente"))
     private Utente utente;
 
-    @Column(name = "ingredienti")
-    private Set<Ingrediente> ingredienti;
+    @ManyToMany
+    @JoinTable(
+        name = "ricette_ingredienti",
+        joinColumns = @JoinColumn(name = "id_ricetta"),
+        inverseJoinColumns = @JoinColumn(name = "id_ingrediente")
+    )
+    @ToString.Exclude
+    private Set<Ingrediente> ingredienti = new HashSet<>();
 
-    public void aggiungiIngrediente(Ingrediente ingrediente) {
-        if (ingrediente != null) {
-            ingredienti.add(ingrediente);
-        }
-    }
-
-    public void rimuoviIngrediente(Ingrediente ingrediente) {
-        if (ingrediente != null) {
-            ingredienti.remove(ingrediente);
-        }
-    }
-
+    public void aggiungiIngrediente(Ingrediente i) { if (i != null) ingredienti.add(i); }
 }

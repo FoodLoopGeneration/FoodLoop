@@ -7,48 +7,50 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${title}">FoodLoop</title>
-    <link rel="stylesheet" th:href="@{/css/app.css}">
     <script defer th:src="@{/js/app.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
+    <link rel="stylesheet" th:href="@{/css/registerStyle.css}">
+    <link rel="stylesheet" th:href="@{/css/list.css}">
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+    <link rel="icon" type="image/x-icon" th:href="@{/res/favicon.ico}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <header th:fragment="navbar">
-        <nav>
-            <a th:href="@{/}">Home</a>
-            <!-- NON autenticati -->
-            <span sec:authorize="isAnonymous()">
-                <a th:href="@{/login}">Login</a>
-                <a th:href="@{/register}">Registrati</a>
-            </span>
-            <!-- autenticati -->
-            <span sec:authorize="isAuthenticated()">
-                <span class="utente">
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit">Logout</button>
-                </form>
-            </span>
-        </nav>
-        <div th:replace="~{fragments/messaggi :: flashMessages}"></div>
-        <hr />
-    </header>
-    <!-- AREA AUTENTICATA -->
-<div th:fragment="sidebar" sec:authorize="isAuthenticated()" class="layout-auth">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-
-        <div class="utente">
-            Ciao, <b sec:authentication="name"></b>
+<header th:fragment="navbar">
+    <nav class="navbar">
+        <div class="nav-left">
+            <a th:href="@{/}" class="nav-logo">Home</a>
         </div>
 
-        <a th:href="@{/ingredienti}">I miei ingredienti</a>
+        <div class="nav-right" sec:authorize="isAnonymous()">
+            <a th:href="@{/login}" class="nav-link">Login</a>
+            <a th:href="@{/register}" class="nav-btn">Registrati</a>
+        </div>
+
+        <div class="nav-right" sec:authorize="isAuthenticated()">
+            <span class="utente">
+                Ciao, <b th:text="${#authentication.principal.nome + ' ' + #authentication.principal.cognome}"></b>
+            </span>
+            <a th:href="@{/ingredienti}" class="active">I miei ingredienti</a>
+            <a th:href="@{/logout}" class="nav-link">Logout</a>
+        </div>
+    </nav>
+    <div th:replace="~{fragments/messaggi :: flashMessages}"></div>
+</header>
+
+<aside th:fragment="sidebar" sec:authorize="isAuthenticated()" class="sidebar">
+    <nav class="sidebar-nav">
         <a th:href="@{/ricette/mie}">Le mie ricette</a>
         <a th:href="@{/ricette}">Tutte le ricette</a>
-        </aside>
-    <footer th:fragment="footer">
-        <hr />
-        <small>FoodLoop</small>
-    </footer>
+        <a th:href="@{/ricette/suggerimenti}">Cosa cuciniamo oggi?</a>
+    </nav>
+</aside>
+
+<footer th:fragment="footer">
+    <p>&copy; 2026 FoodLoop - Gestione Intelligente Dispensa</p>
+</footer>
 </body>
 
 </html>

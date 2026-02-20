@@ -1,0 +1,102 @@
+/* LOGIN PAGE */
+
+/* Contenitore principale */
+body > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 150px);
+    padding: 20px;
+}
+
+/* Card del Form */
+form {
+    background: white;
+    width: 100%;
+    max-width: 800px;
+    max-height: 600px;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+fieldset {
+    border: 1px solid #e0e0e0; 
+    border-radius: 12px;
+    padding: 20px;           
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;             
+}
+
+legend {
+    padding: 0 10px;
+    font-weight: 600;
+    color: #2e7d32;
+}
+
+/* Input e Label */
+label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    width: 100%;
+    font-size: 18px;
+    color: #444;
+}
+
+input {
+    width: 100%;
+    margin-top: 8px;       
+    padding: 10px 13px;     
+    border: 1.5px solid #eee;
+    border-radius: 8px;
+    font-family: inherit;
+    transition: border-color 0.3s;
+    background: #f6dac9;
+}
+
+input:focus {
+    outline: none;
+    border-color: #2e7d32;
+    background-color: #f9fff9;
+}
+
+/* Bottone Login */
+button[type="submit"] {
+    width: 100%;
+    background: #FF8C42;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px; 
+    font-size: 18px;    
+}
+
+/* Link Registrazione sotto il bottone */
+.login-footer {
+    display: block;           
+    margin-top: 10px;
+    font-size: 18px;
+    color: #666;
+}
+
+.login-footer a {
+    color: #2e7d32;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+
+/* Responsive */
+@media (max-width: 480px) {
+    form {
+        padding: 1.5rem;
+    }
+}

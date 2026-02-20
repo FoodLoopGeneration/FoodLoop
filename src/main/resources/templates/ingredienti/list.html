@@ -4,51 +4,54 @@
 
 <body>
     <header th:replace="~{fragments/layout :: navbar}"></header>
-    <div th:replace="~{fragments/layout :: sidebar}"></div>
-    <main>
-        <div class="container">
-            <h1>Ingredienti</h1>
 
-            <!-- link alla form per aggiungere un nuovo ingrediente -->
-            <p><a th:href="@{/ingredienti/new}" class="btn">Aggiungi un nuovo ingrediente</a></p>
-            <!-- link alla form per aggiungere una nuova categoria -->
-            <p><a th:href="@{/categoria/new}" class="btn">Aggiungi una nuova categoria</a></p>
+    <div class="page-container">
+        <div th:replace="~{fragments/layout :: sidebar}"></div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Scadenza</th>
-                        <th>Quantita'</th>
-                        <th>Unita' di misura</th>
-                        <th>Posizione</th>
-                        <th>Categoria</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:if="${#lists.isEmpty(ingredienti)}">
-                        <td colspan="7">Nessun ingrediente presente.</td>
-                    </tr>
-                    <tr th:each="i : ${ingredienti}">
-                        <td th:text="${i.id}"></td>
-                        <td th:text="${i.nome}"></td>
-                        <td th:text="${i.scadenza}"></td>
-                        <td th:text="${i.quantita}"></td>
-                        <td th:text="${i.unitaMisura}"></td>
-                        <td th:text="${i.posizione}"></td>
-                        <td th:text="${i.categoria.nome}"></td>
-                        <td>
-                            <a th:href="@{/ingredienti/{id}/edit (id=${i.id})}">Modifica ingrediente</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <main class="main-content">
+            <div class="section table-card table-card-narrow">
+                <div class="page-header">
+                    <h1>Ingredienti</h1>
+                    <a th:href="@{/ingredienti/new}" class="nav-btn">+ Aggiungi ingrediente</a>
+                </div>
 
+                <div class="table-responsive">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Scadenza</th>
+                                <th>Quantità</th>
+                                <th>U.M.</th>
+                                <th>Posizione</th>
+                                <th>Categoria</th>
+                                <th class="text-right">Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(ingredienti)}">
+                                <td colspan="7" class="empty-msg">Nessun ingrediente in dispensa.</td>
+                            </tr>
+                            <tr th:each="i : ${ingredienti}">
+                                <td th:text="${i.nome}" class="name-cell"></td>
+                                <td th:text="${i.scadenza}"></td>
+                                <td th:text="${i.quantita}"></td>
+                                <td th:text="${i.unitaMisura}"></td>
+                                <td class="location-tag" th:text="${i.posizione}"></td>
+                                <td>
+                                    <span class="category-badge" th:text="${i.categoria?.nome}"></span>
+                                </td>
+                                <td class="text-right">
+                                    <a th:href="@{/ingredienti/{id}/edit (id=${i.id})}" class="edit-link">Modifica</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
 
-        </div>
-
-    </main>
     <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

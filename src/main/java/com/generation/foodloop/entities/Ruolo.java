@@ -21,14 +21,12 @@ import lombok.ToString;
 public class Ruolo {
 
     @EqualsAndHashCode.Include
-    @Id // idica che la collonna contiene la PK
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // per l'auto_increment
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "nome", nullable = false, length = 50)
     private String nome;
-
-    // relazione con gli UserAccount
 
     @ManyToMany(mappedBy = "ruoli")
     @ToString.Exclude
