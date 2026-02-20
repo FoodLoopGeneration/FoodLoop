@@ -35,7 +35,7 @@
                         <td th:text="${i.quantita}"></td>
                         <td th:text="${i.unitaMisura}"></td>
                         <td th:text="${i.posizione}"></td>
-                        <td th:text="${i.categoria.nome}"></td>
+                        <td th:text="${i.categoria?.nome}"></td>
                         <td>
                             <a th:href="@{/ingredienti/{id}/edit (id=${i.id})}">Modifica ingrediente</a>
                         </td>

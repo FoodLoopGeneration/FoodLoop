@@ -78,3 +78,29 @@ if (track && slides.length > 0) {
     track.addEventListener("mouseleave", () => autoPlay = setInterval(() => moveSlide(1), 5000));
 }
 
+//Passare stringa al backend
+document.addEventListener("DOMContentLoaded", function() {
+    const recipeForm = document.querySelector("form");
+    const selectIngredienti = document.getElementById("ingredienti");
+
+    if (recipeForm && selectIngredienti) {
+        recipeForm.addEventListener("submit", function(event) {
+            const selectedOptions = Array.from(selectIngredienti.selectedOptions);
+            const idsArray = selectedOptions.map(option => option.value);
+            const idsString = idsArray.join(',');
+            let hiddenInput = document.getElementById("ingredientiString");
+            if (!hiddenInput) {
+                hiddenInput = document.createElement("input");
+                hiddenInput.type = "hidden";
+                hiddenInput.name = "ingredienti";
+                hiddenInput.id = "ingredientiString";
+                recipeForm.appendChild(hiddenInput);
+            }
+            hiddenInput.value = idsString;
+            console.log("Invio ID al backend:", idsString);
+        });
+    }
+});
+
+
+
