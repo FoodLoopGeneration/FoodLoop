@@ -73,33 +73,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- 4. CAROSELLO HOMEPAGE ---
     const track = document.querySelector(".carousel-track");
-    if (track) {
-        const nextBtn = document.querySelector(".next");
-        const prevBtn = document.querySelector(".prev");
-        
-        const getScrollAmount = () => {
-            const firstCard = track.querySelector(".recipe-card");
-            return firstCard ? firstCard.offsetWidth + 20 : 300;
+    const slides = track ? track.children : [];
+    const dotsContainer = document.querySelector(".carousel-dots");
+    const next = document.querySelector(".next");
+    const prev = document.querySelector(".prev");
+
+    if (track && slides.length > 0) {
+        const gap = 15;
+
+        // Creazione dei pallini
+        Array.from(slides).forEach((_, i) => {
+            const dot = document.createElement("div");
+            dot.classList.add("dot");
+            if (i === 0) dot.classList.add("active");
+            dot.addEventListener("click", () => {
+                const offset = slides[i].offsetLeft - track.offsetLeft;
+                track.scrollTo({ left: offset, behavior: 'smooth' });
+            });
+            dotsContainer.appendChild(dot);
+        });
+
+        const dots = document.querySelectorAll(".dot");
+        const moveSlide = (direction) => {
+            const slideWidth = slides[0].offsetWidth + gap;
+            const maxScroll = track.scrollWidth - track.clientWidth;
+
+            if (direction === 1 && track.scrollLeft >= maxScroll - 5) {
+                track.scrollTo({ left: 0, behavior: 'smooth' });
+            } else if (direction === -1 && track.scrollLeft <= 5) {
+                track.scrollTo({ left: maxScroll, behavior: 'smooth' });
+            } else {
+                track.scrollBy({ left: direction * slideWidth, behavior: 'smooth' });
+            }
         };
 
-        if (nextBtn) {
-            nextBtn.addEventListener("click", () => {
-                track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
-            });
-        }
-
-        if (prevBtn) {
-            prevBtn.addEventListener("click", () => {
-                track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
-            });
-        }
-        
-        track.addEventListener('scroll', () => {
-            if (track.scrollLeft + track.offsetWidth >= track.scrollWidth) {
-
-            }
+        // Aggiorna lo stato attivo dei pallini durante lo scroll
+        track.addEventListener("scroll", () => {
+            const slideWidth = slides[0].offsetWidth + gap;
+            const activeIndex = Math.round(track.scrollLeft / slideWidth);
+            dots.forEach((dot, i) => dot.classList.toggle("active", i === activeIndex));
         });
+
+        next.addEventListener("click", () => moveSlide(1));
+        prev.addEventListener("click", () => moveSlide(-1));
+
+        // Auto-play del carosello
+        let autoPlay = setInterval(() => moveSlide(1), 5000);
+        track.addEventListener("mouseenter", () => clearInterval(autoPlay));
+        track.addEventListener("mouseleave", () => autoPlay = setInterval(() => moveSlide(1), 5000));
     }
+    
 
     // --- 5. Evidenzia i campi con errore al caricamento ---
     const errorInputs = document.querySelectorAll(".text-danger");
