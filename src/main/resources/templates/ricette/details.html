@@ -15,7 +15,8 @@
 
             <div class="recipe-grid">
                 <div class="recipe-media">
-                    <img th:src="@{${ricetta.foto}}" alt="Foto ricetta" class="recipe-main-img">
+                    <img th:src="${ricetta.foto != null} ? @{/up/ricette/{foto}(foto = ${ricetta.foto})} : @{/img/default-placeholder.jpg}" 
+                         alt="Foto ricetta" class="recipe-main-img">
                 </div>
 
                 <div class="recipe-meta-box">
@@ -23,7 +24,7 @@
                         <strong>Difficoltà</strong>
                         <span class="stars-container">
                             <span th:each="i : ${#numbers.sequence(1,5)}" 
-                                  th:text="${i &lt;= ricetta.difficolta} ? '●' : '○'"></span>
+                                  th:text="${i <= ricetta.difficolta} ? '●' : '○'"></span>
                         </span>
                     </div>
                     <div class="meta-item">
@@ -37,7 +38,7 @@
                     <div class="meta-item">
                         <strong>Valutazione</strong>
                         <span class="stars-yellow" th:each="i : ${#numbers.sequence(1,5)}" 
-                              th:text="${i &lt;= ricetta.valutazione} ? '★' : '☆'"></span>
+                              th:text="${i <= ricetta.valutazione} ? '★' : '☆'"></span>
                     </div>
                 </div>
             </div>
