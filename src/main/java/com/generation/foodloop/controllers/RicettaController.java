@@ -1,6 +1,5 @@
 package com.generation.foodloop.controllers;
 
-import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +30,6 @@ public class RicettaController {
     private final IngredienteService ingredienteService;
     private final UtenteService utenteService;
 
-
     private void populateModel(Model model) {
         model.addAttribute("ingredienti", ingredienteService.getAll());
     }
@@ -45,7 +43,7 @@ public class RicettaController {
     }
 
     @GetMapping("/mie")
-    public String listaMie(Model model, Authentication authentication) {
+    public String mieRicette(Model model, Authentication authentication) {
         Utente user = (Utente) authentication.getPrincipal();
         model.addAttribute("ricette", ricettaService.getByUtente(user.getId()));
         model.addAttribute("titolo", "Le Mie Ricette");
@@ -55,38 +53,32 @@ public class RicettaController {
 
     @GetMapping("/{id}")
     public String dettaglio(@PathVariable Long id, Model model, RedirectAttributes ra) {
-        var ricetta = ricettaService.getByIdWithIngredienti(id);
-        if (ricetta == null) {
+        Ricetta r = ricettaService.getByIdWithIngredienti(id);
+        if (r == null) {
             ra.addFlashAttribute("error", "Ricetta non trovata");
             return "redirect:/ricette";
         }
-        model.addAttribute("ricetta", ricetta);
-        return "ricette/details";
+        model.addAttribute("ricetta", r);
+        return "ricette/details"; 
     }
 
     @GetMapping("/new")
     public String createForm(Model model) {
-        model.addAttribute("ricettaDTO", RicettaDTO.empty()); 
+        model.addAttribute("ricettaDTO", RicettaDTO.empty());
         model.addAttribute("mode", "create");
-        populateModel(model); 
+        populateModel(model);
         return "ricette/form-dto";
     }
 
     @PostMapping
     public String create(@Valid @ModelAttribute("ricettaDTO") RicettaDTO dto,
-                         BindingResult br,
-                         Model model,
-                         Authentication auth,
-                         RedirectAttributes ra) {
-        
+                         BindingResult br, Model model, Authentication authentication, RedirectAttributes ra) {
         if (br.hasErrors()) {
-            log.warn("Errori di validazione: {}", br.getAllErrors());
             model.addAttribute("mode", "create");
-            populateModel(model); 
+            populateModel(model);
             return "ricette/form-dto";
         }
-        
-        Utente user = (Utente) auth.getPrincipal();
+        Utente user = (Utente) authentication.getPrincipal();
         ricettaService.createFromDto(dto, user);
         ra.addFlashAttribute("success", "Ricetta creata con successo!");
         return "redirect:/ricette/mie";
@@ -95,34 +87,24 @@ public class RicettaController {
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable Long id, Model model, RedirectAttributes ra, Authentication authentication) {
         Utente user = (Utente) authentication.getPrincipal();
-        
         if (!ricettaService.belongsToUser(id, user.getId())) {
             ra.addFlashAttribute("error", "Non hai i permessi per questa ricetta");
             return "redirect:/ricette/mie";
         }
 
         RicettaDTO dto = ricettaService.getDTOById(id);
-        if (dto == null) {
-            ra.addFlashAttribute("error", "Ricetta non trovata");
-            return "redirect:/ricette/mie";
-        }
-
         model.addAttribute("ricettaDTO", dto);
         model.addAttribute("mode", "edit");
-        populateModel(model); 
+        populateModel(model);
         return "ricette/form-dto";
     }
 
     @PostMapping("/{id}")
     public String update(@PathVariable Long id,
                          @Valid @ModelAttribute("ricettaDTO") RicettaDTO dto,
-                         BindingResult br,
-                         Model model,
-                         RedirectAttributes ra,
-                         Authentication authentication) {
-
+                         BindingResult br, Model model, RedirectAttributes ra, Authentication authentication) {
+        
         Utente user = (Utente) authentication.getPrincipal();
-
         if (!ricettaService.belongsToUser(id, user.getId())) {
             ra.addFlashAttribute("error", "Operazione non consentita");
             return "redirect:/ricette/mie";
@@ -130,36 +112,32 @@ public class RicettaController {
 
         if (br.hasErrors()) {
             model.addAttribute("mode", "edit");
-            populateModel(model); 
+            populateModel(model);
             return "ricette/form-dto";
         }
 
-        boolean ok = ricettaService.updateFromDto(id, dto);
-        ra.addFlashAttribute("success", ok ? "Ricetta aggiornata" : "Errore durante l'aggiornamento");
+        ricettaService.updateFromDto(id, dto);
+        ra.addFlashAttribute("success", "Ricetta aggiornata con successo");
         return "redirect:/ricette/mie";
     }
 
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes ra, Authentication authentication) {
         Utente user = (Utente) authentication.getPrincipal();
-        
-        if (!ricettaService.belongsToUser(id, user.getId())) {
-            ra.addFlashAttribute("error", "Operazione non consentita");
-            return "redirect:/ricette/mie";
+        if (ricettaService.belongsToUser(id, user.getId())) {
+            ricettaService.delete(id);
+            ra.addFlashAttribute("success", "Ricetta eliminata");
         }
-        
-        ricettaService.delete(id);
-        ra.addFlashAttribute("success", "Ricetta eliminata");
         return "redirect:/ricette/mie";
     }
 
     @GetMapping("/suggerimenti")
     public String suggerimenti(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        if (userDetails == null) return "redirect:/login";
         Utente utente = utenteService.findByEmail(userDetails.getUsername()).orElse(null);
         if (utente == null) return "redirect:/login";
-
-        List<Ricetta> suggerite = ricettaService.getSuggerimenti(utente.getId());
-        model.addAttribute("ricette", suggerite);
+        
+        model.addAttribute("ricette", ricettaService.getSuggerimenti(utente.getId()));
         model.addAttribute("titolo", "Cosa puoi cucinare ora");
         model.addAttribute("isMieRicette", false);
         return "ricette/list";
