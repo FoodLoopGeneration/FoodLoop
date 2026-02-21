@@ -30,8 +30,13 @@ public class RicettaController {
     private final IngredienteService ingredienteService;
     private final UtenteService utenteService;
 
-    private void populateModel(Model model) {
-        model.addAttribute("ingredienti", ingredienteService.getAll());
+
+    private void populateModel(Model model, Authentication authentication) {
+        if (authentication != null && authentication.getPrincipal() instanceof Utente user) {
+            model.addAttribute("ingredienti", ingredienteService.getByUtente(user.getId()));
+        } else {
+            model.addAttribute("ingredienti", java.util.Collections.emptyList());
+        }
     }
 
     @GetMapping
@@ -63,10 +68,10 @@ public class RicettaController {
     }
 
     @GetMapping("/new")
-    public String createForm(Model model) {
+    public String createForm(Model model, Authentication authentication) {
         model.addAttribute("ricettaDTO", RicettaDTO.empty());
         model.addAttribute("mode", "create");
-        populateModel(model);
+        populateModel(model, authentication);
         return "ricette/form-dto";
     }
 
@@ -75,7 +80,7 @@ public class RicettaController {
                          BindingResult br, Model model, Authentication authentication, RedirectAttributes ra) {
         if (br.hasErrors()) {
             model.addAttribute("mode", "create");
-            populateModel(model);
+            populateModel(model, authentication);
             return "ricette/form-dto";
         }
         Utente user = (Utente) authentication.getPrincipal();
@@ -95,7 +100,7 @@ public class RicettaController {
         RicettaDTO dto = ricettaService.getDTOById(id);
         model.addAttribute("ricettaDTO", dto);
         model.addAttribute("mode", "edit");
-        populateModel(model);
+        populateModel(model, authentication);
         return "ricette/form-dto";
     }
 
@@ -112,7 +117,7 @@ public class RicettaController {
 
         if (br.hasErrors()) {
             model.addAttribute("mode", "edit");
-            populateModel(model);
+            populateModel(model, authentication);
             return "ricette/form-dto";
         }
 
