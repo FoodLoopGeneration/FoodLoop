@@ -31,6 +31,11 @@ public class RicettaController {
     private final IngredienteService ingredienteService;
     private final UtenteService utenteService;
 
+
+    private void populateModel(Model model) {
+        model.addAttribute("ingredienti", ingredienteService.getAll());
+    }
+
     @GetMapping
     public String lista(Model model) {
         model.addAttribute("ricette", ricettaService.getAll());
@@ -62,8 +67,8 @@ public class RicettaController {
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("ricettaDTO", RicettaDTO.empty()); 
-        model.addAttribute("ingredienti", ingredienteService.getAll());
         model.addAttribute("mode", "create");
+        populateModel(model); 
         return "ricette/form-dto";
     }
 
@@ -74,11 +79,10 @@ public class RicettaController {
                          Authentication auth,
                          RedirectAttributes ra) {
         
-        log.info("Ricevuta richiesta di creazione ricetta: {}", dto.nome());
-
         if (br.hasErrors()) {
-            model.addAttribute("ingredienti", ingredienteService.getAll());
+            log.warn("Errori di validazione: {}", br.getAllErrors());
             model.addAttribute("mode", "create");
+            populateModel(model); 
             return "ricette/form-dto";
         }
         
@@ -93,7 +97,7 @@ public class RicettaController {
         Utente user = (Utente) authentication.getPrincipal();
         
         if (!ricettaService.belongsToUser(id, user.getId())) {
-            ra.addFlashAttribute("error", "Non hai i permessi per modificare questa ricetta");
+            ra.addFlashAttribute("error", "Non hai i permessi per questa ricetta");
             return "redirect:/ricette/mie";
         }
 
@@ -104,8 +108,8 @@ public class RicettaController {
         }
 
         model.addAttribute("ricettaDTO", dto);
-        model.addAttribute("ingredienti", ingredienteService.getAll());
         model.addAttribute("mode", "edit");
+        populateModel(model); 
         return "ricette/form-dto";
     }
 
@@ -125,13 +129,13 @@ public class RicettaController {
         }
 
         if (br.hasErrors()) {
-            model.addAttribute("ingredienti", ingredienteService.getAll());
             model.addAttribute("mode", "edit");
+            populateModel(model); 
             return "ricette/form-dto";
         }
 
         boolean ok = ricettaService.updateFromDto(id, dto);
-        ra.addFlashAttribute("success", ok ? "Ricetta aggiornata con successo" : "Errore durante l'aggiornamento");
+        ra.addFlashAttribute("success", ok ? "Ricetta aggiornata" : "Errore durante l'aggiornamento");
         return "redirect:/ricette/mie";
     }
 
@@ -144,8 +148,8 @@ public class RicettaController {
             return "redirect:/ricette/mie";
         }
         
-        boolean ok = ricettaService.delete(id);
-        ra.addFlashAttribute("success", ok ? "Ricetta eliminata" : "Errore durante l'eliminazione");
+        ricettaService.delete(id);
+        ra.addFlashAttribute("success", "Ricetta eliminata");
         return "redirect:/ricette/mie";
     }
 
@@ -156,9 +160,8 @@ public class RicettaController {
 
         List<Ricetta> suggerite = ricettaService.getSuggerimenti(utente.getId());
         model.addAttribute("ricette", suggerite);
-        model.addAttribute("titolo", "Cosa puoi cucinare con quello che hai");
+        model.addAttribute("titolo", "Cosa puoi cucinare ora");
         model.addAttribute("isMieRicette", false);
-
         return "ricette/list";
     }
 }

@@ -10,6 +10,10 @@
         <div class="form-card-custom">
             <h1 th:text="${mode == 'create' ? 'Nuova Ricetta' : 'Modifica Ricetta'}"></h1>
 
+            <div th:if="${#fields.hasErrors('*')}" class="alert-custom" style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <strong>Attenzione:</strong> Controlla i dati inseriti.
+            </div>
+
             <form th:object="${ricettaDTO}" th:action="${mode == 'create'} ? @{/ricette} : @{/ricette/{id}(id=*{id})}"
                 method="post" enctype="multipart/form-data">
 
@@ -20,11 +24,12 @@
                     <div class="col-half field-group">
                         <label>Nome Ricetta:</label>
                         <input type="text" th:field="*{nome}" placeholder="Es. Pasta al forno">
-                        <small class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></small>
+                        <small class="text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" style="color: red;"></small>
                     </div>
                     <div class="col-half field-group">
                         <label>Foto:</label>
                         <input type="file" th:field="*{foto}">
+                        <small class="text-danger" th:if="${#fields.hasErrors('foto')}" th:errors="*{foto}" style="color: red;"></small>
                     </div>
                 </div>
 
@@ -32,22 +37,24 @@
                     <div class="col-third field-group">
                         <label>Difficoltà (1-5):</label>
                         <input type="number" th:field="*{difficolta}">
+                        <small class="text-danger" th:if="${#fields.hasErrors('difficolta')}" th:errors="*{difficolta}" style="color: red;"></small>
                     </div>
                     <div class="col-third field-group">
                         <label>Porzioni:</label>
                         <input type="number" th:field="*{porzioni}">
+                        <small class="text-danger" th:if="${#fields.hasErrors('porzioni')}" th:errors="*{porzioni}" style="color: red;"></small>
                     </div>
                     <div class="col-third field-group">
                         <label>Tempo (min):</label>
                         <input type="number" th:field="*{tempo}">
+                        <small class="text-danger" th:if="${#fields.hasErrors('tempo')}" th:errors="*{tempo}" style="color: red;"></small>
                     </div>
                 </div>
 
                 <div class="field-group">
                     <label>Procedimento:</label>
                     <textarea th:field="*{descrizione}" rows="5"></textarea>
-                    <small class="text-danger" th:if="${#fields.hasErrors('descrizione')}"
-                        th:errors="*{descrizione}"></small>
+                    <small class="text-danger" th:if="${#fields.hasErrors('descrizione')}" th:errors="*{descrizione}" style="color: red;"></small>
                 </div>
 
                 <div class="form-row-custom">
@@ -58,10 +65,13 @@
                                 th:selected="${ricettaDTO.ingredienti != null && ricettaDTO.ingredienti.contains(i.id.toString())}">
                             </option>
                         </select>
+                        <small class="text-danger" th:if="${#fields.hasErrors('ingredienti')}" th:errors="*{ingredienti}" style="color: red;"></small>
                     </div>
                     <div class="col-half field-group">
                         <label>Valutazione (1-5):</label>
                         <input type="number" th:field="*{valutazione}">
+                        <small class="text-danger" th:if="${#fields.hasErrors('valutazione')}" th:errors="*{valutazione}" style="color: red;"></small>
+                        
                         <div class="suggerimento-box"
                             style="margin-top: 15px; padding: 15px; background: #f9fff9; border: 1px dashed #2e7d32; border-radius: 12px;">
                             <small style="color: #2e7d32;">Controlla bene la tua dispensa prima di pubblicare!</small>
@@ -79,5 +89,4 @@
 
     <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
-
 </html>
