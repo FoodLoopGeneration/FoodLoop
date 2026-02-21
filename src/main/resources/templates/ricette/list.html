@@ -26,7 +26,7 @@
                                 <th>Nome</th>
                                 <th>Difficoltà</th>
                                 <th>Tempo</th>
-                                <th class="text-right">Azioni</th>
+                                <th colspan="3" class="text-center">Azioni</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,9 +54,9 @@
                                     <th:block th:if="${isMieRicette}">
                                         <a th:href="@{/ricette/{id}/edit(id=${r.id})}" class="edit-link">Modifica</a>
                                         
-                                        <form th:action="@{/ricette/{id}/delete(id=${r.id})}" method="post" 
+                                        <form th:action="@{/ricette/{id}/delete(id=${r.id})}" method="post" class="form-elimina-inline"
                                               onsubmit="return confirm('Sei sicuro di voler eliminare questa ricetta?');" style="display:inline; margin-left: 15px;">
-                                            <button type="submit" class="edit-link" style="background: none; border: none; cursor: pointer; color: #d32f2f;">Elimina</button>
+                                            <button type="submit" class="btn-delete-link">Elimina</button>
                                         </form>
                                     </th:block>
                                 </td>
