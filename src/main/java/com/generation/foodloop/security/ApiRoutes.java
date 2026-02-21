@@ -21,7 +21,8 @@ public final class ApiRoutes {
         "/ingredienti/**",
         "/ricette/**",
         "/ricette",
-        "/categoria/**"
+        "/categoria/**",    
+        "/up/**"
     };
 
     //ADMIN

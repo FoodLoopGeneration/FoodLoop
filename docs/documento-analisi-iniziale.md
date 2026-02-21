@@ -35,8 +35,7 @@ Il diagramma logico del sistema segue questo percorso standard:
 
 
 ## 6. Architettura Tecnica (Sintesi)
-- **Backend:** Spring Boot 3 (Java 17+).
+- **Backend:** Spring Boot 3 (Java 21+).
 - **Sicurezza:** Spring Security con `CookieFilter` personalizzato e gestione ruoli.
 - **Persistenza:** Database relazionale (MySQL) gestito tramite Spring Data JPA.
-- **Mappatura:** Utilizzo di DTO (Data Transfer Objects) e Mapper per separare la logica di database dalla logica di presentazione.
-
+- **Mappatura:** Utilizzo di DTO (Data Transfer Objects) e Mapper per separare la logica.

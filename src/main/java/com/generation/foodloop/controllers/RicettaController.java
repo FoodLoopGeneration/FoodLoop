@@ -1,18 +1,13 @@
 package com.generation.foodloop.controllers;
 
 import java.util.List;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.generation.foodloop.dto.RicettaDTO;
@@ -36,6 +31,10 @@ public class RicettaController {
     private final IngredienteService ingredienteService;
     private final UtenteService utenteService;
 
+
+    private void populateModel(Model model) {
+        model.addAttribute("ingredienti", ingredienteService.getAll());
+    }
 
     @GetMapping
     public String lista(Model model) {
@@ -67,9 +66,9 @@ public class RicettaController {
 
     @GetMapping("/new")
     public String createForm(Model model) {
-        model.addAttribute("ricettaDTO",RicettaDTO.empty()); 
-        model.addAttribute("ingredienti", ingredienteService.getAll());
+        model.addAttribute("ricettaDTO", RicettaDTO.empty()); 
         model.addAttribute("mode", "create");
+        populateModel(model); 
         return "ricette/form-dto";
     }
 
@@ -79,14 +78,16 @@ public class RicettaController {
                          Model model,
                          Authentication auth,
                          RedirectAttributes ra) {
+        
         if (br.hasErrors()) {
-            model.addAttribute("ingredienti", ingredienteService.getAll());
+            log.warn("Errori di validazione: {}", br.getAllErrors());
             model.addAttribute("mode", "create");
+            populateModel(model); 
             return "ricette/form-dto";
         }
         
         Utente user = (Utente) auth.getPrincipal();
-        ricettaService.createFromDto(dto,user);
+        ricettaService.createFromDto(dto, user);
         ra.addFlashAttribute("success", "Ricetta creata con successo!");
         return "redirect:/ricette/mie";
     }
@@ -96,7 +97,7 @@ public class RicettaController {
         Utente user = (Utente) authentication.getPrincipal();
         
         if (!ricettaService.belongsToUser(id, user.getId())) {
-            ra.addFlashAttribute("error", "Operazione non consentita");
+            ra.addFlashAttribute("error", "Non hai i permessi per questa ricetta");
             return "redirect:/ricette/mie";
         }
 
@@ -107,8 +108,8 @@ public class RicettaController {
         }
 
         model.addAttribute("ricettaDTO", dto);
-        model.addAttribute("ingredienti", ingredienteService.getAll());
         model.addAttribute("mode", "edit");
+        populateModel(model); 
         return "ricette/form-dto";
     }
 
@@ -128,13 +129,13 @@ public class RicettaController {
         }
 
         if (br.hasErrors()) {
-            model.addAttribute("ingredienti", ingredienteService.getAll());
             model.addAttribute("mode", "edit");
+            populateModel(model); 
             return "ricette/form-dto";
         }
 
         boolean ok = ricettaService.updateFromDto(id, dto);
-        ra.addFlashAttribute("success", ok ? "Ricetta aggiornata" : "Errore aggiornamento");
+        ra.addFlashAttribute("success", ok ? "Ricetta aggiornata" : "Errore durante l'aggiornamento");
         return "redirect:/ricette/mie";
     }
 
@@ -147,25 +148,20 @@ public class RicettaController {
             return "redirect:/ricette/mie";
         }
         
-        boolean ok = ricettaService.delete(id);
-        ra.addFlashAttribute("success", ok ? "Ricetta eliminata" : "Errore eliminazione");
+        ricettaService.delete(id);
+        ra.addFlashAttribute("success", "Ricetta eliminata");
         return "redirect:/ricette/mie";
     }
 
-@GetMapping("/suggerimenti")
-public String suggerimenti(Model model,
-                           @AuthenticationPrincipal UserDetails userDetails) {
+    @GetMapping("/suggerimenti")
+    public String suggerimenti(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        Utente utente = utenteService.findByEmail(userDetails.getUsername()).orElse(null);
+        if (utente == null) return "redirect:/login";
 
-    Utente utente = utenteService.findByEmail(userDetails.getUsername()).orElse(null);
-
-    List<Ricetta> suggerite = ricettaService.getSuggerimenti(utente.getId());
-
-    model.addAttribute("ricette", suggerite);
-    model.addAttribute("titolo", "Ricette che puoi cucinare ora");
-    model.addAttribute("isMieRicette", false);
-
-    return "ricette/list";
-}
-
-
+        List<Ricetta> suggerite = ricettaService.getSuggerimenti(utente.getId());
+        model.addAttribute("ricette", suggerite);
+        model.addAttribute("titolo", "Cosa puoi cucinare ora");
+        model.addAttribute("isMieRicette", false);
+        return "ricette/list";
+    }
 }

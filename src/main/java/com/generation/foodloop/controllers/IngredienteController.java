@@ -1,27 +1,20 @@
 package com.generation.foodloop.controllers;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.generation.foodloop.dto.CategoriaDTO;
 import com.generation.foodloop.dto.IngredienteDTO;
-import com.generation.foodloop.entities.Ingrediente;
 import com.generation.foodloop.entities.UnitaMisura;
 import com.generation.foodloop.entities.Utente;
 import com.generation.foodloop.services.CategoriaService;
 import com.generation.foodloop.services.IngredienteService;
-import com.generation.foodloop.services.UtenteService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,39 +27,29 @@ import lombok.extern.slf4j.Slf4j;
 public class IngredienteController {
 
     private final IngredienteService ingredienteService;
-    private final UtenteService utenteService;
     private final CategoriaService categoriaService;
 
-    @ModelAttribute
-    public void addFormAttributes(Model model, Authentication authentication) {
-        if (authentication != null) {
-            Utente user = (Utente) authentication.getPrincipal();
-            model.addAttribute("unitaMisure", UnitaMisura.values());
-            model.addAttribute("categorie", categoriaService.getByUtente(user.getId()));
+    private void populateModel(Model model) {
+        model.addAttribute("unita", UnitaMisura.values());
+        model.addAttribute("categorie", categoriaService.getAll());
+
+        if (!model.containsAttribute("categoriaDTO")) {
+            model.addAttribute("categoriaDTO", CategoriaDTO.empty());
         }
     }
 
     @GetMapping
-    public String listaIngredienti(Model model, Authentication authentication) {
-        Utente user = (Utente) authentication.getPrincipal();
-        Utente u = utenteService.getByIdWithIngredienti(user.getId());
-        List<Ingrediente> listaOrdinata = u.getIngredienti().stream()
-            .sorted((a, b) -> {
-                if (a.getScadenza() == null) return 1;
-                if (b.getScadenza() == null) return -1;
-                return a.getScadenza().compareTo(b.getScadenza());
-            })
-            .toList();
-        model.addAttribute("utente", u);
-        model.addAttribute("ingredienti", listaOrdinata);
+    public String lista(Model model, Authentication auth) {
+        Utente user = (Utente) auth.getPrincipal();
+        model.addAttribute("ingredienti", ingredienteService.getByUtente(user.getId()));
         return "ingredienti/list";
     }
 
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("ingredienteDTO", IngredienteDTO.empty());
-        model.addAttribute("categoriaDTO", CategoriaDTO.empty());
         model.addAttribute("mode", "create");
+        populateModel(model);
         return "ingredienti/form-dto";
     }
 
@@ -77,14 +60,19 @@ public class IngredienteController {
                          Authentication auth,
                          RedirectAttributes ra) {
 
+        Map<String, String> erroriUnicita = ingredienteService.uniqueErrorsForCreate(dto);
+        erroriUnicita.forEach((f, m) -> br.rejectValue(f, "duplicate", m));
+
         if (br.hasErrors()) {
+            log.warn("Errori di validazione nella creazione ingrediente: {}", br.getAllErrors());
             model.addAttribute("mode", "create");
+            populateModel(model); 
             return "ingredienti/form-dto";
         }
 
         Utente user = (Utente) auth.getPrincipal();
-        ingredienteService.createFromDto(dto,user);
-        ra.addFlashAttribute("success", "Ingrediente creato con successo");
+        ingredienteService.createFromDto(dto, user);
+        ra.addFlashAttribute("success", "Ingrediente aggiunto alla dispensa!");
         return "redirect:/ingredienti";
     }
 
@@ -97,6 +85,7 @@ public class IngredienteController {
         }
         model.addAttribute("ingredienteDTO", dto);
         model.addAttribute("mode", "edit");
+        populateModel(model);
         return "ingredienti/form-dto";
     }
 
@@ -112,18 +101,19 @@ public class IngredienteController {
 
         if (br.hasErrors()) {
             model.addAttribute("mode", "edit");
+            populateModel(model);
             return "ingredienti/form-dto";
         }
 
         boolean ok = ingredienteService.updateFromDto(id, dto);
-        ra.addFlashAttribute("success", ok ? "Ingrediente aggiornato" : "Errore aggiornamento");
+        ra.addFlashAttribute("success", ok ? "Ingrediente aggiornato" : "Errore durante l'aggiornamento");
         return "redirect:/ingredienti";
     }
 
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable Long id, RedirectAttributes ra) {
         boolean ok = ingredienteService.delete(id);
-        ra.addFlashAttribute("success", ok ? "Ingrediente eliminato" : "Impossibile eliminare");
+        ra.addFlashAttribute("success", ok ? "Ingrediente rimosso" : "Impossibile eliminare l'ingrediente");
         return "redirect:/ingredienti";
     }
 }

@@ -1,6 +1,7 @@
 package com.generation.foodloop.services;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -34,6 +35,20 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
         return nome == null ? null : nome.trim().toUpperCase();
     }
 
+    private Set<Ingrediente> parseIngredienti(String idsString) {
+        if (idsString == null || idsString.isBlank()) {
+            return new HashSet<>();
+        }
+
+        return Arrays.stream(idsString.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .map(Long::valueOf)
+                .map(ingredienteService::getByIdOrNull)
+                .filter(ing -> ing != null)
+                .collect(Collectors.toSet());
+    }
+
     public Map<String, String> uniqueErrorsForCreate(RicettaDTO dto) {
         Map<String, String> errors = new HashMap<>();
         String nome = normNome(dto.nome());
@@ -54,23 +69,18 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
 
     @Transactional
     public boolean createFromDto(RicettaDTO dto, Utente autore) {
-        log.info("Creazione Ricetta da DTO");
+        log.info("Creazione Ricetta da DTO con stringa ingredienti: {}", dto.ingredienti());
+        
         Ricetta r = mapper.toEntity(dto);
         r.setUtente(autore);
-        if (dto.ingredienti() != null && !dto.ingredienti().isEmpty()) {
-            Set<Ingrediente> fetched = new HashSet<>();
-            dto.ingredienti().forEach(i -> {
-                Ingrediente ing = ingredienteService.getByIdOrNull(i.getId());
-                if (ing != null)
-                    fetched.add(ing);
-            });
-            r.setIngredienti(fetched);
-        }
+        
+        r.setIngredienti(parseIngredienti(dto.ingredienti()));
+
         try {
             String fileName = fileStorageService.save(dto.foto());
             r.setFoto(fileName);
         } catch (IOException e) {
-            log.warn("Errore nel salvataggio dell'immagine");
+            log.error("Errore nel salvataggio dell'immagine", e);
             throw new RuntimeException("Errore nel salvataggio dell'immagine: " + e.getMessage());
         }
 
@@ -80,27 +90,24 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
 
     @Transactional
     public boolean updateFromDto(Long id, RicettaDTO dto) {
-        log.info("Aggiornamento Ricetta da DTO");
+        log.info("Aggiornamento Ricetta ID {} da DTO", id);
+        
         Ricetta r = getByIdOrNull(id);
         if (r == null) {
             return false;
         }
+
         mapper.updateEntity(dto, r);
-        if (dto.ingredienti() != null) {
-            r.getIngredienti().clear();
-            dto.ingredienti().forEach(i -> {
-                Ingrediente ing = ingredienteService.getByIdOrNull(i.getId());
-                if (ing != null)
-                    r.aggiungiIngrediente(ing);
-            });
-        }
+
+        r.getIngredienti().clear();
+        r.getIngredienti().addAll(parseIngredienti(dto.ingredienti()));
 
         if (dto.foto() != null && !dto.foto().isEmpty()) {
             try {
                 String fileName = fileStorageService.save(dto.foto());
                 r.setFoto(fileName);
             } catch (IOException e) {
-                log.warn("Errore nell'aggiornamento dell'immagine");
+                log.error("Errore nell'aggiornamento dell'immagine", e);
                 throw new RuntimeException("Errore nell'aggiornamento dell'immagine: " + e.getMessage());
             }
         }

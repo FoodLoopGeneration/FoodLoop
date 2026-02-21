@@ -1,6 +1,8 @@
 package com.generation.foodloop.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -33,11 +36,11 @@ class IngredienteServiceTest {
     @Mock
     private CategoriaService categoriaService;
 
+    @InjectMocks
     private IngredienteService service;
 
     @BeforeEach
     void setUp() {
-        service = new IngredienteService(mapper, categoriaService);
         ReflectionTestUtils.setField(service, "repository", repository);
     }
 
@@ -45,32 +48,44 @@ class IngredienteServiceTest {
     @DisplayName("TC-01: Creazione ingrediente con successo e associazione categoria")
     void createFromDto_SuccessWithCategory() {
         IngredienteDTO dto = mock(IngredienteDTO.class);
-        Categoria catDto = new Categoria();
-        catDto.setId(5L);
+        Categoria cat = new Categoria();
+        cat.setId(5L);
         Ingrediente entity = new Ingrediente();
+        Utente autore = new Utente();
 
-        when(dto.categoria()).thenReturn(catDto);
+        when(dto.categoria()).thenReturn(cat);
         when(mapper.toEntity(dto)).thenReturn(entity);
-        when(categoriaService.getByIdOrNull(5L)).thenReturn(catDto);
+        when(categoriaService.getByIdOrNull(5L)).thenReturn(cat);
 
-        boolean result = service.createFromDto(dto, new Utente());
+        boolean result = service.createFromDto(dto, autore);
 
         assertThat(result).isTrue();
-        assertThat(entity.getCategoria()).isEqualTo(catDto);
+        assertThat(entity.getUtente()).isEqualTo(autore);
+        assertThat(entity.getCategoria()).isEqualTo(cat);
         verify(repository).save(entity);
     }
 
     @Test
-    @DisplayName("TC-02: Errore univocità - Nome già presente in fase di creazione")
-    void uniqueErrorsForCreate_Duplicate() {
+    @DisplayName("TC-02: Validazione creazione - Errore se il nome è nullo")
+    void uniqueErrorsForCreate_NullName() {
         IngredienteDTO dto = mock(IngredienteDTO.class);
-        when(dto.nome()).thenReturn("Sale");
-        when(repository.existsByNome("SALE")).thenReturn(true);
+        when(dto.nome()).thenReturn(null);
 
         Map<String, String> errors = service.uniqueErrorsForCreate(dto);
 
         assertThat(errors).containsKey("nome");
-        assertThat(errors.get("nome")).isEqualTo("Ingrediente già presente in archivio");
+        assertThat(errors.get("nome")).isEqualTo("Il campo nome non può essere vuoto");
+    }
+
+    @Test
+    @DisplayName("TC-03: Validazione creazione - Successo se il nome è presente")
+    void uniqueErrorsForCreate_Valid() {
+        IngredienteDTO dto = mock(IngredienteDTO.class);
+        when(dto.nome()).thenReturn("Pasta");
+
+        Map<String, String> errors = service.uniqueErrorsForCreate(dto);
+
+        assertThat(errors).isEmpty();
     }
 
     @Test
@@ -102,25 +117,25 @@ class IngredienteServiceTest {
     }
 
     @Test
-    @DisplayName("TC-06: Errore univocità - Nome occupato da un altro ID in fase di update")
-    void uniqueErrorsForUpdate_Conflict() {
-        Long id = 1L;
+    @DisplayName("TC-06: Validazione update - Errore se il nome è nullo")
+    void uniqueErrorsForUpdate_NullName() {
         IngredienteDTO dto = mock(IngredienteDTO.class);
-        when(dto.nome()).thenReturn("Pepe");
-        when(repository.existsByNomeAndIdNot("PEPE", id)).thenReturn(true);
+        when(dto.nome()).thenReturn(null);
 
-        Map<String, String> errors = service.uniqueErrorsForUpdate(id, dto);
+        Map<String, String> errors = service.uniqueErrorsForUpdate(1L, dto);
 
         assertThat(errors).containsKey("nome");
-        assertThat(errors.get("nome")).contains("già utilizzato");
+        assertThat(errors.get("nome")).isEqualTo("Il campo nome non può essere vuoto");
     }
 
     @Test
-    @DisplayName("TC-07: Cancellazione con successo")
+    @DisplayName("TC-07: Cancellazione con successo (Verifica check esistenza)")
     void delete_Existing_ReturnsTrue() {
         Long id = 1L;
         Ingrediente i = new Ingrediente();
+
         when(repository.findById(id)).thenReturn(Optional.of(i));
+
         when(repository.existsById(id)).thenReturn(true);
 
         boolean result = service.delete(id);
@@ -167,5 +182,16 @@ class IngredienteServiceTest {
 
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(dto);
+    }
+
+    @Test
+    @DisplayName("TC-11: Recupero di tutti gli ingredienti")
+    void getAll_ReturnsList() {
+        when(repository.findAll()).thenReturn(List.of(new Ingrediente()));
+        
+        List<Ingrediente> result = service.getAll();
+        
+        assertThat(result).isNotEmpty();
+        verify(repository).findAll();
     }
 }

@@ -36,7 +36,7 @@
                             
                             <tr th:each="r : ${ricette}">
                                 <td>
-                                    <img th:src="@{${r?.foto}}" alt="Foto" 
+                                    <img th:src="@{/up/ricette/{foto}(foto = ${r?.foto})}" alt="Foto" 
                                          width="80" height="80" style="object-fit: cover; border-radius: 15px;">
                                 </td>
                                 <td class="name-cell">
