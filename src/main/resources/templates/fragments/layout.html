@@ -13,6 +13,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <link rel="stylesheet" th:href="@{/css/registerStyle.css}">
     <link rel="stylesheet" th:href="@{/css/list.css}">
     <link rel="stylesheet" th:href="@{/css/form.css}">
+    <link rel="stylesheet" th:href="@{/css/details.css}">
     <link rel="icon" type="image/x-icon" th:href="@{/res/favicon.ico}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
@@ -21,7 +22,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <header th:fragment="navbar">
     <nav class="navbar">
         <div class="nav-left">
-            <a th:href="@{/}" class="nav-logo">Home</a>
+            <a th:href="@{/}" class="nav-logo logo-box">FoodLoop</a>
+            <a th:href="@{/ingredienti}" 
+               class="nav-btn btn-secondary" 
+               sec:authorize="isAuthenticated()">I miei ingredienti</a>
         </div>
 
         <div class="nav-right" sec:authorize="isAnonymous()">
@@ -33,8 +37,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             <span class="utente">
                 Ciao, <b th:text="${#authentication.principal.nome + ' ' + #authentication.principal.cognome}"></b>
             </span>
-            <a th:href="@{/ingredienti}" class="active">I miei ingredienti</a>
-            <a th:href="@{/logout}" class="nav-link">Logout</a>
+            <a th:href="@{/logout}" class="nav-btn btn-logout">Logout</a>
         </div>
     </nav>
     <div th:replace="~{fragments/messaggi :: flashMessages}"></div>

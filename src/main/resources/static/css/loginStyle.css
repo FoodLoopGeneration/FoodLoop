@@ -8,7 +8,13 @@ body > div {
     min-height: calc(100vh - 150px);
     padding: 20px;
 }
-
+.login-wrapper {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;   
+    width: 100%;
+    max-width: 500px;      
+}
 /* Card del Form */
 form {
     background: white;
