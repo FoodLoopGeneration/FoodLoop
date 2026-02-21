@@ -1,24 +1,31 @@
 package com.generation.foodloop.controllers;
 
-import com.generation.foodloop.dto.CategoriaDTO;
-import com.generation.foodloop.dto.IngredienteDTO;
-import com.generation.foodloop.entities.Utente;
-import com.generation.foodloop.entities.UnitaMisura;
-import com.generation.foodloop.services.IngredienteService;
-import com.generation.foodloop.services.UtenteService;
-import com.generation.foodloop.services.CategoriaService;
+import java.util.List;
+import java.util.Map;
 
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Map;
+import com.generation.foodloop.dto.CategoriaDTO;
+import com.generation.foodloop.dto.IngredienteDTO;
+import com.generation.foodloop.entities.Ingrediente;
+import com.generation.foodloop.entities.UnitaMisura;
+import com.generation.foodloop.entities.Utente;
+import com.generation.foodloop.services.CategoriaService;
+import com.generation.foodloop.services.IngredienteService;
+import com.generation.foodloop.services.UtenteService;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
@@ -43,8 +50,15 @@ public class IngredienteController {
     public String listaIngredienti(Model model, Authentication authentication) {
         Utente user = (Utente) authentication.getPrincipal();
         Utente u = utenteService.getByIdWithIngredienti(user.getId());
+        List<Ingrediente> listaOrdinata = u.getIngredienti().stream()
+            .sorted((a, b) -> {
+                if (a.getScadenza() == null) return 1;
+                if (b.getScadenza() == null) return -1;
+                return a.getScadenza().compareTo(b.getScadenza());
+            })
+            .toList();
         model.addAttribute("utente", u);
-        model.addAttribute("ingredienti", u.getIngredienti());
+        model.addAttribute("ingredienti", listaOrdinata);
         return "ingredienti/list";
     }
 

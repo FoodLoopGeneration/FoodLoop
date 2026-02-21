@@ -115,6 +115,43 @@
 
 .text-right { text-align: right; }
 
+/* --- INDICATORI SCADENZA --- */
+
+/* Forza l'allineamento a sinistra per la colonna nome con pallino */
+.text-left { 
+    text-align: left !important; 
+    padding-left: 25px !important; 
+}
+
+.status-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 12px;
+    vertical-align: middle;
+}
+
+/* Colori richiesti */
+.dot-black  { background-color: #1a1a1a; box-shadow: 0 0 3px rgba(0,0,0,0.3); } /* Scaduti */
+.dot-red    { background-color: #d32f2f; } /* 0-10 giorni */
+.dot-yellow { background-color: #fbc02d; } /* 10-20 giorni */
+.dot-green  { background-color: #2e7d32; } /* Oltre o senza scadenza */
+
+/* Stile per i nomi degli ingredienti nella tabella */
+.name-cell {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+/* Opzionale: un tocco di enfasi per gli scaduti */
+tr:has(.dot-black) td {
+    color: #777;
+}
+tr:has(.dot-black) .name-cell {
+    color: #1a1a1a;
+}
 /* --- FOOTER --- */
 footer {
     padding: 30px;
