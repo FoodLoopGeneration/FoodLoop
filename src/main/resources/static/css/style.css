@@ -26,16 +26,63 @@ body {
 }
 
 /* SINISTRA */
+/* --- LOGO STYLE --- */
+.logo-box {
+    background: #2e7d32;
+    color: white !important;
+    padding: 6px 15px;
+    border-radius: 12px 2px 12px 2px; /* Taglio moderno stile logo */
+    font-family: "Poppins", sans-serif;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 8px rgba(46, 125, 50, 0.2);
+}
+
+.logo-box:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 12px rgba(46, 125, 50, 0.3);
+}
+
+/* --- BOTTONI NAVBAR --- */
+.nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+}
+
+/* Bottone I Miei Ingredienti  */
+.btn-secondary:hover {
+    background: #2e7d32;
+    color: white !important; 
+}
+
+.btn-secondary:hover {
+    background: #2e7d32;
+    color: white !important;
+}
+
+/* Bottone Logout (Variante Rossa) */
+.btn-logout {
+    background: #ff6b6b; /* Corallo rosso */
+}
+
+.btn-logout:hover {
+    background: #fa5252;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
 .nav-left {
     display: flex;
     align-items: center;
-}
-
-.nav-logo {
-    font-size: 20px;
-    font-weight: 600;
-    text-decoration: none;
-    color: #2e7d32;
+    gap: 15px;
 }
 
 /* DESTRA */
