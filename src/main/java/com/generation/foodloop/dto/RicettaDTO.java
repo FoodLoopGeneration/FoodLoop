@@ -1,10 +1,10 @@
 package com.generation.foodloop.dto;
 
-import java.util.Set;
+
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.generation.foodloop.entities.Ingrediente;
+
 import com.generation.foodloop.entities.Utente;
 
 import jakarta.validation.constraints.Max;
@@ -38,7 +38,7 @@ public record RicettaDTO(
 
     Utente utente,
 
-    Set<Ingrediente> ingredienti
+    String ingredienti
 ) {
 
     public RicettaDTO{

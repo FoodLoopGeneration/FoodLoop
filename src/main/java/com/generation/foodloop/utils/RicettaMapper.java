@@ -1,19 +1,22 @@
 package com.generation.foodloop.utils;
 
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
-
 import com.generation.foodloop.dto.RicettaDTO;
 import com.generation.foodloop.entities.Ricetta;
 
 @Component
 public class RicettaMapper {
-    public Ricetta toEntity(RicettaDTO dto){
+
+
+    public Ricetta toEntity(RicettaDTO dto) {
         Ricetta r = new Ricetta();
-        updateEntity(dto,r);
+        updateEntity(dto, r);
         return r;
     }
 
-    public void updateEntity(RicettaDTO dto, Ricetta r){
+
+    public void updateEntity(RicettaDTO dto, Ricetta r) {
         r.setId(dto.id());
         r.setNome(dto.nome());
         r.setDifficolta(dto.difficolta());
@@ -21,10 +24,29 @@ public class RicettaMapper {
         r.setTempo(dto.tempo());
         r.setValutazione(dto.valutazione());
         r.setDescrizione(dto.descrizione());
+
     }
 
-    public RicettaDTO toDTO(Ricetta r){
-        RicettaDTO dto = new RicettaDTO(r.getId(),r.getNome(),null,r.getDifficolta(),r.getPorzioni(),r.getTempo(),r.getValutazione(),r.getDescrizione(), r.getUtente(),r.getIngredienti());
-        return dto;
+
+    public RicettaDTO toDTO(Ricetta r) {
+        String ingredientiIds = "";
+        if (r.getIngredienti() != null && !r.getIngredienti().isEmpty()) {
+            ingredientiIds = r.getIngredienti().stream()
+                    .map(ing -> ing.getId().toString())
+                    .collect(Collectors.joining(","));
+        }
+
+        return new RicettaDTO(
+                r.getId(),
+                r.getNome(),
+                null, 
+                r.getDifficolta(),
+                r.getPorzioni(),
+                r.getTempo(),
+                r.getValutazione(),
+                r.getDescrizione(),
+                r.getUtente(),
+                ingredientiIds
+        );
     }
 }
