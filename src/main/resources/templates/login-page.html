@@ -5,20 +5,17 @@
 </head>
 <body>
     <header th:replace="~{fragments/layout :: navbar}"></header>
-    <div class="container">
+    <div>
         
-        <div th:if="${success}" style="color: green; margin-bottom: 10px;" th:text="${success}"></div>
-        
-        <div th:if="${param.error}" style="color: red; margin-bottom: 10px;">
-            Credenziali non valide. Riprova.
-        </div>
+        <div class="login-wrapper">
+            
+            <div th:if="${success}" class="success-msg" th:text="${success}"></div>
+            
+            <div th:if="${param.error}" class="error-msg">
+                Credenziali non valide. Riprova.
+            </div>
 
         <form th:action="@{/login}" method="post">
-            <div th:if="${success}" style="color: green; margin-bottom: 10px;" th:text="${success}"></div>
-        
-            <div th:if="${param.error}" style="color: red; margin-bottom: 10px;">
-                Credenziali non valide. Riprova.
-        </div>
             <fieldset>
                 <legend>Accedi</legend>
                 <label>Email: 
