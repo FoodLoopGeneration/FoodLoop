@@ -46,3 +46,27 @@ L'utente popola il sistema con i dati necessari per il calcolo delle ricette.
 2. **Upload**: Il `FileStorageService` salva l'immagine su disco e restituisce il path.
 3. **Mappatura**: `RicettaMapper` converte il DTO in Entità.
 4. **Persistenza**: Salvataggio nel DB con riferimento al nome del file immagine.
+
+## Flusso 4: Matching e Suggerimento Ricette
+1. **Richiesta**: L'utente clicca su "Cosa posso cucinare?".
+2. **Elaborazione**:
+                    - Il sistema recupera tutti gli ingredienti dell'utente.
+                    - Il sistema analizza tutte le ricette nel database.
+                    - Viene eseguito un filtraggio: una ricetta è suggerita solo se **tutti** i suoi ingredienti sono presenti nella dispensa dell'utente (confronto *case-insensitive* sui nomi).
+
+
+3. **Output**: Visualizzazione della lista di ricette "pronte all'uso".
+
+```mermaid
+graph TD
+    A[Inizio: Utente richiede suggerimenti] --> B[Recupero Ingredienti Utente]
+    B --> C[Recupero Tutte le Ricette]
+    C --> D{Per ogni Ricetta...}
+    D --> E[Controlla ingredienti necessari]
+    E --> F{L'utente li ha tutti?}
+    F -- SI --> G[Aggiungi a Lista Suggerimenti]
+    F -- NO --> H[Ignora Ricetta]
+    G --> I[Fine: Mostra Risultati]
+    H --> D
+
+```
