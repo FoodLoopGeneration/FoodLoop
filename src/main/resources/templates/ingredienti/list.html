@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="~{fragments/layout :: head('Inventario ingredienti')}"></head>
 
 <body>
@@ -19,6 +20,7 @@
                     <table class="custom-table">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th class="text-left">Nome</th>
                                 <th>Scadenza</th>
                                 <th>Quantità</th>
@@ -33,23 +35,23 @@
                                 <td colspan="7" class="empty-msg">Nessun ingrediente in dispensa.</td>
                             </tr>
 
-                            <tr th:each="i : ${ingredienti}" th:with="
+                            <tr th:each="i : ${ingredienti}"
+                                th:with="
                                 oggi=${T(java.time.LocalDate).now()},
                                 data=${i.scadenza},
                                 giorni=${data != null ? T(java.time.temporal.ChronoUnit).DAYS.between(oggi, data) : 999}">
-                                
-                                <td class="name-cell text-left">
-                                    <span class="status-dot" 
-                                          th:classappend="${data == null} ? 'dot-green' : (
-                                                          ${giorni &lt 0} ? 'dot-black' : (
-                                                          ${giorni &lt= 10} ? 'dot-red' : (
-                                                          ${giorni &lt= 20} ? 'dot-yellow' : 'dot-green')))">
+                                <td style="padding-right: 0; width: 40px;">
+                                    <span class="status-dot" th:classappend="${data == null} ? 'dot-green' : (
+                                      ${giorni &lt 0} ? 'dot-black' : (
+                                      ${giorni &lt= 10} ? 'dot-red' : (
+                                      ${giorni &lt= 20} ? 'dot-yellow' : 'dot-green')))">
                                     </span>
-                                    <span th:text="${i.nome}"></span>
+                                </td>
+                                <td th:text="${i.nome}"></td>
+
+                                <td th:text="${i.scadenza != null ? #temporals.format(i.scadenza, 'dd/MM/yyyy') : '-'}">
                                 </td>
 
-                                <td th:text="${i.scadenza != null ? #temporals.format(i.scadenza, 'dd/MM/yyyy') : '-'}"></td>
-                                
                                 <td th:text="${i.quantita}"></td>
                                 <td th:text="${i.unitaMisura}"></td>
                                 <td class="location-tag" th:text="${i.posizione}"></td>
@@ -63,8 +65,9 @@
                         </tbody>
                     </table>
                 </div>
-
+                <br>
                 <div class="status-legend">
+                    <h6>Legenda</h6>
                     <span><span class="status-dot dot-black"></span> Scaduto</span>
                     <span><span class="status-dot dot-red"></span> Critico (10gg)</span>
                     <span><span class="status-dot dot-yellow"></span> In scadenza (20gg)</span>
@@ -76,4 +79,5 @@
 
     <footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
+
 </html>
