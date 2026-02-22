@@ -71,20 +71,21 @@
 }
 
 /* --- TABELLA --- */
-.custom-table {
+.custom-table, .custom-table-r{
     width: 100%;
     border-collapse: collapse;
     text-align: center
 }
 
-.custom-table th {
+
+.custom-table th, .custom-table-r th{
     padding: 20px;
     color: #2e7d32;
     font-size: 1rem;
     border-bottom: 2px solid #F4F8F5;
 }
 
-.custom-table td {
+.custom-table td, .custom-table-r td {
     padding: 22px 20px;
     font-size: 1.05rem;
 }
@@ -115,8 +116,6 @@
 .text-right { text-align: right; }
 
 /* --- INDICATORI SCADENZA --- */
-
-/* Forza l'allineamento a sinistra per la colonna nome con pallino */
 .text-left { 
     text-align: left !important; 
     padding-left: 25px !important; 
@@ -137,14 +136,14 @@
 .dot-yellow { background-color: #fbc02d; } /* 10-20 giorni */
 .dot-green  { background-color: #2e7d32; } /* Oltre o senza scadenza */
 
-/* Stile per i nomi degli ingredienti nella tabella */
+
 .name-cell {
     display: flex;
     align-items: center;
     font-weight: 600;
 }
 
-/* Opzionale: un tocco di enfasi per gli scaduti */
+
 tr:has(.dot-black) td {
     color: #777;
 }
@@ -171,16 +170,16 @@ footer {
 
 button.btn-delete-link, 
 input[type="submit"].btn-delete-link {
-    all: unset !important;    /* Cancella TUTTI gli stili predefiniti */
+    all: unset !important; 
     display: inline-block !important;
     
-    /* Stile per farlo sembrare un link */
-    color: #d32f2f !important; /* Rosso */
+ 
+    color: #d32f2f !important;
     font-weight: bold !important;
     font-size: 16px !important;
     cursor: pointer !important;
     
-    /* Rimuove forzatamente il blocco bianco */
+
     background: transparent !important;
     background-color: transparent !important;
     box-shadow: none !important;
@@ -191,7 +190,7 @@ input[type="submit"].btn-delete-link {
     height: auto !important;
 }
 
-/* Effetto al passaggio del mouse */
+
 button.btn-delete-link:hover {
     text-decoration: underline !important;
 }
@@ -210,14 +209,14 @@ button.btn-delete-link:hover {
     }
 
     .sidebar-nav {
-        flex-direction: row; /* Menu orizzontale su mobile */
-        overflow-x: auto;    /* Se ci sono troppe voci, si scorrono col dito */
+        flex-direction: row; 
+        overflow-x: auto;   
         padding-bottom: 10px;
     }
 
     .table-card {
         padding: 20px;
-        overflow-x: auto; /* Permette alla tabella di essere scorrevole senza rompere il sito */
+        overflow-x: auto;
     }
 
     .page-header {
@@ -229,7 +228,7 @@ button.btn-delete-link:hover {
 @media (max-width: 768px) {
     .custom-table thead {
         display: none !important;
-    }.custom-table td:nth-child(4), /* Quantità */
+    }.custom-table td:nth-child(4),
     .custom-table td:nth-child(5),
     .custom-table td:nth-child(7) 
      {

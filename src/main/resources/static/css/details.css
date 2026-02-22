@@ -9,12 +9,12 @@
 
 .recipe-title {
     font-size: 2.5rem;
-    color: #2e7d32; /* Un verde cucina professionale */
+    color: #2e7d32; 
     margin-bottom: 20px;
     text-transform: capitalize;
 }
 
-/* Header: Immagine e Info affiancate */
+
 .recipe-header-section {
     display: flex;
     gap: 40px;
@@ -29,7 +29,7 @@
 .recipe-img {
     width: 100%;
     height: 250px;
-    object-fit: cover; /* Evita che la foto si deformi */
+    object-fit: cover; 
     border-radius: 15px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
@@ -42,14 +42,14 @@
 }
 
 .stars {
-    color: #fbc02d; /* Giallo per le stelle */
+    color: #fbc02d;
     letter-spacing: 2px;
 }
 
 /* Corpo della ricetta */
 .recipe-body-content {
     display: grid;
-    grid-template-columns: 1fr 2fr; /* Ingredienti stretti, Passaggi larghi */
+    grid-template-columns: 1fr 2fr; 
     gap: 30px;
 }
 
@@ -76,7 +76,7 @@
 
 .recipe-desc {
     line-height: 1.6;
-    white-space: pre-line; /* Mantiene gli a capo del database */
+    white-space: pre-line; 
 }
 
 /* Bottoni */
@@ -98,10 +98,10 @@
 .btn-edit { background: #2e7d32; color: white !important; }
 .btn-back { color: #666 !important; border: 1px solid #ccc; }
 .btn-edit:hover { background: #1b5e20; }
-/* --- INTEGRAZIONE DETTAGLIO RICETTA --- */
+
 
 .recipe-view {
-    max-width: 1000px; /* Più stretto della tabella per miglior leggibilità */
+    max-width: 1000px; 
 }
 
 .recipe-grid {
@@ -147,7 +147,6 @@
 .stars-container { color: #2e7d32; letter-spacing: 3px; }
 .stars-yellow { color: #FF8C42; }
 
-/* Sezione Ingredienti e Passaggi */
 .recipe-details-grid {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
