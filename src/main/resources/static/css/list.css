@@ -4,7 +4,6 @@
     flex-direction: row;
     min-height: calc(100vh - 120px);
     width: 100%;
-    /* Margine interno per staccare sidebar e tabella dai bordi finestra */
     padding: 40px 60px; 
     gap: 50px; 
     box-sizing: border-box;
@@ -197,7 +196,81 @@ button.btn-delete-link:hover {
     text-decoration: underline !important;
 }
 /* --- RESPONSIVE --- */
-@media (max-width: 1300px) {
-    .page-container { padding: 20px 30px; gap: 30px; }
-    .sidebar { width: 280px; min-width: 280px; }
+@media (max-width: 768px) {
+    .page-container {
+        flex-direction: column;
+        padding: 15px;
+        gap: 20px;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-width: 100%;
+        padding: 20px;
+    }
+
+    .sidebar-nav {
+        flex-direction: row; /* Menu orizzontale su mobile */
+        overflow-x: auto;    /* Se ci sono troppe voci, si scorrono col dito */
+        padding-bottom: 10px;
+    }
+
+    .table-card {
+        padding: 20px;
+        overflow-x: auto; /* Permette alla tabella di essere scorrevole senza rompere il sito */
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}
+@media (max-width: 768px) {
+    .custom-table thead {
+        display: none !important;
+    }.custom-table td:nth-child(4), /* Quantità */
+    .custom-table td:nth-child(5),
+    .custom-table td:nth-child(7) 
+     {
+        display: none !important;
+    }
+
+    .custom-table tr {
+        display: grid;
+        grid-template-areas: 
+            "nome nome"
+            "scadenza posizione"
+            "azioni azioni";
+        grid-template-columns: 1fr 1fr;
+        padding: 6px 12px;
+        gap: 2px;
+    }
+
+    /* Riga Nome e Pallino */
+    .name-cell { 
+        grid-area: nome; 
+        border-bottom: 1px solid #f4f4f4 !important;
+        padding-bottom: 5px !important;
+        margin-bottom: 5px;
+        padding: 0 !important;
+        margin: 0;
+    }
+
+    .custom-table td:nth-child(3), 
+    .custom-table td:nth-child(6) { 
+        font-size: 0.8rem; 
+        color: #666;
+        padding: 0 !important;
+    }
+
+    .custom-table td:nth-child(6) { text-align: right; }
+
+    /* Azioni (Modifica) */
+    .custom-table td:last-child {
+        grid-area: azioni;
+        border-top: 1px dashed #eee !important;
+        margin-top: 5px;
+        padding-top: 5px !important;
+    }
 }
