@@ -26,6 +26,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             <a th:href="@{/ingredienti}" 
                class="nav-btn btn-secondary" 
                sec:authorize="isAuthenticated()">I miei ingredienti</a>
+            <a th:href="@{/utenti}"
+               class="nav-btn btn-secondary" 
+               sec:authorize="hasAnyRole('ROLE_ADM')">Gestisci utenti</a>
         </div>
 
         <div class="nav-right" sec:authorize="isAnonymous()">

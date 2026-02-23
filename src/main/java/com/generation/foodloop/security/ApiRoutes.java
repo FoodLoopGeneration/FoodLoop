@@ -11,7 +11,7 @@ public final class ApiRoutes {
         "/css/**",
         "/js/**",
         "/register",
-        "/res/**",    
+        "/res/**",
         "/up/**"
     };
 
@@ -22,13 +22,15 @@ public final class ApiRoutes {
         "/ingredienti/**",
         "/ricette/**",
         "/ricette",
-        "/categoria/**"
+        "/categoria/**" 
+        
     };
 
     //ADMIN
     public static final String[] ADMIN_ENDPOINTS = {
         "/admin/**",
-        "/gestione/**"
+        "/utenti/**"
+        
     };
 }
 

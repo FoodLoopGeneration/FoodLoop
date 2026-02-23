@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.generation.foodloop.dto.CategoriaDTO;
 import com.generation.foodloop.dto.IngredienteDTO;
+import com.generation.foodloop.entities.Utente;
 import com.generation.foodloop.services.CategoriaService;
 
 import jakarta.validation.Valid;
@@ -46,8 +47,10 @@ public class CategoriaController {
             return "redirect:/ingredienti/new";
         }
 
+        Utente utente = (Utente)auth.getPrincipal();
+
         try {
-            categoriaService.createFromDto(dto, null);
+            categoriaService.createFromDto(dto, utente);
             ra.addFlashAttribute("success", "Categoria '" + dto.nome() + "' creata! Ora puoi selezionarla.");
         } catch (Exception e) {
             log.error("Errore salvataggio categoria", e);

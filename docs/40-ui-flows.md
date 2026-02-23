@@ -70,3 +70,11 @@ graph TD
     H --> D
 
 ```
+
+## Flusso 5: Admin rimuovi utente
+1. **Richiesta**: L'admin elimina un utente
+2. **Elaborazione**:
+                    - Admin fa login
+                    - Admin va in pagina /utenti
+                    - Admin seleziona "Elimina" a fianco dell'utente da cancellare
+3. **Output**: La lista degli utenti viene ricaricata senza l'utente appena eliminato (Non più presente a DB)

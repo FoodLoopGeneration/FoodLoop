@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head(${titolo})}"></head>
+
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+
+    <div class="page-container">
+
+        <div th:replace="~{fragments/layout :: sidebar}"></div>
+
+        <main class="main-content">
+            <div class="table-card">
+
+                <div class="page-header">
+                    <h1 th:text="${titolo}">Lista Utenti</h1>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th class="text-left">Nome</th>
+                                <th>Cognome</th>
+                                <th>Email</th>
+                                <th class="text-right">Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(utenti)}">
+                                <td colspan="4" class="text-center" style="padding: 50px; color: #888;">
+                                    Nessun utente trovato in questa sezione.
+                                </td>
+                            </tr>
+
+                            <tr th:each="u : ${utenti}">
+                                <td class="name-cell text-left">
+                                    <span th:text="${u.nome}">Nome</span>
+                                </td>
+
+                                <td>
+                                    <span th:text="${u.cognome}">Cognome</span>
+                                </td>
+
+                                <td>
+                                    <span th:text="${u.email}">Email</span>
+                                </td>
+
+                                <td class="text-right">
+                                    <form th:action="@{/utenti/{id}/delete(id=${u.id})}" method="post"
+                                        class="form-elimina-inline">
+                                        <button type="submit" class="btn-delete-link"
+                                            onclick="return confirm('Sei sicuro di voler eliminare questo utente?');">
+                                            Elimina
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+
+</html>

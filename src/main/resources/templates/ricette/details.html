@@ -49,9 +49,6 @@
                     <ul class="ing-list">
                         <li th:each="ing : ${ricetta.ingredienti}">
                             <span class="category-badge" th:text="${ing.nome}"></span>
-                            <span class="ing-qty">
-                                <span th:text="${ing.quantita}"></span> <span th:text="${ing.unitaMisura}"></span>
-                            </span>
                         </li>
                     </ul>
                 </div>
