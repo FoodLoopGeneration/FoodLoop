@@ -1,5 +1,6 @@
 package com.generation.foodloop.controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.security.core.Authentication;
@@ -11,10 +12,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.generation.foodloop.dto.CategoriaDTO;
 import com.generation.foodloop.dto.IngredienteDTO;
+import com.generation.foodloop.entities.Ingrediente;
 import com.generation.foodloop.entities.UnitaMisura;
 import com.generation.foodloop.entities.Utente;
 import com.generation.foodloop.services.CategoriaService;
 import com.generation.foodloop.services.IngredienteService;
+import com.generation.foodloop.services.UtenteService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +31,7 @@ public class IngredienteController {
 
     private final IngredienteService ingredienteService;
     private final CategoriaService categoriaService;
+    private final UtenteService utenteService;
 
     private void populateModel(Model model) {
         model.addAttribute("unita", UnitaMisura.values());
@@ -40,8 +44,16 @@ public class IngredienteController {
 
     @GetMapping
     public String lista(Model model, Authentication auth) {
-        Utente user = (Utente) auth.getPrincipal();
-        model.addAttribute("ingredienti", ingredienteService.getByUtente(user.getId()));
+        Utente principal = (Utente) auth.getPrincipal();
+        Utente user = utenteService.getByIdWithIngredienti(principal.getId());
+        List<Ingrediente> listaOrdinata = user.getIngredienti().stream()
+            .sorted((a, b) -> {
+                if (a.getScadenza() == null) return 1;
+                if (b.getScadenza() == null) return -1;
+                return a.getScadenza().compareTo(b.getScadenza());
+            })
+            .toList();
+        model.addAttribute("ingredienti", listaOrdinata);
         return "ingredienti/list";
     }
 

@@ -536,3 +536,29 @@ body {
     border: 1px solid #c8e6c9;
 }
 
+footer {
+    width: 100%;
+    padding: 20px;
+    background: white;
+    text-align: center;
+    border-top: 1px solid #eee;
+    margin-top: auto; 
+    position: relative;
+}
+@media (max-width: 480px) {
+    .navbar {
+        flex-direction: column; /* Impila gli elementi */
+        gap: 10px;
+        padding: 10px;
+    }
+    
+    .nav-left, .nav-right {
+        width: 100%;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .utente {
+        display: none; 
+    }
+}
