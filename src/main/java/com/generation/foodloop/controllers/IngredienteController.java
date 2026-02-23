@@ -33,13 +33,20 @@ public class IngredienteController {
     private final CategoriaService categoriaService;
     private final UtenteService utenteService;
 
-    private void populateModel(Model model) {
-        model.addAttribute("unita", UnitaMisura.values());
-        model.addAttribute("categorie", categoriaService.getAll());
+    private void populateModel(Model model, Authentication authentication) {
 
-        if (!model.containsAttribute("categoriaDTO")) {
-            model.addAttribute("categoriaDTO", CategoriaDTO.empty());
+        if (authentication != null && authentication.getPrincipal() instanceof Utente user) {
+            model.addAttribute("unita", UnitaMisura.values());
+            model.addAttribute("categorie", categoriaService.getByUtente(user.getId()));
+
+            if (!model.containsAttribute("categoriaDTO")) {
+                model.addAttribute("categoriaDTO", CategoriaDTO.empty());
+            }
+        } else {
+            model.addAttribute("unita", java.util.Collections.emptyList());
+            model.addAttribute("categoria", java.util.Collections.emptyList());
         }
+
     }
 
     @GetMapping
@@ -47,30 +54,32 @@ public class IngredienteController {
         Utente principal = (Utente) auth.getPrincipal();
         Utente user = utenteService.getByIdWithIngredienti(principal.getId());
         List<Ingrediente> listaOrdinata = user.getIngredienti().stream()
-            .sorted((a, b) -> {
-                if (a.getScadenza() == null) return 1;
-                if (b.getScadenza() == null) return -1;
-                return a.getScadenza().compareTo(b.getScadenza());
-            })
-            .toList();
+                .sorted((a, b) -> {
+                    if (a.getScadenza() == null)
+                        return 1;
+                    if (b.getScadenza() == null)
+                        return -1;
+                    return a.getScadenza().compareTo(b.getScadenza());
+                })
+                .toList();
         model.addAttribute("ingredienti", listaOrdinata);
         return "ingredienti/list";
     }
 
     @GetMapping("/new")
-    public String createForm(Model model) {
+    public String createForm(Model model, Authentication authentication) {
         model.addAttribute("ingredienteDTO", IngredienteDTO.empty());
         model.addAttribute("mode", "create");
-        populateModel(model);
+        populateModel(model, authentication);
         return "ingredienti/form-dto";
     }
 
     @PostMapping
     public String create(@Valid @ModelAttribute("ingredienteDTO") IngredienteDTO dto,
-                         BindingResult br,
-                         Model model,
-                         Authentication auth,
-                         RedirectAttributes ra) {
+            BindingResult br,
+            Model model,
+            Authentication auth,
+            RedirectAttributes ra) {
 
         Map<String, String> erroriUnicita = ingredienteService.uniqueErrorsForCreate(dto);
         erroriUnicita.forEach((f, m) -> br.rejectValue(f, "duplicate", m));
@@ -78,7 +87,7 @@ public class IngredienteController {
         if (br.hasErrors()) {
             log.warn("Errori di validazione nella creazione ingrediente: {}", br.getAllErrors());
             model.addAttribute("mode", "create");
-            populateModel(model); 
+            populateModel(model, auth);
             return "ingredienti/form-dto";
         }
 
@@ -89,7 +98,7 @@ public class IngredienteController {
     }
 
     @GetMapping("/{id}/edit")
-    public String editForm(@PathVariable Long id, Model model, RedirectAttributes ra) {
+    public String editForm(@PathVariable Long id, Model model, RedirectAttributes ra, Authentication authentication) {
         IngredienteDTO dto = ingredienteService.getDTOById(id);
         if (dto == null) {
             ra.addFlashAttribute("error", "Ingrediente non trovato");
@@ -97,23 +106,24 @@ public class IngredienteController {
         }
         model.addAttribute("ingredienteDTO", dto);
         model.addAttribute("mode", "edit");
-        populateModel(model);
+        populateModel(model, authentication);
         return "ingredienti/form-dto";
     }
 
     @PostMapping("/{id}")
     public String update(@PathVariable Long id,
-                         @Valid @ModelAttribute("ingredienteDTO") IngredienteDTO dto,
-                         BindingResult br,
-                         Model model,
-                         RedirectAttributes ra) {
+            @Valid @ModelAttribute("ingredienteDTO") IngredienteDTO dto,
+            BindingResult br,
+            Model model,
+            RedirectAttributes ra,
+            Authentication authentication) {
 
         Map<String, String> erroriUnicita = ingredienteService.uniqueErrorsForUpdate(id, dto);
         erroriUnicita.forEach((f, m) -> br.rejectValue(f, "duplicate", m));
 
         if (br.hasErrors()) {
             model.addAttribute("mode", "edit");
-            populateModel(model);
+            populateModel(model, authentication);
             return "ingredienti/form-dto";
         }
 
