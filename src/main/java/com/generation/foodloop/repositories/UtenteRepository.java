@@ -1,5 +1,6 @@
 package com.generation.foodloop.repositories;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +17,10 @@ public interface UtenteRepository extends JpaRepository<Utente, Long> {
     @EntityGraph(attributePaths = "ingredienti")
     Optional<Utente> findWithIngredientiById(Long id);
     
+    // @EntityGraph(attributePaths = "ruoli")
+    // Optional<Utente> findWithRuoliById(Long id);
+
     @EntityGraph(attributePaths = "ruoli")
-    Optional<Utente> findWithRuoliById(Long id);
+    List<Utente> findByRuoli_Id(Long ruoloId);
+
 }
