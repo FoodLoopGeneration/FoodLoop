@@ -1,8 +1,8 @@
 # 61 — Release Notes
 
 ## Versione 1.0.0
-- Data di rilascio: 
-- Stato: 
+- Data di rilascio: 23/02/2026
+- Stato: Completa
 - Sviluppato da: Team FoodLoop
 
 ### Funzionalità
