@@ -1,5 +1,6 @@
 package com.generation.foodloop.services;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -59,5 +60,9 @@ public class UtenteService extends GenericService<Long, Utente, UtenteRepository
     public Utente getByIdWithIngredienti(Long id) {
         return getRepository().findWithIngredientiById(id)
                 .orElseThrow(() -> new RuntimeException("Utente non trovato con ID: " + id));
+    }
+
+    public List<Utente> getWithRuoliById(Long id){
+        return getRepository().findByRuoli_Id(id);
     }
 }
