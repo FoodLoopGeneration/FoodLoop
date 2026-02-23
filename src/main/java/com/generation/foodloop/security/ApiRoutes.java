@@ -11,7 +11,8 @@ public final class ApiRoutes {
         "/css/**",
         "/js/**",
         "/register",
-        "/res/**"
+        "/res/**",    
+        "/up/**"
     };
 
     //USER
@@ -21,8 +22,7 @@ public final class ApiRoutes {
         "/ingredienti/**",
         "/ricette/**",
         "/ricette",
-        "/categoria/**",    
-        "/up/**"
+        "/categoria/**"
     };
 
     //ADMIN
