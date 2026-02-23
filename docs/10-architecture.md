@@ -1,7 +1,7 @@
 # 10 — Architettura
 
 ## Struttura package (esempio)
-- `controller/` (MVC + mapping rotte)
+- `controllers/` (MVC + mapping rotte)
 
     * AppController – endpoint di utilità e funzionalità di sistema
 
@@ -15,11 +15,13 @@
 
     * CategoriaController - esposizione delle API per la gestione delle categorie per gli ingredienti
 
+    * UtenteController - mostra la pagina "utenti" e ne abilita la gestione da parte dell'admin (ADM) 
+
 I controller rappresentano il livello di ingresso dell’applicazione.
 Gestiscono esclusivamente gli aspetti HTTP (routing, request/response) e delegano completamente la logica applicativa ai service.
 Non contengono logica di business né accedono direttamente al livello di persistenza.
 
-- `service/` (logica applicativa)
+- `services/` (logica applicativa)
 
     * CategoriaService – gestione della logica applicativa relativa alle categorie
 
@@ -37,7 +39,7 @@ Il livello service incapsula la business logic dell’applicazione.
 Coordina le operazioni sui repository, applica le regole di dominio e definisce i flussi applicativi.
 Rappresenta il punto centrale dell’architettura.
 
-- `repository/` (Spring Data JPA)
+- `repositories/` (Spring Data JPA)
 
     * CategoriaRepository – accesso ai dati delle categorie
 
@@ -52,7 +54,7 @@ Rappresenta il punto centrale dell’architettura.
 I repository si occupano esclusivamente dell’accesso ai dati tramite Spring Data JPA.
 Non contengono logica di business e forniscono un’astrazione del livello di persistenza.
 
-- `entity/` (JPA entities)
+- `entities/` (JPA entities)
 
     * Categoria – entità di dominio per le categorie
 
@@ -106,7 +108,7 @@ Consentono di:
 
     Questo package gestisce tutti gli aspetti legati alla sicurezza dell’applicazione, inclusi autenticazione, autorizzazione e protezione delle API.
 
-- `config/` (profili, bean, init)
+- `configs/` (profili, bean, init)
 
     * EncoderContext – configurazione degli encoder per la gestione delle password
 

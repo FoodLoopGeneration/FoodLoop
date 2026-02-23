@@ -42,7 +42,7 @@ L'applicazione sarà disponibile all'indirizzo locale: `http://localhost:8080`
 ## Credenziali Demo
 L'applicazione può essere inizializzata con un utente amministratore tramite il file `data.sql`:
 
-- **Email:** `admin@foodloop.com`
+- **Email:** `mario@foodloop.com`
 - **Password:** `admin` (hash: `$2a$12$yVYfGVDAgOp2..j.cPcmiulBZAkifzYHs4/HVmmQh2t7vakcm/eeW`)
 - **Ruolo:** `ADM`
 

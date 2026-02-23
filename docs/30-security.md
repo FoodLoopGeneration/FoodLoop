@@ -5,7 +5,7 @@
 - **Password hash BCrypt**: La verifica delle credenziali utilizza `BCryptPasswordEncoder` per confrontare la password fornita con quella archiviata nel database.
 - **Protezione rotte**: La sicurezza è gestita tramite `SecurityFilterChain` definita in `SecurityConfiguration`:
 - **Rotte Pubbliche**: Accesso libero a `/`, `/login`, `/register` e risorse statiche (`/css/**`, `/js/**`, `/res/**`).
-- **Rotte ADMIN**: Gli endpoint sotto `/admin/**` e `/gestione/**` sono riservati esclusivamente agli utenti con ruolo `ADM`.
+- **Rotte ADMIN**: Gli endpoint sotto `/admin/**` e `/utenti/**` sono riservati esclusivamente agli utenti con ruolo `ADM`.
 - **Rotte USER/Autenticato**: Gli endpoint `/user/**`, `/ingredienti/**`, `/ricette/**` e `/categoria/**` sono accessibili sia ai ruoli `USR` che `ADM`.
 - **Altre rotte**: Qualsiasi altra richiesta richiede l'autenticazione generica.
 

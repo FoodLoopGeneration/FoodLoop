@@ -3,6 +3,6 @@
 
 ## Admin seed
 utente ADMIN pre-caricato:
-  - username/email: admin@foodloop.com
+  - username/email: mario@foodloop.com
   - password demo: admin
   - ruolo: ADMIN
