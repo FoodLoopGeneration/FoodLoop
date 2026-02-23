@@ -318,7 +318,7 @@ body {
     width: 10%;
     height: 100%;
     z-index: 2;
-    pointer-events: none; /* Permette di cliccare attraverso la sfumatura */
+    pointer-events: none; 
 }
 .carousel-section::before {
     left: 0;
@@ -494,9 +494,9 @@ body {
     box-shadow: 0 6px 15px rgba(255, 107, 107, 0.3);
 }
 
-/* --- STILE BOTTONE LOGOUT (Link trasformato in Bottone) --- */
+/* --- STILE BOTTONE LOGOUT */
 .logout-btn {
-    background-color: #ff6b6b; /* Rosso corallo morbido */
+    background-color: #ff6b6b; 
     color: white !important;
     padding: 10px 20px;
     border-radius: 10px;
@@ -547,7 +547,7 @@ footer {
 }
 @media (max-width: 480px) {
     .navbar {
-        flex-direction: column; /* Impila gli elementi */
+        flex-direction: column; 
         gap: 10px;
         padding: 10px;
     }
