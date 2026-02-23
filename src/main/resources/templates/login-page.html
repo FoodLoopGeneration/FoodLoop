@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Login')}">
+    <link rel="stylesheet" th:href="@{/css/loginStyle.css}">
+</head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+    <div>
+        
+        <div class="login-wrapper">
+            
+            <div th:if="${success}" class="success-msg" th:text="${success}"></div>
+            
+            <div th:if="${param.error}" class="error-msg">
+                Credenziali non valide. Riprova.
+            </div>
+
+        <form th:action="@{/login}" method="post">
+            <fieldset>
+                <legend>Accedi</legend>
+                <label>Email: 
+                    <input type="text" name="username" required>
+                </label>
+                <br><br>
+                <label>Password: 
+                    <input type="password" name="password" required>
+                </label>
+            </fieldset>
+            <br>
+            <button type="submit">Login</button>
+             <p class="login-footer">Nuovo utente? <a th:href="@{/register}">Registrati qui</a></p>
+        </form>
+    </div>
+</body>
+</html>

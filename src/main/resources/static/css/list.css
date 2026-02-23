@@ -1,0 +1,275 @@
+/* --- LAYOUT PRINCIPALE --- */
+.page-container {
+    display: flex;
+    flex-direction: row;
+    min-height: calc(100vh - 120px);
+    width: 100%;
+    padding: 40px 60px; 
+    gap: 50px; 
+    box-sizing: border-box;
+}
+
+/* --- SIDEBAR (Sistemata) --- */
+.sidebar {
+    width: 320px;
+    min-width: 320px;
+    background: white;
+    padding: 40px 25px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    border: 1px solid #edf2ed;
+    height: fit-content;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sidebar-nav a {
+    text-decoration: none;
+    color: #444;
+    padding: 16px 22px;
+    border-radius: 15px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.sidebar-nav a:hover, .sidebar-nav a.active {
+    background: #2e7d32;
+    color: white;
+}
+
+/* --- MAIN CONTENT (Espanso) --- */
+.main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+/* --- CARD TABELLA (Più larga e leggibile) --- */
+.table-card {
+    width: 100%;
+    max-width: 1400px; /* Tabella ora molto più larga */
+    background: white;
+    padding: 45px;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.page-header h1 {
+    font-size: 2rem;
+    color: #2f3e2f;
+}
+
+/* --- TABELLA --- */
+.custom-table, .custom-table-r{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center
+}
+
+
+.custom-table th, .custom-table-r th{
+    padding: 20px;
+    color: #2e7d32;
+    font-size: 1rem;
+    border-bottom: 2px solid #F4F8F5;
+}
+
+.custom-table td, .custom-table-r td {
+    padding: 22px 20px;
+    font-size: 1.05rem;
+}
+
+.name-cell {
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.category-badge {
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 0.85rem;
+}
+
+.edit-link {
+    color: #FF8C42;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.edit-link:hover {
+    text-decoration: underline;
+}
+
+.text-right { text-align: right; }
+
+/* --- INDICATORI SCADENZA --- */
+.text-left { 
+    text-align: left !important; 
+    padding-left: 25px !important; 
+}
+
+.status-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 12px;
+    vertical-align: middle;
+}
+
+/* Colori richiesti */
+.dot-black  { background-color: #1a1a1a; box-shadow: 0 0 3px rgba(0,0,0,0.3); } /* Scaduti */
+.dot-red    { background-color: #d32f2f; } /* 0-10 giorni */
+.dot-yellow { background-color: #fbc02d; } /* 10-20 giorni */
+.dot-green  { background-color: #2e7d32; } /* Oltre o senza scadenza */
+
+
+.name-cell {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+
+tr:has(.dot-black) td {
+    color: #777;
+}
+tr:has(.dot-black) .name-cell {
+    color: #1a1a1a;
+}
+/* --- FOOTER --- */
+footer {
+    padding: 30px;
+    background: white;
+    text-align: center;
+    border-top: 1px solid #eee;
+}
+.form-elimina-inline {
+    display: inline !important;
+    background: none !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    width: auto !important;
+}
+
+button.btn-delete-link, 
+input[type="submit"].btn-delete-link {
+    all: unset !important; 
+    display: inline-block !important;
+    
+ 
+    color: #d32f2f !important;
+    font-weight: bold !important;
+    font-size: 16px !important;
+    cursor: pointer !important;
+    
+
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 0 0 10px !important; 
+    width: auto !important;
+    height: auto !important;
+}
+
+
+button.btn-delete-link:hover {
+    text-decoration: underline !important;
+}
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .page-container {
+        flex-direction: column;
+        padding: 15px;
+        gap: 20px;
+    }
+
+    .sidebar {
+        width: 100%;
+        min-width: 100%;
+        padding: 20px;
+    }
+
+    .sidebar-nav {
+        flex-direction: row; 
+        overflow-x: auto;   
+        padding-bottom: 10px;
+    }
+
+    .table-card {
+        padding: 20px;
+        overflow-x: auto;
+    }
+
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}
+@media (max-width: 768px) {
+    .custom-table thead {
+        display: none !important;
+    }.custom-table td:nth-child(4),
+    .custom-table td:nth-child(5),
+    .custom-table td:nth-child(7) 
+     {
+        display: none !important;
+    }
+
+    .custom-table tr {
+        display: grid;
+        grid-template-areas: 
+            "nome nome"
+            "scadenza posizione"
+            "azioni azioni";
+        grid-template-columns: 1fr 1fr;
+        padding: 6px 12px;
+        gap: 2px;
+    }
+
+    /* Riga Nome e Pallino */
+    .name-cell { 
+        grid-area: nome; 
+        border-bottom: 1px solid #f4f4f4 !important;
+        padding-bottom: 5px !important;
+        margin-bottom: 5px;
+        padding: 0 !important;
+        margin: 0;
+    }
+
+    .custom-table td:nth-child(3), 
+    .custom-table td:nth-child(6) { 
+        font-size: 0.8rem; 
+        color: #666;
+        padding: 0 !important;
+    }
+
+    .custom-table td:nth-child(6) { text-align: right; }
+
+    /* Azioni (Modifica) */
+    .custom-table td:last-child {
+        grid-area: azioni;
+        border-top: 1px dashed #eee !important;
+        margin-top: 5px;
+        padding-top: 5px !important;
+    }
+}

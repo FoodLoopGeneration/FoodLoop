@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Dettaglio ricetta')}"></head>
+<body>
+    <header th:replace="~{fragments/layout :: navbar}"></header>
+<main class="page-container">
+    <div class="main-content">
+        <div class="table-card recipe-view">
+            <div class="page-header">
+                <h1 th:text="${ricetta.nome}">Nome Ricetta</h1>
+                <div class="recipe-actions">
+                    <a th:href="@{/ricette/{id}/edit(id=${ricetta.id})}" class="edit-link">Modifica ricetta</a>
+                </div>
+            </div>
+
+            <div class="recipe-grid">
+                <div class="recipe-media">
+                    <img th:src="${ricetta.foto != null} ? @{/up/ricette/{foto}(foto = ${ricetta.foto})} : @{/img/default-placeholder.jpg}" 
+                         alt="Foto ricetta" class="recipe-main-img">
+                </div>
+
+                <div class="recipe-meta-box">
+                    <div class="meta-item">
+                        <strong>Difficoltà</strong>
+                        <span class="stars-container">
+                            <span th:each="i : ${#numbers.sequence(1,5)}" 
+                                  th:text="${i <= ricetta.difficolta} ? '●' : '○'"></span>
+                        </span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Porzioni</strong>
+                        <span th:text="${ricetta.porzioni}"></span>
+                    </div>
+                    <div class="meta-item">
+                        <strong>Tempo</strong>
+                        <span th:text="${ricetta.tempo}"></span> min
+                    </div>
+                    <div class="meta-item">
+                        <strong>Valutazione</strong>
+                        <span class="stars-yellow" th:each="i : ${#numbers.sequence(1,5)}" 
+                              th:text="${i <= ricetta.valutazione} ? '★' : '☆'"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-details-grid">
+                <div class="details-section">
+                    <h3>Ingredienti</h3>
+                    <ul class="ing-list">
+                        <li th:each="ing : ${ricetta.ingredienti}">
+                            <span class="category-badge" th:text="${ing.nome}"></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="details-section">
+                    <h3>Preparazione</h3>
+                    <div class="steps-content" th:text="${ricetta.descrizione}"></div>
+                </div>
+            </div>
+
+            <div class="page-footer-actions">
+                <hr>
+                <a th:href="@{/ricette}" class="back-link">← Torna alla lista</a>
+            </div>
+        </div>
+    </div>
+</main>
+    <footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

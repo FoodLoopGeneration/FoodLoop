@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="it" xmlns="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head(Home)}"></head>
+
+<body>
+<header th:replace="~{fragments/layout :: navbar}"></header>
+
+
+<section class="hero-bg">
+
+    <div class="hero-overlay">
+
+        <img src="/res/Logo-nbk.png" class="hero-logo-big">
+
+        <h4>Dove combattere lo spreco è la priorità</h4>
+
+    </div>
+
+</section>
+
+
+
+
+<section class="hero-box">
+
+    <h2>Combattiamo lo spreco alimentare</h2>
+
+    <p>
+        Ogni giorno tonnellate di cibo vengono buttate.
+        FoodLoop nasce per aiutarti a gestire ingredienti,
+        scadenze e ricette in modo intelligente.
+    </p>
+
+</section>
+
+
+
+<section class="section-top">
+
+    <!-- SINISTRA -->
+    <section class="section">
+
+        <h2>Perché è importante agire</h2>
+
+        <div class="info-grid1">
+
+            <div class="info-box">
+                <div class="info-number">1,3 Mld</div>
+                <p>Tonnellate buttate ogni anno</p>
+            </div>
+
+            <div class="info-box">
+                <div class="info-number">75 kg</div>
+                <p>Spreco medio per persona in Italia</p>
+            </div>
+
+            <div class="info-box">
+                <div class="info-number">+ CO₂</div>
+                <p>Emissioni dovute allo spreco</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- DESTRA -->
+    <div class="section-right">
+
+        <section class="section">
+
+            <h2>Lo spreco alimentare nel mondo</h2>
+
+            <p>
+                Secondo le Nazioni Unite, circa
+                <b>1/3 del cibo prodotto globalmente viene sprecato</b>.
+            </p>
+
+            <ul>
+                <li>Impatto ambientale enorme</li>
+                <li>Spreco di acqua ed energia</li>
+                <li>Aumento emissioni CO₂</li>
+                <li>Contrasto con la fame nel mondo</li>
+            </ul>
+
+        </section>
+
+
+        <section class="section section-alt">
+
+            <h2>La situazione in Italia</h2>
+
+            <p>
+                In Italia ogni persona spreca
+                <b>circa 75 kg di cibo l'anno</b>.
+            </p>
+
+            <ul>
+                <li>Prodotti scaduti dimenticati</li>
+                <li>Acquisti eccessivi</li>
+                <li>Porzioni troppo abbondanti</li>
+                <li>Mancanza di pianificazione</li>
+            </ul>
+
+        </section>
+
+    </div>
+
+</section>
+
+
+<section class="carousel-section">
+
+    <button class="carousel-btn prev">❮</button>
+
+    <div class="carousel-track">
+
+        <img src="/res/eggs.jpg">
+        <img src="/res/arrosto.jpg">
+        <img src="/res/uovo.jpg">
+        <img src="/res/pesce.jpg">
+        <img src="/res/pizza.jpg">
+        <img src="/res/porridge.jpg">
+        <img src="/res/ramen.jpg">
+        <img src="/res/verdure.jpg">
+        <img src="/res/zuppa.jpg">
+
+    </div>
+
+    <button class="carousel-btn next">❯</button>
+
+</section>
+<div class="carousel-dots"></div>
+
+
+<section class="cta-wrapper">
+
+    <section class="section features">
+
+        <h2>Come ti aiuta FoodLoop</h2>
+
+        <div class="info-grid">
+
+            <div class="info-box">
+                <h3>📦 Inventario</h3>
+                <p>Gestisci ciò che hai in dispensa.</p>
+            </div>
+
+            <div class="info-box">
+                <h3>⏰ Scadenze</h3>
+                <p>Ricevi avvisi prima che scada.</p>
+            </div>
+
+            <div class="info-box">
+                <h3>🍳 Ricette smart</h3>
+                <p>Cucina con ciò che possiedi.</p>
+            </div>
+
+            <div class="info-box">
+                <h3>🌱 Impatto</h3>
+                <p>Riduci sprechi e aiuti il pianeta.</p>
+            </div>
+
+        </div>
+         <div class="footer-cta">
+            <span class="cta-title">Inizia a ridurre lo spreco oggi</span>
+            <p class="cta-subtitle">Meno sprechi = più risparmio + aiuto al pianeta 🌍</p>
+            <a href="@{/register}" class="btn-primary">Crea il tuo account</a>
+        </div>
+
+    </section>
+
+</section>
+<header th:fragment="footer"></header>
+</body>
+</html>
