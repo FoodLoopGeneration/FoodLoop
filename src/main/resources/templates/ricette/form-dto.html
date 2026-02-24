@@ -72,13 +72,16 @@
                         <input type="number" th:field="*{valutazione}" min="1" max="5">
                     </div>
                 </div>
+                <div>
                 <button type="submit" class="btn-submit-custom">Salva Ricetta</button>
                 <a th:href="@{/ricette/mie}" class="btn-cancel-custom">Annulla</a>
-                
+                </div>
             </form>
         </div>
     </main>
     <br>
+    <div>
     <footer th:replace="~{fragments/layout :: footer}"></footer>
+    </div>
 </body>
 </html>
