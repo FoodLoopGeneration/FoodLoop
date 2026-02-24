@@ -160,4 +160,15 @@ public class RicettaService extends GenericService<Long, Ricetta, RicettaReposit
                         .allMatch(ing -> nomiInDispensa.contains(ing.getNome().toUpperCase().trim())))
                 .toList();
     }
+
+    //Filtro difficoltà e tempo
+
+    public List<Ricetta> getFiltered(Integer maxTempo, Integer difficolta) {
+
+        return getRepository().findAll().stream()
+        .filter(r -> maxTempo == null || r.getTempo() <= maxTempo)
+        .filter(r -> difficolta == null || r.getDifficolta() <= difficolta)
+        .collect(Collectors.toList());
+
+    }
 }
