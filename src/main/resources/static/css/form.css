@@ -158,21 +158,20 @@ input:focus, select:focus, textarea:focus {
 /* RESPONSIVE OPTIMIZATION */
 @media (max-width: 768px) {
     .main-content-wrapper {
-        padding: 20px 15px; /* Riduciamo i margini esterni */
+        padding: 20px 15px; 
     }
 
     .form-card-custom {
-        padding: 1.5rem; /* Più spazio per il contenuto interno */
-        border-radius: 16px; /* Arrotondamento meno estremo su schermi piccoli */
+        padding: 1.5rem;
+        border-radius: 16px; 
     }
 
     .form-card-custom h1 {
-        font-size: 1.5rem; /* Titolo più piccolo per non occupare troppe righe */
+        font-size: 1.5rem; 
     }
 }
 
 @media (max-width: 600px) {
-    /* Trasformiamo tutte le righe in colonne singole */
     .form-row-custom {
         flex-direction: column;
         gap: 0;
@@ -183,17 +182,16 @@ input:focus, select:focus, textarea:focus {
         min-width: 100%;
     }
 
-    /* Aumentiamo il touch-target per i campi */
+ 
     input[type="text"], 
     input[type="number"], 
     input[type="date"], 
     select, 
     textarea {
-        font-size: 16px; /* Evita l'auto-zoom fastidioso su iOS Safari */
+        font-size: 16px; 
         padding: 14px;
     }
 
-    /* Sezione Aggiunta Rapida Categoria */
     .category-quick-add form {
         flex-direction: column;
         align-items: stretch;
@@ -204,18 +202,17 @@ input:focus, select:focus, textarea:focus {
         margin-top: 10px;
     }
 
-    /* Azioni principali */
+ 
     .btn-submit-custom {
-        padding: 18px; /* Bottone più facile da cliccare col pollice */
+        padding: 18px;
         font-size: 16px;
     }
 }
 @media (max-width: 480px) {
     .category-quick-add label {
-        text-align: center; /* Opzionale: centra il testo per focus */
+        text-align: center; 
     }
     
-    /* Rendi il bottone "aggiungi" meno invadente se necessario */
     .category-quick-add .btn-submit-custom {
         font-size: 14px;
         border-radius: 12px;

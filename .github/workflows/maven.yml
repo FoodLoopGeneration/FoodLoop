@@ -3,12 +3,30 @@ name: Java CI with Maven (Spring Boot)
 on:
   push:
     branches: [ "main" ]
+    tags: [ "v*.*.*" ]
   pull_request:
     branches: [ "main" ]
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: Food
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
     steps:
     - name: Checkout repository
@@ -19,21 +37,36 @@ jobs:
       with:
         java-version: '21'
         distribution: 'temurin'
-        cache: 'maven' 
+        cache: 'maven'
 
     - name: Build and Test with Maven
-      
       run: mvn -B clean verify
+      env:
+        SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/Food
+        SPRING_DATASOURCE_USERNAME: root
+        SPRING_DATASOURCE_PASSWORD: root
 
     - name: Prepare Artifact
       run: |
         mkdir staging
-        cp target/*.jar staging/
+        find target/ -name "*.jar" ! -name "*original*" -exec cp {} staging/app.jar \;
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
       with:
         name: spring-boot-app
-        path: staging/*.jar
+        path: staging/app.jar
         retention-days: 5
 
+    - name: Create GitHub Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v2
+      with:
+        files: staging/app.jar
+        name: Release ${{ github.ref_name }}
+        body: |
+          Automatic release for version ${{ github.ref_name }}.
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
