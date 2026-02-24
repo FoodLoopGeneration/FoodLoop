@@ -10,6 +10,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    # Configurazione del database MySQL come servizio
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: Food
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -19,16 +34,19 @@ jobs:
       with:
         java-version: '21'
         distribution: 'temurin'
-        cache: 'maven' 
+        cache: 'maven'
 
     - name: Build and Test with Maven
-      
       run: mvn -B clean verify
+      env:
+        SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/Food
+        SPRING_DATASOURCE_USERNAME: root
+        SPRING_DATASOURCE_PASSWORD: root
 
     - name: Prepare Artifact
       run: |
         mkdir staging
-        cp target/*.jar staging/
+        cp target/*.jar staging/ 2>/dev/null || cp target/*.jar staging/
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4
@@ -36,4 +54,3 @@ jobs:
         name: spring-boot-app
         path: staging/*.jar
         retention-days: 5
-
