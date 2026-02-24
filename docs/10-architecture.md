@@ -35,6 +35,10 @@ Non contengono logica di business né accedono direttamente al livello di persis
 
     * UtenteService – gestione della logica applicativa legata agli utenti
 
+    * EmailService - logica applicativa per gestire l'invio di mail all'utente
+
+    * TipService - gestione del sorteggio dei tip dal file "tips.txt"
+
 Il livello service incapsula la business logic dell’applicazione.
 Coordina le operazioni sui repository, applica le regole di dominio e definisce i flussi applicativi.
 Rappresenta il punto centrale dell’architettura.
@@ -117,6 +121,10 @@ Consentono di:
     * MvcConfig – configurazione MVC dell’applicazione
 
 Il package contiene configurazioni infrastrutturali e bean condivisi, separati dalla logica applicativa.
+
+- `task/`
+
+    * NewsletterTask - configurazione del timer e della struttura della mail
 
 ## Pattern minimi
 
