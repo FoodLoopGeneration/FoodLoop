@@ -30,7 +30,7 @@ public class NewsletterTask {
 
     private final TipService tipService;
 
-    @Scheduled(cron = "0 0 9 * * MON")
+    @Scheduled(cron = "0 43 9 * * WED")
     public void inviaNewesletter() {
 
         log.info("Avvio del task newsletter");
@@ -90,7 +90,7 @@ public class NewsletterTask {
 
         }
         
-        corpoMail.append("\n\n\n   Consiglio anti spreco della settimana: \n").append(tip)
+        corpoMail.append("\n\n\n Consiglio anti spreco della settimana: \n").append(tip)
         .append("\n\n Il team di FoodLoop ti augura una buona cucina ed un buon risparmio!");
 
         try {
