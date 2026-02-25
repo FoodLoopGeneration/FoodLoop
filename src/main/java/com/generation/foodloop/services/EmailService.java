@@ -11,10 +11,12 @@ import lombok.RequiredArgsConstructor;
 public class EmailService {
 
     private final JavaMailSender mailSender;
+    private String fromEmail;
 
     public void sendMail(String to, String subject, String body) {
 
         SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom(fromEmail);
         msg.setTo(to);
         msg.setSubject(subject);
         msg.setText(body);
