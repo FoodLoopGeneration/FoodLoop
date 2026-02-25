@@ -1,5 +1,7 @@
 package com.generation.foodloop.controllers;
 
+import java.util.List;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,10 +42,14 @@ public class RicettaController {
     }
 
     @GetMapping
-    public String lista(Model model) {
-        model.addAttribute("ricette", ricettaService.getAll());
+    public String lista(Model model, @RequestParam(required = false) Integer tempo, @RequestParam(required = false) Integer difficolta) {
+        List<Ricetta> filtrate = ricettaService.getFiltered(tempo, difficolta);
+        model.addAttribute("ricette", filtrate);
         model.addAttribute("titolo", "Tutte le Ricette");
         model.addAttribute("isMieRicette", false);
+        model.addAttribute("selectedTempo", tempo);
+        model.addAttribute("selectedDifficolta", difficolta);
+        model.addAttribute("livelloDifficolta", java.util.stream.IntStream.rangeClosed(1, 5).boxed().toList());
         return "ricette/list";
     }
 
@@ -147,4 +153,5 @@ public class RicettaController {
         model.addAttribute("isMieRicette", false);
         return "ricette/list";
     }
+
 }

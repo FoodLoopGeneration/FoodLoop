@@ -287,3 +287,76 @@ button.btn-delete-link:hover {
         padding-top: 5px !important;
     }
 }
+
+/* FORM FILTRO*/
+/* Container principale del form */
+.form-filter-custom {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+/* Layout del form */
+.filter2-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-end; 
+}
+
+/* Gruppi di campi e classi comuni per input e select */
+.field-group2, .form-row-custom2 {
+    flex: 1;
+    min-width: 100px;
+}
+
+.filter-input2, .form-row-custom2 select {
+    width: 100%;
+    padding: 12px 13px;
+    border: none;
+    border-radius: 12px;
+    background-color: #f8e1d2; 
+    color: #555;
+    font-size: 14px;
+    outline: none;
+    transition: background-color 0.3s ease;
+}
+
+/* Effetto al passaggio/focus */
+.filter-input2:focus, .form-row-custom2 select:focus {
+    background-color: #f1d4c1;
+    box-shadow: 0 0 0 2px rgba(255, 140, 66, 0.2);
+}
+
+
+.form-row-custom2 select {
+    appearance: none;
+    cursor: pointer;
+}
+
+/* Stile del Bottone "Filtra" */
+
+
+.filter-button {
+    background-color: #ff8c42; 
+    color: white;
+    padding: 9px 25px;
+    border: none;
+    border-radius: 25px; 
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+    font-size: 16px;
+}
+
+.filter-button:hover {
+    background-color: #e67e3a;
+    transform: translateY(0px);
+}
+
+.filter-button:active {
+    transform: translateY(0);
+}

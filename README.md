@@ -16,6 +16,7 @@ Il progetto segue un'architettura modulare per separare le responsabilità:
 - `com.generation.foodloop.controllers`: Gestione delle rotte web e interazione con la UI.
 - `com.generation.foodloop.dto` & `utils`: Data Transfer Objects e Mapper per la separazione tra presentazione e database.
 - `com.generation.foodloop.security`: Configurazione filtri, rotte protette e gestione autenticazione.
+- `com.generation.foodloop.task`: Task programmati come newsletter.
 
 
 ## Setup e Installazione
