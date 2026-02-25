@@ -10,6 +10,28 @@
         
         <main class="main-content">
             <div class="table-card">
+
+                <div class="form-filter-custom">
+                    <form th:action="@{/ricette}" method="get" class="filter2-form">
+                        <div class="col-third field-group2">
+                        <input type="number" name="tempo" placeholder="Quanti minuti hai per cucinare? ..." class="filter-input2" 
+                               th:value="${selectedTempo}">
+                        </div>
+                        <div class="form-row-custom">
+                            <select name="difficolta">
+                                <option value="">Difficoltà disponibili...</option>
+                                <option th:each="livello: ${livelloDifficolta}"
+                                        th:value="${livello}" 
+                                        th:text="'Difficoltà ' + ${livello}" 
+                                        th:selected="${livello == selectedDifficolta}">
+                                </option>  
+                            </select>
+                        </div>
+                        <div class = "btn-submit-custom2">
+                            <button type="submit" class="filter-button">Filtra</button>
+                        </div>
+                    </form>
+                </div>
                 
                 <div class="page-header">
                     <h1 th:text="${titolo}">Titolo Pagina</h1>
