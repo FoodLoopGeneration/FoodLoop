@@ -45,6 +45,10 @@ jobs:
         SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/Food
         SPRING_DATASOURCE_USERNAME: root
         SPRING_DATASOURCE_PASSWORD: root
+        MAIL_HOST: ${{ secrets.MAIL_HOST }}
+        MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
+        MAIL_PORT: ${{ secrets.MAIL_PORT }}
+        MAIL_USER: ${{ secrets.MAIL_USER }}
 
     - name: Prepare Artifact
       run: |
