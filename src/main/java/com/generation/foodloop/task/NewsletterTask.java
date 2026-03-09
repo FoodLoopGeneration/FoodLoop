@@ -30,7 +30,7 @@ public class NewsletterTask {
 
     private final TipService tipService;
 
-    @Scheduled(cron = "0 43 9 * * WED")
+    @Scheduled(cron = "0 00 12 * * WED")
     public void inviaNewesletter() {
 
         log.info("Avvio del task newsletter");
@@ -86,7 +86,7 @@ public class NewsletterTask {
         
         for(Ingrediente i : scadenza) {
 
-            corpoMail.append("- ").append(i.getNome()).append(" (SCADENZA: ").append(i.getScadenza()).append(") \n");
+            corpoMail.append("⛛ ").append(i.getNome()).append(" (SCADENZA: ").append(i.getScadenza()).append(") \n");
 
         }
         
